@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require_relative '../Battlelog'
+require_relative '../battlelog'
 
 class LogTest < Minitest::Test
   def test_a_new_log_can_be_created

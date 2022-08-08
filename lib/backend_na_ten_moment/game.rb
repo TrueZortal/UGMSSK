@@ -4,7 +4,7 @@ require_relative 'field'
 require_relative 'minion'
 require_relative 'board'
 require_relative 'player'
-require_relative 'Battlelog'
+require_relative 'battlelog'
 
 class InvalidMovementError < StandardError
 end
