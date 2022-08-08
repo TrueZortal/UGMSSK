@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class BattleLog
+class Battlelog
   attr_accessor :log, :time
 
   def initialize
@@ -35,7 +35,7 @@ class BattleLog
   end
 
   def print
-    output = String.new("**#{@time.utc} BattleLog**\n", encoding: 'UTF-8')
+    output = String.new("**#{@time.utc} Battlelog**\n", encoding: 'UTF-8')
     @log.each_with_index do |event, index|
       output << "MOVE #{index + 1}:#{event}\n"
     end

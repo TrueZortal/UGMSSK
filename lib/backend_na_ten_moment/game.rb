@@ -4,7 +4,7 @@ require_relative 'field'
 require_relative 'minion'
 require_relative 'board'
 require_relative 'player'
-require_relative 'battlelog'
+require_relative 'Battlelog'
 
 class InvalidMovementError < StandardError
 end
@@ -29,7 +29,7 @@ class Game
 
   def initialize(size_of_board, uniform: true)
     @board = Board.new(size_of_board, uniform: uniform)
-    @log = BattleLog.new
+    @log = Battlelog.new
     @players = []
   end
 
