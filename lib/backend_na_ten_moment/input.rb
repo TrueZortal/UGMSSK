@@ -27,7 +27,8 @@ class Input
 
   def call_gets
     if @command_queue.empty?
-      @input.gets.chomp
+      ""
+      # @input.gets.chomp
     else
       @command_queue.pop
     end
