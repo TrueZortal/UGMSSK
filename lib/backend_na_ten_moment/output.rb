@@ -6,7 +6,7 @@ class Output
   end
 
   def print(string)
-    print_to_console(string)
+    print_to_web(string)
   end
 
   private
@@ -15,5 +15,7 @@ class Output
     @output.puts(string)
   end
 
-  def print_to_web; end
+  def print_to_web(string)
+    string
+  end
 end
