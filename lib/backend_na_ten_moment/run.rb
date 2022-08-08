@@ -2,4 +2,4 @@
 
 require_relative 'menu'
 
-Menu.instance.display_menu
+# Menu.instance.display_menu
