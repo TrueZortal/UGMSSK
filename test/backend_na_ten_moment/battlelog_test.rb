@@ -3,7 +3,7 @@
 require 'minitest/autorun'
 require_relative '../battlelog'
 
-class LogTest < Minitest::Test
+class BattlelogTest < Minitest::Test
   def test_a_new_log_can_be_created
     test_log = Battlelog.new
     assert_instance_of Battlelog, test_log
