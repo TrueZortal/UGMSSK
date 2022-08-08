@@ -3,7 +3,7 @@
 require 'minitest/autorun'
 require_relative '../pvp'
 
-class PVPTest < Minitest::Test
+class PvpTest < Minitest::Test
   def test_can_correctly_start_a_new_pvp_game
     skip
     string_io = StringIO.new
@@ -13,9 +13,9 @@ class PVPTest < Minitest::Test
     string_io.puts '10'
     string_io.rewind
     $stdin = string_io
-    test_match = PVP.new
+    test_match = Pvp.new
     $stdin = STDIN
-    assert_instance_of PVP, test_match
+    assert_instance_of Pvp, test_match
   end
 
   def test_correctly_starts_a_new_game_with_default_number_of_players
@@ -27,7 +27,7 @@ class PVPTest < Minitest::Test
     string_io.puts '10'
     string_io.rewind
     $stdin = string_io
-    test_match = PVP.new
+    test_match = Pvp.new
     $stdin = STDIN
     assert_equal 2, test_match.game.players.size
   end

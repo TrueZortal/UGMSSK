@@ -5,7 +5,7 @@ require_relative 'turn'
 require_relative 'input'
 require_relative 'output'
 
-class PVP
+class Pvp
   attr_accessor :game
 
   def initialize(players: 2, board_size: 8, uniform: false, enable_randomness: true)
@@ -82,4 +82,4 @@ class PVP
   end
 end
 
-# PVP.new(players: 2, board_size: 8, uniform: false, enable_randomness: false)
+# Pvp.new(players: 2, board_size: 8, uniform: false, enable_randomness: false)

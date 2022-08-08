@@ -47,7 +47,7 @@ class Menu
               else
                 false
               end
-    PVP.new(players: players, board_size: board_size, uniform: uniform)
+    Pvp.new(players: players, board_size: board_size, uniform: uniform)
   # rescue StandardError
   #   puts 'game crashed, restarting'
   #   retry
@@ -61,7 +61,7 @@ class Menu
     puts 'would you like a cool board or a boring one? cool/boring'
     board_type = get_input
     uniform = true
-    PVP.new(players: players, board_size: board_size, uniform: uniform, enable_randomness: false)
+    Pvp.new(players: players, board_size: board_size, uniform: uniform, enable_randomness: false)
   # rescue StandardError
   #   puts 'game crashed, restarting'
   #   retry
