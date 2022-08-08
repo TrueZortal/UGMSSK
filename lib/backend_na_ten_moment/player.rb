@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'manapool'
+require_relative 'mana_pool'
 
 class Player
   attr_reader :name
