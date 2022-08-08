@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require_relative '../field'
+# require_relative '../field'
 
 class FieldTest < Minitest::Test
   def test_can_create_a_new_field_with_default_values

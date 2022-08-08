@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require_relative '../command_queue'
+# require_relative '../command_queue'
 
 class CommandQueueTest < Minitest::Test
   def test_command_queue_can_be_queried_if_empty

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require_relative '../player'
+# require_relative '../player'
 
 class PlayerTest < Minitest::Test
   def test_a_new__instance_of_player_can_be_created

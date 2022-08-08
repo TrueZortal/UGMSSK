@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require_relative '../minion'
+# require_relative '../minion'
 
 class MinionTest < Minitest::Test
   def test_can_create_a_new_minion_object_without_type_and_space

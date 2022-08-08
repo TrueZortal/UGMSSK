@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require_relative '../calculations'
+# require_relative '../calculations'
 
 class CalculationsTest < Minitest::Test
   def test_arrays_are_correctly_combined

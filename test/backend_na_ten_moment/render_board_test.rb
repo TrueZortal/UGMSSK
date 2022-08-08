@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require_relative '../render_board'
-require_relative '../game'
-require_relative '../board'
+# require_relative '../render_board'
+# require_relative '../game'
+# require_relative '../board'
 
 class RenderBoardTest < Minitest::Test
   def test_correctly_renders_2_x_2_board

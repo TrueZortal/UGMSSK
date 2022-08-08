@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require_relative '../game'
-require_relative '../minion'
-require_relative '../field'
+# require_relative '../game'
+# require_relative '../minion'
+# require_relative '../field'
 
 class GameTest < Minitest::Test
   def test_a_minion_can_be_placed_on_board

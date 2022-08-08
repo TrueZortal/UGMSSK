@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require_relative '../position'
+# require_relative '../position'
 
 class PositionTest < Minitest::Test
   def test_can_create_a_new_position

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require_relative '../board'
-require_relative '../minion'
-require_relative '../field'
+# require_relative '../board'
+# require_relative '../minion'
+# require_relative '../field'
 
 class BoardTest < Minitest::Test
   def test_cant_create_a_board_without_an_argument

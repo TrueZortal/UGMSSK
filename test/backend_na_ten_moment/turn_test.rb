@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require_relative '../turn'
+# require_relative '../turn'
 
 class TurnTest < Minitest::Test
   def test_can_create_a_turn; end

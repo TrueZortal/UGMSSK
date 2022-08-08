@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require_relative '../mana_pool'
+# require_relative '../mana_pool'
 
 class ManaPoolTest < Minitest::Test
   def test_can_create_a_new_instance_of_manapool
