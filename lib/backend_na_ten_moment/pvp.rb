@@ -24,7 +24,7 @@ class Pvp
     @players.times do |index|
       # puts "enter P#{index + 1} name"
       # name = Input.get_raw
-      name = "Player#{index+1}"
+      name = "Player#{index + 1}"
       # puts "enter P#{index + 1} maximum mana"
       # mana = Input.get.to_i
       mana = 10

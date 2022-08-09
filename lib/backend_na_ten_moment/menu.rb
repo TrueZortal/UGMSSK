@@ -48,9 +48,9 @@ class Menu
                 false
               end
     Pvp.new(players: players, board_size: board_size, uniform: uniform)
-  # rescue StandardError
-  #   puts 'game crashed, restarting'
-  #   retry
+    # rescue StandardError
+    #   puts 'game crashed, restarting'
+    #   retry
   end
 
   def start_debug_pvp
@@ -62,9 +62,9 @@ class Menu
     board_type = get_input
     uniform = true
     Pvp.new(players: players, board_size: board_size, uniform: uniform, enable_randomness: false)
-  # rescue StandardError
-  #   puts 'game crashed, restarting'
-  #   retry
+    # rescue StandardError
+    #   puts 'game crashed, restarting'
+    #   retry
   end
 
   def get_input

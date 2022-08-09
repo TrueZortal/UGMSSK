@@ -45,9 +45,9 @@ class Position
 
   def make_json
     position_json = {
-      :x => @x,
-      :y => @y,
-      :to_a => @to_a
+      x: @x,
+      y: @y,
+      to_a: @to_a
     }
     JSON.generate(position_json)
   end

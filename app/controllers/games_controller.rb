@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GamesController < ApplicationController
   def start
     # @board = Board.new(8, uniform: false, starting_surface: 'grass')

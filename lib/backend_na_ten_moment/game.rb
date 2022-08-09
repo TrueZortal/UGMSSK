@@ -49,7 +49,6 @@ class Game
       from_position, to_position
     ) && valid_position(from_position) && valid_position(to_position)
 
-
     attacker = check_field(from_position).occupant
     defender = check_field(to_position).occupant
     damage = attacker.attack_action(defender)

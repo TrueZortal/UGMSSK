@@ -6,10 +6,10 @@ require_relative 'position'
 
 class Field
   include Observable
-  attr_accessor :status, :terrain, :obstacle, :occupant
+  attr_accessor :status, :terrain, :obstacle, :occupant, :display
   attr_reader :position
 
-  def initialize(x: 0, y: 0, status: 'empty', occupant: '', terrain: '', obstacle: false)
+  def initialize(x: 0, y: 0, status: 'empty', occupant: '', terrain: '', obstacle: false, display: '')
     @position = Position.new(x, y)
     @status = status
     @occupant = occupant
@@ -25,9 +25,7 @@ class Field
 
   def make_json
     temp_occupant = ''
-    if !@occupant.empty?
-      temp_occupant = @occupant.make_json
-    end
+    temp_occupant = @occupant.make_json unless @occupant.empty?
     field_json = {
       position: @position.make_json,
       status: @status,
