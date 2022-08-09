@@ -1,4 +1,10 @@
 <h1>Planszo generator</h1>
-<% @board.render_board.split("\n").each do |line| %>
-  <%= line %><br />
+<% @board.render_board.each_with_index do |line, index| %>
+  <%= index %><% line.each do |field| %>
+    <%= field%>
+  <% end %><br />
 <% end %>
+<button id="greet-user-button">Hello!</button>
+
+
+

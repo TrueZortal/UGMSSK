@@ -8,25 +8,42 @@ class RenderBoard
     'grass': '🟩'
   }
 
-  def self.render(rowified_board)
-    rendered_board = String.new(encoding: 'UTF-8')
-    columns = rowified_board.size - 1
-    rowified_board.transpose.each_with_index do |row, index|
+  def self.render(columnised_board)
+    web_render(columnised_board)
+    # console_render(columnised_board)
+  end
+
+  def self.web_render(columnised_board)
+    edge_size = columnised_board.size - 1
+    board = columnised_board.transpose.flatten(1)
+    array_of_json_representations_of_fields = board.map(&:make_json)
+
+    p array_of_json_representations_of_fields.each_slice(columnised_board.size).to_a
+  end
+
+  def self.console_render(columnised_board)
+    rendered_board = []
+    columns = columnised_board.size - 1
+    columnised_board.transpose.each_with_index do |row, index|
       row.each do |field|
         rendered_board << if field.is_occupied?
                             field.occupant.symbol + field.occupant.owner.chr
                           else
                             @@RENDER_KEY[field.terrain.to_sym]
+                            # field.position.to_a.to_s
+                            # field
                           end
       end
-      rendered_board << "\n" if index < rowified_board.size - 1
+      # rendered_board << "\n" if index < columnised_board.size - 1
     end
-
-    board_with_field_identifiers = []
-    rendered_board.lines.each_with_index do |line, index|
-      board_with_field_identifiers << ["#{index} #{line}"]
-    end
-    board_with_field_identifiers.unshift("  #{(0..columns).to_a.join(' ')}\n")
-    board_with_field_identifiers.join
+    rendered_board = rendered_board.each_slice(columnised_board.size).to_a
+    rendered_board.unshift((0..columns).to_a)
+    rendered_board
+    # board_with_field_identifiers = []
+    # rendered_board.lines.each_with_index do |line, index|
+    #   board_with_field_identifiers << ["#{index} #{line}"]
+    # end
+    # board_with_field_identifiers.unshift("  #{(0..columns).to_a.join(' ')}\n")
+    # board_with_field_identifiers.join.split("\n")
   end
 end

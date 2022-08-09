@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'observer'
+# require 'json'
 require_relative 'position'
 
 class Field
@@ -20,6 +21,21 @@ class Field
     @occupant = new_occupant
     changed
     notify_observers(@position, is_occupied?)
+  end
+
+  def make_json
+    temp_occupant = ''
+    if !@occupant.empty?
+      temp_occupant = @occupant.make_json
+    end
+    field_json = {
+      position: @position.make_json,
+      status: @status,
+      occupant: temp_occupant,
+      terrain: @terrain,
+      obstacle: @obstacle
+    }
+    JSON.generate(field_json)
   end
 
   def is_occupied?

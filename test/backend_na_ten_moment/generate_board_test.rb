@@ -18,7 +18,7 @@ class GenerateBoardTest < Minitest::Test
 
   def test_creates_a_custom_sized_board
     test = GenerateBoard.new(5, true, 'grass')
-    assert_equal 25, test.rowified.flatten.size
+    assert_equal 25, test.columnised.flatten.size
   end
 
   def test_board_correctly_finds_starting_zone_positions

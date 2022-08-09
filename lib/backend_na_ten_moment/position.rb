@@ -43,6 +43,15 @@ class Position
     @coordinates_between - [@to_a]
   end
 
+  def make_json
+    position_json = {
+      :x => @x,
+      :y => @y,
+      :to_a => @to_a
+    }
+    JSON.generate(position_json)
+  end
+
   private
 
   def decide_modifier(value)

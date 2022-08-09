@@ -15,10 +15,10 @@ end
 class InvalidPositionError < StandardError
 end
 
-# working surface for board is @rowified_board, Observers are empowered via @array_of_fields
+# working surface for board is @columnised_board, Observers are empowered via @array_of_fields
 class Board
   attr_reader :upper_limit, :array_of_fields, :summoning_zones, :pathfinding_data, :array_of_coordinates
-  attr_accessor :rowified_board
+  attr_accessor :columnised_board
 
   def initialize(size_of_board_edge, uniform: true, starting_surface: 'grass')
     raise ArgumentError unless size_of_board_edge > 1
@@ -27,26 +27,26 @@ class Board
     @pathfinding_data = @board.pathfinding_data
     @array_of_fields = @board.array_of_fields
     @array_of_coordinates = @array_of_fields.map { |field| field.position.to_a }
-    @rowified_board = @board.rowified
+    @columnised_board = @board.columnised
     @size_of_board_edge = size_of_board_edge
     @upper_limit = @size_of_board_edge - 1
     @summoning_zones = @board.starting_summoning_zones
   end
 
   def render_board
-    RenderBoard.render(@rowified_board)
+    RenderBoard.render(@columnised_board)
   end
 
   def state
-    @rowified_board
+    @columnised_board
   end
 
   def field_at(position_object)
-    @rowified_board[position_object.x][position_object.y]
+    @columnised_board[position_object.x][position_object.y]
   end
 
   def position_at(array_of_xy)
-    @rowified_board[array_of_xy[0]][array_of_xy[1]].position
+    @columnised_board[array_of_xy[0]][array_of_xy[1]].position
   end
 
   def check_field(position_object)
@@ -54,7 +54,7 @@ class Board
       raise InvalidPositionError
     end
 
-    @rowified_board[position_object.x][position_object.y]
+    @columnised_board[position_object.x][position_object.y]
   end
 
   def valid_position(position)

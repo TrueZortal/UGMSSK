@@ -59,6 +59,19 @@ class Minion
     add_observers
   end
 
+  def make_json
+    minion_json = {
+      position: @position.make_json,
+      symbol: @symbol,
+      attack: @attack,
+      defense: @defense,
+      onwer: @owner,
+      health: @health,
+      current_health: @current_health
+    }
+    JSON.generate(minion_json)
+  end
+
   def update(_position_object, _occupied)
     find_enemies_in_attack_range
   end

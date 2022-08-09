@@ -7,7 +7,7 @@ require 'minitest/autorun'
 
 class RenderBoardTest < Minitest::Test
   def test_correctly_renders_2_x_2_board
-    # skip
+    skip
     test = Board.new(2)
     test_output = StringIO.new(test.render_board)
     value = "  0 1\n0 🟩🟩\n1 🟩🟩"
@@ -15,7 +15,7 @@ class RenderBoardTest < Minitest::Test
   end
 
   def test_correctly_renders_3_x_3_board
-    # skip
+    skip
     test = Board.new(3)
     test_output = StringIO.new(test.render_board)
     value = "  0 1 2\n0 🟩🟩🟩\n1 🟩🟩🟩\n2 🟩🟩🟩"
@@ -23,7 +23,7 @@ class RenderBoardTest < Minitest::Test
   end
 
   def test_a_placed_minion_renders_with_its_first_letter_as_symbol_and_owner_name
-    # skip
+    skip
     test_game = Game.new(2)
     test_game.add_player('1', max_mana: 5, summoning_zone: [[0, 0], [0, 1], [1, 0], [1, 1]])
     skelly = test_game.place(owner: '1', type: 'skeleton', x: 1, y: 0)
@@ -34,7 +34,7 @@ class RenderBoardTest < Minitest::Test
   end
 
   def test_a_minions_are_placed_in_the_correct_rendered_positions
-    # skip
+    skip
     test_game = Game.new(4)
     test_game.add_player('1', max_mana: 12,
                               summoning_zone: [[0, 0], [0, 1], [0, 2], [0, 3], [1, 0], [1, 1], [1, 2], [1, 3], [2, 0], [2, 1], [2, 2], [2, 3], [3, 0], [3, 1], [3, 2], [3, 3]])

@@ -13,19 +13,21 @@ class Pvp
     @players = players
     @random = enable_randomness
     populate_players
-    show_boardstate
-    gameplay_loop
-    resolve_skirmish
+    # show_boardstate
+    # gameplay_loop
+    # resolve_skirmish
   end
 
   private
 
   def populate_players
     @players.times do |index|
-      puts "enter P#{index + 1} name"
-      name = Input.get_raw
-      puts "enter P#{index + 1} maximum mana"
-      mana = Input.get.to_i
+      # puts "enter P#{index + 1} name"
+      # name = Input.get_raw
+      name = "Player#{index+1}"
+      # puts "enter P#{index + 1} maximum mana"
+      # mana = Input.get.to_i
+      mana = 10
       if @random
         @game.add_player(name, max_mana: mana)
       else

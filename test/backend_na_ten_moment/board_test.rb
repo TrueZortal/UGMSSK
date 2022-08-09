@@ -20,7 +20,7 @@ class BoardTest < Minitest::Test
 
   def test_creates_a_custom_sized_board
     test = Board.new(5)
-    assert_equal 25, test.rowified_board.flatten.size
+    assert_equal 25, test.columnised_board.flatten.size
   end
 
   def test_board_gives_correct_limit

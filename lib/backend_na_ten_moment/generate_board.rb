@@ -16,7 +16,7 @@ class InvalidPositionError < StandardError
 end
 
 class GenerateBoard
-  attr_accessor :rowified, :array_of_fields, :pathfinding_data
+  attr_accessor :columnised, :array_of_fields, :pathfinding_data
 
   def initialize(size_of_board_edge, uniform, starting_surface)
     raise ArgumentError unless size_of_board_edge > 1
@@ -26,7 +26,7 @@ class GenerateBoard
     @uniform = uniform
     @starting_surface = starting_surface
     generate_an_array_of_fields(size_of_board_edge)
-    rowify_the_array_of_fields
+    columnize_the_array_of_fields
     add_obstacles_in_the_non_starting_areas if @uniform == false
     generate_a_pathfinding_array
   end
@@ -121,22 +121,22 @@ class GenerateBoard
     end
   end
 
-  def rowify_the_array_of_fields
-    @rowified = []
+  def columnize_the_array_of_fields
+    @columnised = []
     Math.sqrt(@array_of_fields.size).to_i.times do
       empty_column = []
-      @rowified << empty_column
+      @columnised << empty_column
     end
     @array_of_fields.each do |field|
-      @rowified[field.position.x] << field
+      @columnised[field.position.x] << field
     end
-    @rowified
+    @columnised
   end
 
   def set_valid_obstacle_placements_to_be_fields
     coordinate_array_of_valid_obstacle_fields = []
     find_valid_obstacle_placement.each do |centre_field|
-      coordinate_array_of_valid_obstacle_fields << @rowified[centre_field[0]][centre_field[1]]
+      coordinate_array_of_valid_obstacle_fields << @columnised[centre_field[0]][centre_field[1]]
     end
     coordinate_array_of_valid_obstacle_fields
   end
@@ -153,7 +153,7 @@ class GenerateBoard
   def set_summoning_zones_to_be_positions
     coordinate_array_of_summoning_zones = find_summoning_zone_coordinate_arrays
     coordinate_array_of_summoning_zones.each do |summoning_zone|
-      summoning_zone.map! { |coordinates_array| @rowified[coordinates_array[0]][coordinates_array[1]].position }
+      summoning_zone.map! { |coordinates_array| @columnised[coordinates_array[0]][coordinates_array[1]].position }
     end
     coordinate_array_of_summoning_zones
   end
