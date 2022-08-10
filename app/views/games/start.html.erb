@@ -1,31 +1,47 @@
-<h1>Planszo generator</h1>
-<% @board.render_board.each_with_index do |line, index| %>
-  <%= index %><% line.each do |field| %>
-      <div class="tooltip"><%= field.display%>
-      <span class="tooltiptext"><%= field.position.to_a%></span>
-      </div>
-  <% end %><br />
-<% end %>
+<table class = "board">
+    <thead>
+        <tr>
+            <th colspan="8"><h1>Planszo generator</h1></th>
+        </tr>
+    </thead>
 
-
+    <% @board.render_board.each_with_index do |line, index| %>
+      <tr>
+        <% line.each do |field| %>
+            <td>
+              <h1 class="field">
+              <%= field.display%>
+              <span class="tooltiptext"><%= field.position.to_a%></span>
+              </h1>
+            </td>
+        <% end %>
+      </tr>
+    <% end %>
+</table>
 
 <style>
+.board {
+   border-collapse: collapse;
+}
 /* Tooltip container */
-.tooltip {
-  position: relative;
-  display: inline-block;
-  /* border-bottom: 0px dotted black; If you want dots under the hoverable text */
+.field {
+  font-size: 4rem;
+  line-height: 0;
+  cursor: pointer;
+  text-align: center;
 }
 
 /* Tooltip text */
-.tooltip .tooltiptext {
+.field .tooltiptext {
+  font-size: 1rem;
   visibility: hidden;
   width: 40px;
-  background-color: black;
-  color: #fff;
+  background-color: brown;
+  color: black;
   text-align: center;
   padding: 5px 0;
   border-radius: 6px;
+  line-height: 1;
 
   /* Position the tooltip text - see examples below! */
   position: absolute;
@@ -33,8 +49,10 @@
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
-.tooltip:hover .tooltiptext {
+.field:hover .tooltiptext {
   visibility: visible;
 }
 </style>
+
+
 
