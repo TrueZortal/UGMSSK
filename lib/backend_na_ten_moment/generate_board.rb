@@ -85,8 +85,8 @@ class GenerateBoard
 
   def choose_offset(terrain)
     offset_dictionary = {
-      'grass': {"-64px -0px": 1, "-128px -0px": 3, "-0px -0px": 1},
-      'dirt': {"-192px -0px": 1, "-256px -0px": 1, "-320px -0px": 4},
+      'grass': {"-128px -0px": 12,"-192px -0px": 1,"-256px -0px": 1, "-0px -0px": 1},
+      'dirt': {"-64px -0px": 5, "-320px -0px": 1},
       'tree': {"-384px -0px": 1},
       'house': {"-448px -0px": 1}
     }
@@ -131,7 +131,7 @@ class GenerateBoard
   def terrain_selector
     # 'rock': {'grass': 3,'rock': 1}
     generation_key = {
-      'grass': { 'grass': 6, 'dirt': 1 },
+      'grass': { 'grass': 15, 'dirt': 1 },
       'dirt': { 'dirt': 1, 'grass': 1 }
     }
 
