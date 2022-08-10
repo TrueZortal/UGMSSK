@@ -10,8 +10,7 @@
         <tr>
           <% line.each do |field| %>
               <td>
-                <h1 class="field">
-                <%= field.display%>
+                <h1 class="field" style="--position: <%= field.offset%>">
                 <span class="tooltiptext"><%= field.position.to_a%></span>
                 </h1>
               </td>
@@ -21,57 +20,6 @@
   </table>
 </body>
 
-<style>
-h2 {
-  text-shadow: 1px 1px 1px green,
-               2px 2px 1px green;
-  font-size: 2rem;
-
-}
-
-body {
-  background-color: darkgreen;
-}
-
-.board {
-  border-collapse: collapse;
-  background-color: darkgreen;
-  margin-left: auto;
-  margin-right: auto;
-
-}
-/* Tooltip container */
-.field {
-  font-size: 2rem;
-  line-height: 0;
-  cursor: pointer;
-  text-align: center;
-
-}
-
-/* Tooltip text */
-.field .tooltiptext {
-  font-size: 1rem;
-  visibility: hidden;
-  width: 40px;
-  background-color: brown;
-  /* color: black; */
-  /* color: rgba(0, 0, 0, 0.5); */
-  text-align: center;
-  padding: 5px 0;
-  border-radius: 6px;
-  line-height: 1;
-  opacity: .8;
-  /* Position the tooltip text - see examples below! */
-  position: absolute;
-  z-index: 1;
-}
-
-/* Show the tooltip text when you mouse over the tooltip container */
-.field:hover .tooltiptext {
-  visibility: visible;
-}
-</style>
 
 
 

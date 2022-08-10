@@ -1,0 +1,68 @@
+h2 {
+  text-shadow: 1px 1px 1px green,
+               2px 2px 1px green;
+  font-size: 2rem;
+
+}
+
+body {
+  background-color: darkgreen;
+}
+
+
+.board {
+  /* border: 1px solid black; */
+  border-collapse: separate;
+  border-spacing:0;
+  background-color: darkgreen;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* Tooltip container */
+.field {
+  hyphenate-character: ;
+  display: block;
+  background-image: url('board_tiles');
+  background-position: var(--position);
+  background-repeat: no-repeat;
+  padding: 0px;
+  margin: 0;
+  /* width: auto;
+  height: auto; */
+  width: 64px;
+  height: 64px;
+  /* font-size: 2rem; */
+  line-height: 0;
+
+  /* text-align: center; */
+
+}
+
+/* Tooltip text */
+.field .tooltiptext {
+  font-size: 1rem;
+  visibility: hidden;
+  width: 40px;
+  background-color: rgba(165, 42, 42, 0.538);
+  /* color: black; */
+  /* color: rgba(0, 0, 0, 0.5); */
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  line-height: 1;
+  opacity: .8;
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.field:hover .tooltiptext {
+  visibility: visible;
+}
+
+.field:hover {
+background-blend-mode: luminosity;
+-webkit-filter: grayscale(0.4);
+}
+

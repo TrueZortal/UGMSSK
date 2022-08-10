@@ -6,11 +6,12 @@ require_relative 'position'
 
 class Field
   include Observable
-  attr_accessor :status, :terrain, :obstacle, :occupant, :display
+  attr_accessor :status, :terrain, :obstacle, :occupant, :display, :offset
   attr_reader :position
 
-  def initialize(x: 0, y: 0, status: 'empty', occupant: '', terrain: '', obstacle: false, display: '')
+  def initialize(x: 0, y: 0, status: 'empty', occupant: '', terrain: '', obstacle: false, display: '',offset: '')
     @position = Position.new(x, y)
+    @offset = offset
     @status = status
     @occupant = occupant
     @terrain = terrain

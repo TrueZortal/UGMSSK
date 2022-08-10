@@ -28,6 +28,7 @@ class GenerateBoard
     generate_an_array_of_fields(size_of_board_edge)
     columnize_the_array_of_fields
     add_obstacles_in_the_non_starting_areas if @uniform == false
+    set_offsets
     generate_a_pathfinding_array
   end
 
@@ -75,8 +76,32 @@ class GenerateBoard
     size_of_board_edge.times do |x|
       size_of_board_edge.times do |y|
         chosen_terrain = terrain_selector
-        @array_of_fields << Field.new(x: x, y: y, terrain: chosen_terrain, obstacle: is_an_obstacle?(chosen_terrain))
+        p chosen_terrain
+        @array_of_fields << Field.new(x: x, y: y, terrain: chosen_terrain, obstacle: is_an_obstacle?(chosen_terrain), offset: '')
       end
+    end
+    @array_of_fields
+  end
+
+  def choose_offset(terrain)
+    offset_dictionary = {
+      'grass': {"-64px -0px": 1, "-128px -0px": 3, "-0px -0px": 1},
+      'dirt': {"-192px -0px": 1, "-256px -0px": 1, "-320px -0px": 4},
+      'tree': {"-384px -0px": 1},
+      'house': {"-448px -0px": 1}
+    }
+
+    field_pool = []
+    p offset_dictionary[terrain.to_sym]
+    offset_dictionary[terrain.to_sym].map do |offset, weight|
+        weight.times { field_pool << offset }
+    end
+    field_pool.sample
+  end
+
+  def set_offsets
+    @array_of_fields.each do |field|
+      field.offset = choose_offset(field.terrain)
     end
     @array_of_fields
   end
@@ -107,7 +132,7 @@ class GenerateBoard
     # 'rock': {'grass': 3,'rock': 1}
     generation_key = {
       'grass': { 'grass': 6, 'dirt': 1 },
-      'dirt': { 'dirt': 2, 'grass': 1 }
+      'dirt': { 'dirt': 1, 'grass': 1 }
     }
 
     if @array_of_fields.empty? || @uniform == true
