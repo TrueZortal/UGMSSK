@@ -1,34 +1,41 @@
 <body>
-<table class = "board">
-    <thead>
-        <tr>
-            <th colspan="8"><h1>Planszo generator</h1></th>
-        </tr>
-    </thead>
+  <table class = "board">
+      <thead>
+          <tr>
+              <th colspan="8"><h2>Board Generator</h2></th>
+          </tr>
+      </thead>
 
-    <% @board.render_board.each_with_index do |line, index| %>
-      <tr>
-        <% line.each do |field| %>
-            <td>
-              <h1 class="field">
-              <%= field.display%>
-              <span class="tooltiptext"><%= field.position.to_a%></span>
-              </h1>
-            </td>
-        <% end %>
-      </tr>
-    <% end %>
-</table>
+      <% @board.render_board.each_with_index do |line, index| %>
+        <tr>
+          <% line.each do |field| %>
+              <td>
+                <h1 class="field">
+                <%= field.display%>
+                <span class="tooltiptext"><%= field.position.to_a%></span>
+                </h1>
+              </td>
+          <% end %>
+        </tr>
+      <% end %>
+  </table>
 </body>
 
 <style>
+h2 {
+  text-shadow: 1px 1px 1px green,
+               2px 2px 1px green;
+  font-size: 2rem;
+
+}
+
 body {
-  background-color: green;
+  background-color: darkgreen;
 }
 
 .board {
   border-collapse: collapse;
-  background-color: green;
+  background-color: darkgreen;
   margin-left: auto;
   margin-right: auto;
 
@@ -48,12 +55,13 @@ body {
   visibility: hidden;
   width: 40px;
   background-color: brown;
-  color: black;
+  /* color: black; */
+  /* color: rgba(0, 0, 0, 0.5); */
   text-align: center;
   padding: 5px 0;
   border-radius: 6px;
   line-height: 1;
-
+  opacity: .8;
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
