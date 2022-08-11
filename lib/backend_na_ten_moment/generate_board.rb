@@ -76,7 +76,6 @@ class GenerateBoard
     size_of_board_edge.times do |x|
       size_of_board_edge.times do |y|
         chosen_terrain = terrain_selector
-        p chosen_terrain
         @array_of_fields << Field.new(x: x, y: y, terrain: chosen_terrain, obstacle: is_an_obstacle?(chosen_terrain), offset: '')
       end
     end
@@ -92,7 +91,6 @@ class GenerateBoard
     }
 
     field_pool = []
-    p offset_dictionary[terrain.to_sym]
     offset_dictionary[terrain.to_sym].map do |offset, weight|
         weight.times { field_pool << offset }
     end
