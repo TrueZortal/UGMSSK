@@ -5,6 +5,11 @@ h2 {
 
 }
 
+.centred_text {
+  text-align: center;
+  font-size: 1.1rem;
+}
+
 body {
   background-color: darkgreen;
 }
@@ -35,7 +40,7 @@ body {
   /* font-size: 2rem; */
   line-height: 0;
 
-  /* text-align: center; */
+/* text-align: center; */
 
 }
 

@@ -5,12 +5,11 @@
               <th colspan="8"><h2>Board Generator</h2></th>
           </tr>
       </thead>
-
       <% @board.render_board.each_with_index do |line, index| %>
         <tr>
           <% line.each do |field| %>
               <td>
-                <h1 class="field" style="--position: <%= field.offset%>">
+                <h1 data-controller="position" data-action="click->position#greet" address="<%= field.make_json %>" class="field" style="--position: <%= field.offset%>">
                 <span class="tooltiptext"><%= field.position.to_a%></span>
                 </h1>
               </td>
@@ -20,6 +19,9 @@
   </table>
 </body>
 
+<% @game.players.each do |player| %>
+  <p class="centred_text"><%= "#{player.name}: #{player.status}" %></p>
+<% end %>
 
 
 
