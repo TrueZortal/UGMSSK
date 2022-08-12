@@ -1,74 +1,102 @@
-h2 {
-  text-shadow: 1px 1px 1px green,
-               2px 2px 1px green;
-  font-size: 3rem;
-
-}
-
-.centred_text {
-  text-align: center;
-  font-size: 1.1rem;
-}
-
 body {
   background-color: darkgreen;
 }
 
+  .upperbar {
+    height: 60px;
+    background-color: darkgreen;
+  }
 
-.board {
-  /* border: 1px solid black; */
-  border-collapse: separate;
-  border-spacing:0;
-  background-color: darkgreen;
-  margin-left: auto;
-  margin-right: auto;
-  /* transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg); */
-}
-/* Tooltip container */
-.field {
-  hyphenate-character: ;
-  display: block;
-  background-image: url('board_tiles');
-  background-position: var(--position);
-  background-repeat: no-repeat;
-  padding: 0px;
-  margin: 0;
-  /* width: auto;
-  height: auto; */
-  width: 64px;
-  height: 64px;
-  /* font-size: 2rem; */
-  line-height: 0;
+  .gameplayrow {
+    display: flex;
+  }
 
-/* text-align: center; */
+  .gameplayrow .statusbox {
+    background-color: darkgreen;
+    flex: 50%;
+  }
 
-}
+  .statusbox .centred_text {
+    text-align: center;
+    font-size: 1.1rem;
+  }
 
-/* Tooltip text */
-.field .tooltiptext {
-  font-size: 1rem;
-  visibility: hidden;
-  width: 40px;
-  background-color: rgba(165, 42, 42, 0.538);
-  /* color: black; */
-  /* color: rgba(0, 0, 0, 0.5); */
-  text-align: center;
-  padding: 5px 0;
-  border-radius: 6px;
-  line-height: 1;
-  opacity: .8;
-  /* Position the tooltip text - see examples below! */
-  position: absolute;
-  z-index: 1;
-}
+  .statusbox .smallcenteredtext {
+    text-align: center;
+    font-size: 0.8rem;
+    color:aliceblue;
+  }
 
-/* Show the tooltip text when you mouse over the tooltip container */
-.field:hover .tooltiptext {
-  visibility: visible;
-}
+  .gameplayrow .boardcontainer {
+    background-color: darkgreen;
+    flex: auto;
+  }
 
-.field:hover {
-background-blend-mode: luminosity;
--webkit-filter: grayscale(0.4);
-}
+  .boardcontainer .minion {
+    position: absolute;
+  }
+
+  .boardcontainer .board {
+    border-collapse: separate;
+    border-spacing:0;
+    background-color: darkgreen;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .board .field {
+    display: block;
+    background-image: url('board_tiles');
+    background-position: var(--position);
+    background-repeat: no-repeat;
+    padding: 0px;
+    margin: 0;
+    width: 64px;
+    height: 64px;
+    line-height: 0;
+  }
+
+  .field .tooltiptext {
+    font-size: 0.5rem;
+    visibility: hidden;
+    width: 20px;
+    background-color: rgba(165, 42, 42, 0.538);
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    line-height: 1;
+    opacity: .8;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .field:hover .tooltiptext {
+    visibility: visible;
+  }
+
+  .field:hover {
+  background-blend-mode: luminosity;
+  -webkit-filter: grayscale(0.4);
+  }
+
+  .gameplayrow .combatlog {
+    flex: 25%;
+    background-color: black;
+    border: 3px dotted white;
+  }
+
+  .padding {
+    width: 50px;
+  }
+
+  .innerpadding {
+    width: 20px;
+  }
+
+
+
+
+
+
+
 

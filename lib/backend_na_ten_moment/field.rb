@@ -26,7 +26,7 @@ class Field
 
   def make_json
     temp_occupant = ''
-    temp_occupant = @occupant.make_json unless @occupant.empty?
+    temp_occupant = @occupant.make_json unless is_empty?
     field_json = {
       position: @position.make_json,
       status: @status,

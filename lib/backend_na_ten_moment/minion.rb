@@ -62,14 +62,23 @@ class Minion
   def make_json
     minion_json = {
       position: @position.make_json,
+      owner: @owner,
+      type: @type,
       symbol: @symbol,
       attack: @attack,
       defense: @defense,
-      onwer: @owner,
+      max_health: @max_health,
       health: @health,
-      current_health: @current_health
+      current_health: @current_health,
+      speed: @speed,
+      range: @range
     }
     JSON.generate(minion_json)
+  end
+
+  def icon
+    icon_dictionary = {'skeleton' => '64x64Skelly', 'skeleton archer' => '64x64SkellyArcher'}
+    icon_dictionary[@type]
   end
 
   def update(_position_object, _occupied)

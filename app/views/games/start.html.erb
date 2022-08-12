@@ -1,27 +1,45 @@
 <body>
-  <table class = "board">
-      <thead>
-          <tr>
-              <th colspan="8"><h2>Board Generator</h2></th>
-          </tr>
-      </thead>
-      <% @board.render_board.each_with_index do |line, index| %>
-        <tr>
-          <% line.each do |field| %>
-              <td>
-                <h1 data-controller="position" data-action="click->position#greet" address="<%= field.make_json %>" class="field" style="--position: <%= field.offset%>">
-                <span class="tooltiptext"><%= field.position.to_a%></span>
-                </h1>
-              </td>
-          <% end %>
-        </tr>
+<div class = "upperbar"></div>
+<section class ="gameplayrow">
+<section class ="statusbox">
+    <div class ="minionsandoptions">
+      <% @game.players.each do |player| %>
+        <p class="centred_text"><%= "#{player.name} MANA:#{player.manapool.current}" %></p>
+        <p class="centred_text"><% player.minions.each do |minion|%></p>
+        <li class="smallcenteredtext"><%=minion.status%></li>
+        <%end%>
       <% end %>
-  </table>
+    </div>
+  </section>
+  <section class ="boardcontainer">
+    <div>
+      <table class = "board">
+          <% @board.render_board.each_with_index do |line, index| %>
+            <tr>
+              <% line.each do |field| %>
+                  <td>
+                    <h1 data-controller="position" data-action="click->position#greet" address="<%= field.make_json %>" class="field" style="--position: <%= field.offset%>">
+                    <span class="tooltiptext"><%= field.position.to_a%></span>
+                    <% if field.is_occupied? %>
+                      <%= image_tag field.occupant.icon, class: "minion" %>
+                    <% end %>
+                    </h1>
+                  </td>
+              <% end %>
+            </tr>
+          <% end %>
+      </table>
+    </div>
+  </section>
+  <section class = "innerpadding"></section>
+  <section class = "combatlog">
+
+  </section>
+  <section class = "padding"></section>
+
 </body>
 
-<% @game.players.each do |player| %>
-  <p class="centred_text"><%= "#{player.name}: #{player.status}" %></p>
-<% end %>
+
 
 
 
