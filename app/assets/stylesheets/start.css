@@ -80,9 +80,13 @@ body {
   }
 
   .gameplayrow .combatlog {
+    font-size: x-small;
+    text-align: left;
+    color:aliceblue;
     flex: 25%;
     background-color: black;
     border: 3px dotted white;
+    overflow: auto
   }
 
   .padding {

@@ -5,4 +5,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root 'games#start'
+  resources :minions do
+    member do
+      post :place
+    end
+  end
+
 end
