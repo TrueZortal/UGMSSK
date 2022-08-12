@@ -77,7 +77,7 @@ class Minion
   end
 
   def icon
-    icon_dictionary = {'skeleton' => '64x64Skelly', 'skeleton archer' => '64x64SkellyArcher'}
+    icon_dictionary = {'skeleton' => '64x64Skelly.png', 'skeleton archer' => '64x64SkellyArcher.png'}
     icon_dictionary[@type]
   end
 
