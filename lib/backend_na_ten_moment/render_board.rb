@@ -38,6 +38,8 @@ class RenderBoard
     array_of_json_representations_of_fields.each_slice(columnised_board.size).to_a
   end
 
+  def self.render_from_json(board_json); end
+
   def self.console_render(columnised_board)
     rendered_board = []
     columns = columnised_board.size - 1

@@ -34,29 +34,30 @@ class Minion
   attr_accessor :attack, :defense, :health, :speed, :initiative, :range, :position
   attr_reader :mana_cost, :owner, :type, :current_health, :symbol, :fields_with_enemies_in_range
 
-  def initialize(x: nil, y: nil, owner: '', type: 'skeleton', board: nil)
+  def initialize(x: nil, y: nil, owner: '', type: 'skeleton', board: nil, minion_json: '')
     raise ArgumentError unless @@MINION_DATA.keys.include?(type.to_sym)
 
-    @position = Position.new(x, y)
-    @owner = owner
-    @type = type
+    @minion_json = minion_json
+    if minion_json != ''
+      from_json
+      @max_health = @@MINION_DATA[@type.to_sym][:health]
+    else
+      @position = Position.new(x, y)
+      @owner = owner
+      @type = type
+      @max_health = @@MINION_DATA[@type.to_sym][:health]
+      @health = @max_health
+    end
+    @current_health = "#{@health}/#{@max_health}"
     @symbol = @@MINION_DATA[@type.to_sym][:symbol]
     @attack = @@MINION_DATA[@type.to_sym][:attack]
     @defense = @@MINION_DATA[@type.to_sym][:defense]
-    @max_health = @@MINION_DATA[@type.to_sym][:health]
-    @health = @max_health
-    @current_health = "#{@health}/#{@max_health}"
     @speed = @@MINION_DATA[@type.to_sym][:speed]
     @initiative = @@MINION_DATA[@type.to_sym][:initiative]
     @range = @@MINION_DATA[@type.to_sym][:range]
     @mana_cost = @@MINION_DATA[@type.to_sym][:mana_cost]
     #----- The below should most likely be removed to another class not be part of Minion class -----
-    @board = board
-    @board_fields = board.nil? ? nil : board.array_of_fields
-    find_and_update_fields_in_attack_range
-    find_enemies_in_attack_range
-    #----- The below should most likely be removed to another class not be part of Minion class -----
-    add_observers
+    update_board(board)
   end
 
   def make_json
@@ -64,20 +65,31 @@ class Minion
       position: @position.make_json,
       owner: @owner,
       type: @type,
-      symbol: @symbol,
-      attack: @attack,
-      defense: @defense,
-      max_health: @max_health,
-      health: @health,
-      current_health: @current_health,
-      speed: @speed,
-      range: @range
+      health: @health
     }
     JSON.generate(minion_json)
   end
 
+  def from_json
+    @minion_hash = JSON.parse(@minion_json)
+    @position = Position.new(position_json: @minion_hash['position'])
+    @owner = @minion_hash['owner']
+    @type = @minion_hash['type']
+    @health = @minion_hash['health']
+    @type = @minion_hash['type']
+  end
+
+  #----- The below should most likely be removed to another class not be part of Minion class -----
+  def update_board(board)
+    @board = board
+    @board_fields = board.nil? ? nil : board.array_of_fields
+    find_and_update_fields_in_attack_range
+    find_enemies_in_attack_range
+    add_observers
+  end
+
   def icon
-    icon_dictionary = {'skeleton' => '64x64Skelly.png', 'skeleton archer' => '64x64SkellyArcher.png'}
+    icon_dictionary = { 'skeleton' => '64x64Skelly.png', 'skeleton archer' => '64x64SkellyArcher.png' }
     icon_dictionary[@type]
   end
 

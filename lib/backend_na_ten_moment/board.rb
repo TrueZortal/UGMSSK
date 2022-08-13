@@ -20,10 +20,14 @@ class Board
   attr_reader :upper_limit, :array_of_fields, :summoning_zones, :pathfinding_data, :array_of_coordinates
   attr_accessor :columnised_board
 
-  def initialize(size_of_board_edge, uniform: true, starting_surface: 'grass')
+  def initialize(size_of_board_edge, uniform: true, starting_surface: 'grass', board_json: '')
     raise ArgumentError unless size_of_board_edge > 1
 
-    @board = GenerateBoard.new(size_of_board_edge, uniform, starting_surface)
+    @board = if board_json != ''
+               GenerateBoard.new(board_json)
+             else
+               GenerateBoard.new(size_of_board_edge, uniform, starting_surface)
+             end
     @pathfinding_data = @board.pathfinding_data
     @array_of_fields = @board.array_of_fields
     @array_of_coordinates = @array_of_fields.map { |field| field.position.to_a }
@@ -35,6 +39,10 @@ class Board
 
   def render_board
     RenderBoard.render(@columnised_board)
+  end
+
+  def make_json
+    @board.make_json
   end
 
   def state

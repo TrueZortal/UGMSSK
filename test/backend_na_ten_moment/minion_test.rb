@@ -1,25 +1,13 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-# require_relative '../minion'
+# require_relative 'minion'
 
 class MinionTest < Minitest::Test
   def test_can_create_a_new_minion_object_without_type_and_space
     skelly = Minion.new
     assert_nil skelly.position.x
     assert_nil skelly.position.y
-  end
-
-  def test_cant_create_a_new_minion_with_a_negative_coordinate_x
-    assert_raises(InvalidPositionError) do
-      skelly = Minion.new(x: -1)
-    end
-  end
-
-  def test_cant_create_a_new_minion_with_a_negative_coordinate_y
-    assert_raises(InvalidPositionError) do
-      skelly = Minion.new(y: -1)
-    end
   end
 
   def test_minion_can_be_placed_anywhere_if_not_connected_to_a_board
@@ -55,5 +43,11 @@ class MinionTest < Minitest::Test
     expected_skelly_status = { pos: [1, 1], type: 'skeleton', hp: '5/5', attack: 1, defense: 0 }
     assert_equal expected_enemy_status, enemy.status
     assert_equal expected_skelly_status, skelly.status
+  end
+
+  def test_minion_can_be_recreated_from_json
+    minion_json = "{\"position\":\"{\\\"x\\\":0,\\\"y\\\":0,\\\"to_a\\\":[0,0]}\",\"owner\":\"Player1\",\"type\":\"skeleton\",\"health\":5}"
+    test_minion = Minion.new(minion_json: minion_json)
+    assert_equal test_minion.make_json, minion_json
   end
 end

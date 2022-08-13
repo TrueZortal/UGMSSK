@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 require_relative 'field'
-require_relative 'calculations'
+require_relative 'minion'
+require_relative 'position'
+# require_relative 'calculations'
 
 class InvalidMovementError < StandardError
 end
@@ -18,18 +20,60 @@ end
 class GenerateBoard
   attr_accessor :columnised, :array_of_fields, :pathfinding_data
 
-  def initialize(size_of_board_edge, uniform, starting_surface)
+  def initialize(size_of_board_edge = 4, uniform = false, starting_surface = 'grass', board_json: '')
     raise ArgumentError unless size_of_board_edge > 1
 
-    @size_of_board_edge = size_of_board_edge
-    @upper_limit = @size_of_board_edge - 1
-    @uniform = uniform
-    @starting_surface = starting_surface
-    generate_an_array_of_fields(size_of_board_edge)
-    columnize_the_array_of_fields
-    add_obstacles_in_the_non_starting_areas if @uniform == false
-    set_offsets
-    generate_a_pathfinding_array
+    @board_json = board_json
+    if @board_json != ''
+      remake_fields_from_json
+      columnize_the_array_of_fields
+      generate_a_pathfinding_array
+      update_minion_boards_to_self
+    else
+      @size_of_board_edge = size_of_board_edge
+      @upper_limit = @size_of_board_edge - 1
+      @uniform = uniform
+      @starting_surface = starting_surface
+      generate_an_array_of_fields(size_of_board_edge)
+      columnize_the_array_of_fields
+      add_obstacles_in_the_non_starting_areas if @uniform == false
+      set_offsets
+      generate_a_pathfinding_array
+    end
+  end
+
+  def generate_array_of_fields_from_json
+    @hash_of_board = JSON.parse(@board_json)
+    @array_of_fields = []
+    @hash_of_board['fields'].each do |json_of_field|
+      @array_of_fields << Field.new(field_json: json_of_field)
+    end
+    @size_of_board_edge = Math.sqrt(@array_of_fields.size).to_i
+    @array_of_fields
+  end
+
+  def remake_fields_from_json
+    generate_array_of_fields_from_json
+  end
+
+  def update_minion_boards_to_self
+    # p @array_of_fields.filter { |field| field.is_occupied?}
+    @array_of_fields.filter(&:is_occupied?).each do |field|
+      field.occupant.update_board(self)
+      field.occupant
+    end
+  end
+
+  def make_json
+    board_json = {
+      size_of_board_edge: @size_of_board_edge,
+      fields: make_json_of_fields
+    }
+    JSON.generate(board_json)
+  end
+
+  def make_json_of_fields
+    @array_of_fields.map(&:make_json)
   end
 
   def starting_summoning_zones
@@ -76,7 +120,8 @@ class GenerateBoard
     size_of_board_edge.times do |x|
       size_of_board_edge.times do |y|
         chosen_terrain = terrain_selector
-        @array_of_fields << Field.new(x: x, y: y, terrain: chosen_terrain, obstacle: is_an_obstacle?(chosen_terrain), offset: '')
+        @array_of_fields << Field.new(x: x, y: y, terrain: chosen_terrain, obstacle: is_an_obstacle?(chosen_terrain),
+                                      offset: '')
       end
     end
     @array_of_fields
@@ -84,15 +129,15 @@ class GenerateBoard
 
   def choose_offset(terrain)
     offset_dictionary = {
-      'grass': {"-128px -0px": 12,"-192px -0px": 1,"-256px -0px": 1, "-0px -0px": 1},
-      'dirt': {"-64px -0px": 5, "-320px -0px": 1},
-      'tree': {"-384px -0px": 1},
-      'house': {"-448px -0px": 1}
+      'grass': { "-128px -0px": 12, "-192px -0px": 1, "-256px -0px": 1, "-0px -0px": 1 },
+      'dirt': { "-64px -0px": 5, "-320px -0px": 1 },
+      'tree': { "-384px -0px": 1 },
+      'house': { "-448px -0px": 1 }
     }
 
     field_pool = []
     offset_dictionary[terrain.to_sym].map do |offset, weight|
-        weight.times { field_pool << offset }
+      weight.times { field_pool << offset }
     end
     field_pool.sample
   end

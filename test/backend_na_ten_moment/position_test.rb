@@ -103,4 +103,10 @@ class PositionTest < Minitest::Test
     expected = [[1, 1]]
     assert_empty(expected - starting_position.get_route_to(other_position))
   end
+
+  def test_position_can_be_functionally_recreated_from_json
+    position_json = "{\"x\":7,\"y\":7,\"to_a\":[7,7]}"
+    test_position = Position.new(position_json: position_json)
+    assert_equal test_position.make_json, position_json
+  end
 end

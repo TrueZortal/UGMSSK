@@ -6,16 +6,28 @@ end
 class Position
   attr_accessor :x, :y, :to_a
 
-  def initialize(x, y)
+  def initialize(x = 0, y = 0, position_json: '')
     raise InvalidPositionError if !x.nil? && x.negative? || !y.nil? && y.negative?
 
-    @x = x
-    @y = y
-    @to_a = [x, y]
+    @position_json = position_json
+    if @position_json != ''
+      hash_from_json
+    else
+      @x = x
+      @y = y
+      @to_a = [x, y]
+    end
   end
 
   def ==(other)
     @x == other.x && @y == other.y
+  end
+
+  def hash_from_json
+    hash_of_position = JSON.parse(@position_json)
+    @x = hash_of_position['x']
+    @y = hash_of_position['y']
+    @to_a = [@x, @y]
   end
 
   def distance(other_position)
