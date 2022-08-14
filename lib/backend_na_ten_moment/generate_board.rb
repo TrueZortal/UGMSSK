@@ -71,6 +71,7 @@ class GenerateBoard
       fields: make_json_of_fields
     }
     JSON.generate(board_json)
+    # board_json
   end
 
   def make_json_of_fields

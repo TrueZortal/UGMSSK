@@ -5,5 +5,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root 'games#start'
-  resources :board_states
+  get '/boardstates', to: 'boards_state#index'
+  resources :board_states, :minions_in_game
 end
