@@ -24,6 +24,7 @@ end
 class InsufficientManaError < StandardError
 end
 
+# An instance of game, contains basic gameplay logic
 class Game
   attr_accessor :board, :players, :log
 
@@ -34,7 +35,8 @@ class Game
   end
 
   def move(from_position, to_position)
-    unless !check_field(to_position).obstacle && check_field(to_position).is_empty? && valid_position(from_position) && valid_position(to_position)
+    unless validate_target_field_position(to_position) && validate_positions(from_position,
+                                                                             to_position)
       raise InvalidMovementError
     end
 
@@ -45,9 +47,7 @@ class Game
   end
 
   def attack(from_position, to_position)
-    raise InvalidTargetError unless check_field(to_position).is_occupied? && different_owners(
-      from_position, to_position
-    ) && valid_position(from_position) && valid_position(to_position)
+    raise InvalidTargetError unless validate_target(from_position, to_position)
 
     attacker = check_field(from_position).occupant
     defender = check_field(to_position).occupant
@@ -69,22 +69,20 @@ class Game
     @players << Player.new(name: player_name, mana: max_mana, summoning_zone: starting_zone)
   end
 
-  def place(owner: '', type: '', x: nil, y: nil, board_fields: nil)
-    raise UnknownPlayerError unless @players.map { |player| player = player.name }.include?(owner)
+  # returns summoned minion
+  # rubocop:disable Naming Naming/MethodParameterName
+  def place(owner: '', type: '', x: nil, y: nil)
+    # rubocop:enable Naming Naming/MethodParameterName
 
-    raise InvalidPositionError unless x <= @board.upper_limit && y <= @board.upper_limit && @board.state[x][y].is_empty? && @players.filter do |player|
-                                        player.name == owner
-                                      end.first.summoning_zone.include?([
-                                                                          x, y
-                                                                        ])
+    raise UnknownPlayerError unless validate_owner(owner)
+
+    raise InvalidPositionError unless validate_coordinates(x, y) && validate_owner_summoning_zone(owner, x, y)
 
     summoned_minion = Minion.new(owner: owner, type: type, x: x, y: y, board: @board)
-    minion_owner = @players.filter { |player| player.name == owner }.first
-    raise InsufficientManaError unless minion_owner.mana >= summoned_minion.mana_cost
+    minion_owner = find_owner_object_from_name(owner)
+    raise InsufficientManaError unless validate_owner_sufficient_mana(minion_owner, summoned_minion)
 
-    minion_owner.manapool.spend(summoned_minion.mana_cost)
-    minion_owner.add_minion(summoned_minion)
-
+    update_owner_status_after_summoning(minion_owner, summoned_minion)
     @log.place(summoned_minion, minion_owner.mana)
     @board.state[x][y].update_occupant(summoned_minion)
     summoned_minion
@@ -100,12 +98,52 @@ class Game
 
   private
 
+  def validate_target(from_position, to_position)
+    check_field(to_position).occupied? && different_owners(from_position,
+                                                           to_position) && validate_positions(from_position,
+                                                                                              to_position)
+  end
+
+  def validate_target_field_position(field_position)
+    !check_field(field_position).obstacle && check_field(field_position).empty?
+  end
+
+  def validate_coordinates(x_coordinate, y_coordinate)
+    x_coordinate <= @board.upper_limit && y_coordinate <= @board.upper_limit &&
+      @board.state[x_coordinate][y_coordinate].empty?
+  end
+
+  def validate_owner(owner_name)
+    @players.map(&:name).include?(owner_name)
+  end
+
+  def validate_owner_summoning_zone(owner, x_coordinate, y_coordinate)
+    find_owner_object_from_name(owner).summoning_zone.include?([x_coordinate, y_coordinate])
+  end
+
+  def validate_owner_sufficient_mana(minion_owner, summoned_minion)
+    minion_owner.mana >= summoned_minion.mana_cost
+  end
+
+  def find_owner_object_from_name(owner_name)
+    @players.filter { |player| player.name == owner_name }.first
+  end
+
+  def update_owner_status_after_summoning(minion_owner, summoned_minion)
+    minion_owner.manapool.spend(summoned_minion.mana_cost)
+    minion_owner.add_minion(summoned_minion)
+  end
+
   def check_field(position)
     @board.check_field(position)
   end
 
   def valid_position(position)
     @board.valid_position(position)
+  end
+
+  def validate_positions(position, other_position)
+    @board.valid_position(position) && @board.valid_position(other_position)
   end
 
   def perish_a_creature(position)
@@ -116,7 +154,7 @@ class Game
   end
 
   # need to rewrite this for actual position objects
-  def different_owners(first_occupant_position_array, second_occupant_position_array)
-    check_field(first_occupant_position_array).occupant.owner != check_field(second_occupant_position_array).occupant.owner
+  def different_owners(position, second_position)
+    check_field(position).occupant.owner != check_field(second_position).occupant.owner
   end
 end

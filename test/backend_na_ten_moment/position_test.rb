@@ -33,7 +33,6 @@ class PositionTest < Minitest::Test
   end
 
   def test_gets_route_correctly_on_y_axis
-    # skip
     starting_position = Position.new(4, 4)
     other_position = Position.new(4, 7)
     expected = [[4, 5], [4, 6]]
@@ -41,7 +40,6 @@ class PositionTest < Minitest::Test
   end
 
   def test_gets_route_correctly_on_across_axis
-    # skip
     starting_position = Position.new(3, 3)
     other_position = Position.new(8, 8)
     expected = [[4, 4], [5, 5], [6, 6], [7, 7]]
@@ -49,7 +47,6 @@ class PositionTest < Minitest::Test
   end
 
   def test_gets_route_correctly_somewhat_across_but_more_y_axis
-    # skip
     starting_position = Position.new(0, 0)
     other_position = Position.new(1, 2)
     expected = [[0, 1]]
@@ -57,7 +54,6 @@ class PositionTest < Minitest::Test
   end
 
   def test_gets_route_correctly_somewhat_across_but_more_x_axis
-    # skip
     starting_position = Position.new(0, 0)
     other_position = Position.new(2, 1)
     expected = [[1, 0]]
@@ -65,7 +61,6 @@ class PositionTest < Minitest::Test
   end
 
   def test_gets_route_correctly_on_x_axis_but_reverse
-    # skip
     starting_position = Position.new(3, 0)
     other_position = Position.new(0, 0)
     expected = [[2, 0], [1, 0]]
@@ -73,7 +68,6 @@ class PositionTest < Minitest::Test
   end
 
   def test_gets_route_correctly_on_y_axis_but_reverse
-    # skip
     starting_position = Position.new(4, 7)
     other_position = Position.new(4, 4)
     expected = [[4, 5], [4, 6]]
@@ -81,7 +75,6 @@ class PositionTest < Minitest::Test
   end
 
   def test_gets_route_correctly_on_across_axis_but_reverse
-    # skip
     starting_position = Position.new(8, 8)
     other_position = Position.new(3, 3)
     expected = [[4, 4], [5, 5], [6, 6], [7, 7]]
@@ -89,7 +82,6 @@ class PositionTest < Minitest::Test
   end
 
   def test_gets_route_correctly_somewhat_across_but_more_y_axis_but_reverse
-    # skip
     starting_position = Position.new(1, 2)
     other_position = Position.new(0, 0)
     expected = [[1, 1]]
@@ -97,7 +89,6 @@ class PositionTest < Minitest::Test
   end
 
   def test_gets_route_correctly_somewhat_across_but_more_x_axis_but_reverse
-    # skip
     starting_position = Position.new(2, 1)
     other_position = Position.new(0, 0)
     expected = [[1, 1]]
@@ -105,7 +96,7 @@ class PositionTest < Minitest::Test
   end
 
   def test_position_can_be_functionally_recreated_from_json
-    position_json = "{\"x\":7,\"y\":7,\"to_a\":[7,7]}"
+    position_json = Position.new.make_json
     test_position = Position.new(position_json: position_json)
     assert_equal test_position.make_json, position_json
   end

@@ -5,9 +5,9 @@ require 'minitest/autorun'
 # require_relative '../minion'
 # require_relative '../field'
 
+#rubocop: disable all
 class GameTest < Minitest::Test
   def test_a_minion_can_be_placed_on_board
-    # skip
     test_game = Game.new(3)
     test_game.add_player('P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
@@ -18,7 +18,6 @@ class GameTest < Minitest::Test
   end
 
   def test_a_minion_cant_be_placed_out_of_bounds
-    # skip
     test_game = Game.new(3)
     test_game.add_player('P1', max_mana: 5)
     assert_raises(InvalidPositionError) do
@@ -27,7 +26,6 @@ class GameTest < Minitest::Test
   end
 
   def test_a_minion_that_was_placed_exists_on_the_board
-    # skip
     test_game = Game.new(3)
     test_game.add_player('P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
@@ -37,7 +35,6 @@ class GameTest < Minitest::Test
   end
 
   def test_a_minion_can_move_from_a_field_to_a_field_and_does_not_exist_in_two_places_at_once
-    # skip
     test_game = Game.new(3)
     test_game.add_player('P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
@@ -62,7 +59,6 @@ class GameTest < Minitest::Test
   end
 
   def test_a_minion_cannot_move_out_of_bounds
-    # skip
     test_game = Game.new(3)
     test_game.add_player('P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
@@ -73,7 +69,6 @@ class GameTest < Minitest::Test
   end
 
   def test_skeletons_can_only_move_1_square_diagonally_and_2_straight
-    # skip
     test_game = Game.new(4)
     test_game.add_player('P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [0, 3], [1, 0], [1, 1], [1, 2], [1, 3], [2, 0], [2, 1], [2, 2], [2, 3], [3, 0], [3, 1], [3, 2], [3, 3]])
@@ -94,7 +89,6 @@ class GameTest < Minitest::Test
   end
 
   def test_skeleton_cant_step_on_another_skeleton_or_move_to_an_occupied_square
-    # skip
     test_game = Game.new(3)
     test_game.add_player('P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
@@ -118,7 +112,6 @@ class GameTest < Minitest::Test
   end
 
   def test_skeleton_can_attack_within_1_square
-    # skip
     test_game = Game.new(3)
     test_game.add_player('P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
@@ -131,7 +124,6 @@ class GameTest < Minitest::Test
   end
 
   def test_skeleton_cannot_attack_from_further_than_their_range
-    # skip
     test_game = Game.new(3)
     test_game.add_player('P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
@@ -145,7 +137,6 @@ class GameTest < Minitest::Test
   end
 
   def test_skeleton_cant_attack_an_empty_field
-    # skip
     test_game = Game.new(3)
     test_game.add_player('P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
@@ -157,7 +148,6 @@ class GameTest < Minitest::Test
   end
 
   def test_skeleton_cant_attack_an_out_of_bound_field
-    # skip
     test_game = Game.new(3)
     test_game.add_player('P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
@@ -168,7 +158,6 @@ class GameTest < Minitest::Test
   end
 
   def test_minion_with_0_hp_perishes
-    # skip
     test_game = Game.new(3)
     test_game.add_player('P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
@@ -181,7 +170,7 @@ class GameTest < Minitest::Test
     test_game.attack(skelly.position, skellys_sworn_enemy_kevin.position)
     test_game.attack(skelly.position, skellys_sworn_enemy_kevin.position)
     test_game.attack(skelly.position, skellys_sworn_enemy_kevin.position)
-    assert_equal false, test_game.board.check_field(skellys_sworn_enemy_kevin.position).is_occupied?
+    assert_equal false, test_game.board.check_field(skellys_sworn_enemy_kevin.position).occupied?
   end
 
   def test_game_has_player_space
@@ -219,7 +208,6 @@ class GameTest < Minitest::Test
   end
 
   def test_players_outside_of_the_game_cant_summon_minions
-    # skip
     test_game = Game.new(3)
     assert_raises(UnknownPlayerError) do
       test_game.place(owner: 'Mateusz', type: 'skeleton', x: 0, y: 0)

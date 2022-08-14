@@ -17,6 +17,7 @@ end
 class InvalidPositionError < StandardError
 end
 
+# generate and prepare render pattern of board
 class GenerateBoard
   attr_accessor :columnised, :array_of_fields, :pathfinding_data
 
@@ -57,8 +58,8 @@ class GenerateBoard
   end
 
   def update_minion_boards_to_self
-    # p @array_of_fields.filter { |field| field.is_occupied?}
-    @array_of_fields.filter(&:is_occupied?).each do |field|
+    # p @array_of_fields.filter { |field| field.occupied?}
+    @array_of_fields.filter(&:occupied?).each do |field|
       field.occupant.update_board(self)
       field.occupant
     end
@@ -120,7 +121,7 @@ class GenerateBoard
     size_of_board_edge.times do |x|
       size_of_board_edge.times do |y|
         chosen_terrain = terrain_selector
-        @array_of_fields << Field.new(x: x, y: y, terrain: chosen_terrain, obstacle: is_an_obstacle?(chosen_terrain),
+        @array_of_fields << Field.new(x: x, y: y, terrain: chosen_terrain, obstacle: an_obstacle?(chosen_terrain),
                                       offset: '')
       end
     end
@@ -161,7 +162,7 @@ class GenerateBoard
         weight.times { field_pool << terrain }
       end
       resulting_field = field_pool.sample.to_s
-      next unless is_an_obstacle?(resulting_field)
+      next unless an_obstacle?(resulting_field)
 
       obstacle_limit -= 1
       if obstacle_limit.positive?
@@ -239,7 +240,7 @@ class GenerateBoard
     array_of_summoning_zones
   end
 
-  def is_an_obstacle?(terrain)
+  def an_obstacle?(terrain)
     obstacles = %w[
       tree
       house

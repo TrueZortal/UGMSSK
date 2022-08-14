@@ -12,7 +12,7 @@ class BoardTest < Minitest::Test
     end
   end
 
-  def test_cant_create_a_board_smaller_than_2_x_2
+  def test_cant_create_a_board_smaller_than_two_by_two
     assert_raises(ArgumentError) do
       Board.new(1)
     end

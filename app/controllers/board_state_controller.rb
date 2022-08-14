@@ -18,9 +18,7 @@ class BoardStateController < ApplicationController
 
   def clear
     @boardstate = Board_State.all
-    @boardstate.each do |boardstate|
-      boardstate.destroy
-    end
+    @boardstate.each(&:destroy)
   end
 
   helper_method :export_board

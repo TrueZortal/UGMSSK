@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# logs all game events in an array
 class Battlelog
   attr_accessor :log, :time
 
@@ -13,7 +14,8 @@ class Battlelog
   end
 
   def place(unit, mana_after_placing)
-    event = "#{unit.owner} placed #{unit.type} on #{unit.position.to_a} for #{unit.mana_cost} mana, they have #{mana_after_placing} mana remaining."
+    remaining_mana = "they have #{mana_after_placing} mana remaining."
+    event = "#{unit.owner} placed #{unit.type} on #{unit.position.to_a} for #{unit.mana_cost} mana, #{remaining_mana}"
     add(event)
   end
 
@@ -24,7 +26,10 @@ class Battlelog
 
   def attack(unit, another_unit, damage)
     message = another_unit.health.positive? ? "has #{another_unit.current_health} health" : 'perished'
-    event = "#{unit.owner} attacked #{another_unit.owner}s #{another_unit.type} with their #{unit.type} from #{unit.position.to_a} to #{another_unit.position.to_a} causing #{damage} damage. #{another_unit.owner}s #{another_unit.type} #{message}"
+    who_attacked_who = "#{unit.owner} attacked #{another_unit.owner}s #{another_unit.type} with their #{unit.type}"
+    from_to_position = "from #{unit.position.to_a} to #{another_unit.position.to_a}"
+    attacked_unit_status = "#{another_unit.owner}s #{another_unit.type} #{message}"
+    event = " #{who_attacked_who} #{from_to_position} causing #{damage} damage. #{attacked_unit_status}"
     add(event)
   end
 

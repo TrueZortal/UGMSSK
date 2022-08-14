@@ -6,6 +6,7 @@ require_relative 'input'
 require_relative 'output'
 require_relative 'command_queue'
 
+# gameplay menu, used for self contained tested gameplay loops and whatnot
 class Menu
   include Singleton
   attr_accessor :command_queue
@@ -41,7 +42,7 @@ class Menu
     board_size = get_input.to_i
     puts 'would you like a cool board or a boring one? cool/boring'
     board_type = get_input
-    uniform = case uniform
+    uniform = case board_type
               when 'boring'
                 true
               else
@@ -59,7 +60,7 @@ class Menu
     puts 'how big would you like the board?'
     board_size = get_input.to_i
     puts 'would you like a cool board or a boring one? cool/boring'
-    board_type = get_input
+    # board_type = get_input
     uniform = true
     Pvp.new(players: players, board_size: board_size, uniform: uniform, enable_randomness: false)
     # rescue StandardError
@@ -67,7 +68,9 @@ class Menu
     #   retry
   end
 
+  # rubocop: disable Naming/AccessorMethodName
   def get_input
+    # rubocop: enable Naming/AccessorMethodName
     Input.get
   end
 

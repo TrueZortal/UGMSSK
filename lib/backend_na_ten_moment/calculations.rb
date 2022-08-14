@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# holding all recurring calculation methods
 class Calculations
   def self.combine_arrays(bound1, bound2)
     temp_array = []

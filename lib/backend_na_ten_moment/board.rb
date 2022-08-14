@@ -28,13 +28,8 @@ class Board
              else
                GenerateBoard.new(size_of_board_edge, uniform, starting_surface)
              end
-    @pathfinding_data = @board.pathfinding_data
-    @array_of_fields = @board.array_of_fields
-    @array_of_coordinates = @array_of_fields.map { |field| field.position.to_a }
-    @columnised_board = @board.columnised
     @size_of_board_edge = size_of_board_edge
-    @upper_limit = @size_of_board_edge - 1
-    @summoning_zones = @board.starting_summoning_zones
+    set_instance_variables
   end
 
   def render_board
@@ -58,7 +53,7 @@ class Board
   end
 
   def check_field(position_object)
-    unless position_object.to_a.size == 2 && position_object.to_a.first <= @upper_limit && position_object.to_a.last <= @upper_limit
+    unless position_object.to_a.first <= @upper_limit && position_object.to_a.last <= @upper_limit
       raise InvalidPositionError
     end
 
@@ -81,6 +76,15 @@ class Board
   end
 
   private
+
+  def set_instance_variables
+    @pathfinding_data = @board.pathfinding_data
+    @array_of_fields = @board.array_of_fields
+    @array_of_coordinates = @array_of_fields.map { |field| field.position.to_a }
+    @columnised_board = @board.columnised
+    @upper_limit = @size_of_board_edge - 1
+    @summoning_zones = @board.starting_summoning_zones
+  end
 
   def identify_starting_zone(zone)
     if zone.include?([0, 0])

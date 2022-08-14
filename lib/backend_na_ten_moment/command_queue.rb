@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# list of string commands to be executed for test automation/game loop recreation
 class CommandQueue
   def initialize(array_of_commands = [])
     @queue = []

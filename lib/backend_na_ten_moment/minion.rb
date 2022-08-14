@@ -167,7 +167,7 @@ class Minion
   def find_enemies_in_attack_range
     @fields_with_enemies_in_range = []
     @fields_in_attack_range.each do |field|
-      @fields_with_enemies_in_range << field if field.is_occupied? && field.occupant.owner != @owner
+      @fields_with_enemies_in_range << field if field.occupied? && field.occupant.owner != @owner
     end
     unless fields_with_enemies_in_range.empty?
       check_if_interaction_with_field_is_not_blocked_by_obstacles(@fields_with_enemies_in_range)

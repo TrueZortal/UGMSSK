@@ -28,7 +28,6 @@ class BattlelogTest < Minitest::Test
   end
 
   def test_log_can_print_in_order
-    time1 = Time.now.to_i
     test_log = Battlelog.new
     message = 'test log entry'
     second_message = 'second test log entry'
@@ -36,7 +35,9 @@ class BattlelogTest < Minitest::Test
     test_log.add(message)
     test_log.add(second_message)
     test_log.add(third_message)
+    #rubocop: disable all
     expected_log = "**#{test_log.time.utc} Battlelog**\nMOVE 1:test log entry\nMOVE 2:second test log entry\nMOVE 3:third test log entry\n------------"
+    #rubocop: enable all
     assert_equal expected_log, test_log.print
   end
 end

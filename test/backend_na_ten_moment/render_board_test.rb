@@ -6,7 +6,7 @@ require 'minitest/autorun'
 # require_relative '../board'
 
 class RenderBoardTest < Minitest::Test
-  def test_correctly_renders_2_x_2_board
+  def test_correctly_renders_two_by_two_board
     skip
     test = Board.new(2)
     test_output = StringIO.new(test.render_board)
@@ -14,7 +14,7 @@ class RenderBoardTest < Minitest::Test
     assert_equal value, test_output.string
   end
 
-  def test_correctly_renders_3_x_3_board
+  def test_correctly_renders_three_by_three_board
     skip
     test = Board.new(3)
     test_output = StringIO.new(test.render_board)
@@ -26,13 +26,13 @@ class RenderBoardTest < Minitest::Test
     skip
     test_game = Game.new(2)
     test_game.add_player('1', max_mana: 5, summoning_zone: [[0, 0], [0, 1], [1, 0], [1, 1]])
-    skelly = test_game.place(owner: '1', type: 'skeleton', x: 1, y: 0)
+    test_game.place(owner: '1', type: 'skeleton', x: 1, y: 0)
     test_output = StringIO.new(test_game.board.render_board)
-    # puts test_game.board.render_board
     value = "  0 1\n0 🟩s1\n1 🟩🟩"
     assert_equal value, test_output.string
   end
 
+  # rubocop:disable all
   def test_a_minions_are_placed_in_the_correct_rendered_positions
     skip
     test_game = Game.new(4)

@@ -31,7 +31,7 @@ class MinionTest < Minitest::Test
 
   def test_cant_create_a_minion_of_non_existent_type
     assert_raises(ArgumentError) do
-      skelly = Minion.new(type: 'tomato')
+      Minion.new(type: 'tomato')
     end
   end
 
@@ -46,7 +46,7 @@ class MinionTest < Minitest::Test
   end
 
   def test_minion_can_be_recreated_from_json
-    minion_json = "{\"position\":\"{\\\"x\\\":0,\\\"y\\\":0,\\\"to_a\\\":[0,0]}\",\"owner\":\"Player1\",\"type\":\"skeleton\",\"health\":5}"
+    minion_json = Minion.new.make_json
     test_minion = Minion.new(minion_json: minion_json)
     assert_equal test_minion.make_json, minion_json
   end

@@ -20,7 +20,7 @@
                   <td>
                     <h1 data-controller="position" data-action="click->position#greet" address="<%= field.make_json %>" class="field" style="--position: <%= field.offset%>">
                     <span class="tooltiptext"><%= field.position.to_a%></span>
-                    <% if field.is_occupied? %>
+                    <% if field.occupied? %>
                       <%= image_tag field.occupant.icon,  class: "minion" %>
                     <% end %>
                     </h1>

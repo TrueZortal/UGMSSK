@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# self contained mana container thing
 class ManaPool
   attr_accessor :mana, :max, :current
 

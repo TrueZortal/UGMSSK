@@ -19,7 +19,7 @@ class RenderBoard
     board = columnised_board.transpose.flatten(1)
     display_board = []
     board.each do |field|
-      display_board << field.display = if field.is_occupied?
+      display_board << field.display = if field.occupied?
                                          field.occupant.symbol + field.occupant.owner.chr
                                        else
                                          @@RENDER_KEY[field.terrain.to_sym]
@@ -45,7 +45,7 @@ class RenderBoard
     columns = columnised_board.size - 1
     columnised_board.transpose.each_with_index do |row, _index|
       row.each do |field|
-        rendered_board << if field.is_occupied?
+        rendered_board << if field.occupied?
                             field.occupant.symbol + field.occupant.owner.chr
                           else
                             @@RENDER_KEY[field.terrain.to_sym]
