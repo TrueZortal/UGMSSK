@@ -24,10 +24,10 @@ class Board
     raise ArgumentError unless size_of_board_edge > 1
 
     @board = if board_json != ''
-              p board_json
-              GenerateBoard.new(size_of_board_edge, uniform, starting_surface, board_json: board_json)
+               p board_json
+               GenerateBoard.new(size_of_board_edge, uniform, starting_surface, board_json: board_json)
              else
-              GenerateBoard.new(size_of_board_edge, uniform, starting_surface)
+               GenerateBoard.new(size_of_board_edge, uniform, starting_surface)
              end
     @size_of_board_edge = size_of_board_edge
     set_instance_variables

@@ -10,11 +10,11 @@ class Pvp
 
   def initialize(players: 2, board_size: 8, uniform: false, enable_randomness: true, board_json: '')
     p board_size
-    if board_json != ''
-      @game = Game.new(board_size, uniform: false, board_json: board_json)
-    else
-      @game = Game.new(board_size, uniform: false)
-    end
+    @game = if board_json != ''
+              Game.new(board_size, uniform: false, board_json: board_json)
+            else
+              Game.new(board_size, uniform: false)
+            end
     @players = players
     @random = enable_randomness
     populate_players

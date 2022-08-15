@@ -3,11 +3,11 @@
 class GamesController < ApplicationController
   def start
     # @board = Board.new(8, uniform: false, starting_surface: 'grass')
-    if BoardState.count == 0
-      tablica_z_bazy = ''
-    else
-      tablica_z_bazy = BoardState.order(created_at: :desc).first['board']
-    end
+    tablica_z_bazy = if BoardState.count.zero?
+                       ''
+                     else
+                       BoardState.order(created_at: :desc).first['board']
+                     end
     @match = Pvp.new(players: 2, board_size: 8, uniform: false, enable_randomness: false, board_json: tablica_z_bazy)
     @board = @match.game.board
     @game = @match.game
