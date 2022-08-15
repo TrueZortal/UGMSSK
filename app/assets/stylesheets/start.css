@@ -28,7 +28,7 @@ body {
   }
 
   .gameplayrow .boardcontainer {
-    background-color: darkgreen;
+    background-color: rgb(80, 165, 80);
     flex: auto;
   }
 
