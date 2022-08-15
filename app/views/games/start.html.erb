@@ -3,7 +3,9 @@ var board = JSON.parse(localStorage.getItem('board'))
 console.log(board)
 </script>
 <body>
-<div class = "upperbar"></div>
+<div class = "upperbar">
+<button><%= link_to "Reset Board", "/reset"%></button>
+</div>
 <section class ="gameplayrow">
 <section class ="statusbox">
     <div class ="minionsandoptions">
@@ -35,6 +37,7 @@ console.log(board)
       </table>
     </div>
   </section>
+  <%# <%= button_to "Reset Board", action: "reset" %>
   <script>
   localStorage.clear
   localStorage.setItem('board', JSON.stringify('<%= @board.make_json%>'))
@@ -47,6 +50,5 @@ console.log(board)
   </section>
   <section class = "padding"></section>
 </body>
-
 
 

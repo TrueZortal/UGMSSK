@@ -22,6 +22,7 @@ class GenerateBoard
   attr_accessor :columnised, :array_of_fields, :pathfinding_data
 
   def initialize(size_of_board_edge = 4, uniform = false, starting_surface = 'grass', board_json: '')
+    p size_of_board_edge
     raise ArgumentError unless size_of_board_edge > 1
 
     @board_json = board_json
@@ -30,6 +31,7 @@ class GenerateBoard
       columnize_the_array_of_fields
       generate_a_pathfinding_array
       update_minion_boards_to_self
+      @upper_limit = @size_of_board_edge - 1
     else
       @size_of_board_edge = size_of_board_edge
       @upper_limit = @size_of_board_edge - 1
@@ -70,7 +72,11 @@ class GenerateBoard
       size_of_board_edge: @size_of_board_edge,
       fields: make_json_of_fields
     }
-    JSON.generate(board_json)
+    json_representation_of_board = JSON.generate(board_json)
+    budowa_boardstatu = BoardState.new(board: json_representation_of_board)
+    budowa_boardstatu.save
+    # puts BoardState.all
+    json_representation_of_board
     # board_json
   end
 
