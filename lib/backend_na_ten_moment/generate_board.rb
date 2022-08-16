@@ -22,7 +22,6 @@ class GenerateBoard
   attr_accessor :columnised, :array_of_fields, :pathfinding_data
 
   def initialize(size_of_board_edge = 4, uniform = false, starting_surface = 'grass', board_json: '')
-    p size_of_board_edge
     raise ArgumentError unless size_of_board_edge > 1
 
     @board_json = board_json
@@ -43,6 +42,7 @@ class GenerateBoard
       set_offsets
       generate_a_pathfinding_array
     end
+    save_board_state
   end
 
   def generate_array_of_fields_from_json
@@ -60,7 +60,6 @@ class GenerateBoard
   end
 
   def update_minion_boards_to_self
-    # p @array_of_fields.filter { |field| field.occupied?}
     @array_of_fields.filter(&:occupied?).each do |field|
       field.occupant.update_board(self)
       field.occupant
@@ -73,11 +72,13 @@ class GenerateBoard
       fields: make_json_of_fields
     }
     json_representation_of_board = JSON.generate(board_json)
-    budowa_boardstatu = BoardState.new(board: json_representation_of_board)
-    budowa_boardstatu.save
-    # puts BoardState.all
     json_representation_of_board
     # board_json
+  end
+
+  def save_board_state
+    build_boardstate = BoardState.new(board: make_json)
+    build_boardstate.save
   end
 
   def make_json_of_fields

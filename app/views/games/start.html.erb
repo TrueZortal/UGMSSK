@@ -1,10 +1,8 @@
-<script>
-var board = JSON.parse(localStorage.getItem('board'))
-console.log(board)
-</script>
 <body>
 <div class = "upperbar">
 <button><%= link_to "Reset Board", "/reset"%></button>
+<button><%= link_to "Add Player", "/add_player"%></button>
+<button><%= link_to "Remove Player", "/remove_player"%></button>
 </div>
 <section class ="gameplayrow">
 <section class ="statusbox">
@@ -37,11 +35,6 @@ console.log(board)
       </table>
     </div>
   </section>
-  <%# <%= button_to "Reset Board", action: "reset" %>
-  <script>
-  localStorage.clear
-  localStorage.setItem('board', JSON.stringify('<%= @board.make_json%>'))
-  </script>
   <section class = "innerpadding"></section>
   <section class = "combatlog">
   <% @game.log.log.each do |line|%>

@@ -9,7 +9,6 @@ class Pvp
   attr_accessor :game
 
   def initialize(players: 2, board_size: 8, uniform: false, enable_randomness: true, board_json: '')
-    p board_size
     @game = if board_json != ''
               Game.new(board_size, uniform: false, board_json: board_json)
             else

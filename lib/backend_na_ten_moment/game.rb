@@ -29,14 +29,22 @@ class Game
   attr_accessor :board, :players, :log
 
   def initialize(size_of_board, uniform: true, board_json: '')
-    p size_of_board
     @board = if board_json != ''
                Board.new(size_of_board, uniform: uniform, board_json: board_json)
-             else
-               Board.new(size_of_board, uniform: uniform)
-             end
+              else
+                Board.new(size_of_board, uniform: uniform)
+              end
+    # reassign_minions_to_owners
     @log = Battlelog.new
     @players = []
+  end
+
+  def reassign_minions_to_owners
+    @board.array_of_fields.each do |field|
+      p field
+      # owner = find_owner_object_from_name(field.occupant.owner_name)
+      # update_owner_status_after_summoning(owner, field.occupant)
+    end
   end
 
   def move(from_position, to_position)

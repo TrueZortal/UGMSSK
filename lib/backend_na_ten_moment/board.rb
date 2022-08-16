@@ -24,7 +24,6 @@ class Board
     raise ArgumentError unless size_of_board_edge > 1
 
     @board = if board_json != ''
-               p board_json
                GenerateBoard.new(size_of_board_edge, uniform, starting_surface, board_json: board_json)
              else
                GenerateBoard.new(size_of_board_edge, uniform, starting_surface)
@@ -39,6 +38,10 @@ class Board
 
   def make_json
     @board.make_json
+  end
+
+  def save_state
+    @board.save_board_state
   end
 
   def state
