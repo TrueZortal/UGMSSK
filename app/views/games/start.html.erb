@@ -7,7 +7,7 @@
 <section class ="gameplayrow">
 <section class ="statusbox">
     <div class ="minionsandoptions">
-      <% @game.players.each do |player| %>
+      <% @game.players.sort_by {|player| player.name}.each do |player| %>
         <p class="centred_text"><%= "#{player.name} MANA:#{player.manapool.current}" %></p>
         <p class="centred_text"><% player.minions.each do |minion|%></p>
         <li class="smallcenteredtext"><%=minion.status%></li>

@@ -2,13 +2,15 @@
 
 class GamesController < ApplicationController
   def start
-    existing_board_state = if BoardState.count.zero?
-                             ''
-                           else
-                             BoardState.order(created_at: :desc).first['board']
-                           end
-    @match = Pvp.new(players: 2, board_size: 8, uniform: false, enable_randomness: false,
-                     board_json: existing_board_state)
+    if BoardState.count.zero?
+      existing_board_state =  ''
+      @match = Pvp.new(players: 2, board_size: 8, uniform: false, enable_randomness: false,
+        board_json: existing_board_state)
+    else
+      existing_board_state = BoardState.order(created_at: :desc).first['board']
+      @match = Pvp.new(enable_randomness: false, from_db: true, board_json: existing_board_state)
+    end
+
     @board = @match.game.board
     @game = @match.game
     # @game.place(owner: 'Player1', type: 'skeleton', x: 0, y: 0)
@@ -26,28 +28,18 @@ class GamesController < ApplicationController
   end
 
   def add_player
-    added_player = PvpPlayers.new(name:"Player#{PvpPlayers.all.size + 1}", mana: 10, max_mana: 10, summoning_zone:'')
-    added_player.save
-
+    if PvpPlayers.all.size >= 2 && PvpPlayers.all.size < 4
+      added_player = PvpPlayers.new(name:"Player#{PvpPlayers.all.size + 1}", mana: 10, max_mana: 10, summoning_zone:'')
+      added_player.save
+    end
     redirect_to root_url
   end
 
   def remove_player
-    PvpPlayers.last.destroy
-
+    if PvpPlayers.all.size > 2 && PvpPlayers.all.size <= 4
+      PvpPlayers.last.destroy
+    end
     redirect_to root_url
   end
-  # def save_state(state)
-  #   # @board = BoardState.find(params[:board])
-  #   # current = BoardState.new(board: board.make_json)
-  #   state.save
-  #   redirect_to root_url
-  # end
 
-  # this needs to be implemented via database with player state
-  # def add_player
-  #   p @game
-  #   @game.add_player(name: "Player#{@game.players.size+1}", max_mana: 10)
-  #   redirect_to root_url
-  # end
 end

@@ -8,15 +8,15 @@ require_relative 'output'
 class Pvp
   attr_accessor :game
 
-  def initialize(players: 2, board_size: 8, uniform: false, enable_randomness: true, board_json: '')
-    @game = if board_json != ''
+  def initialize(players: 2, board_size: 8, uniform: false, enable_randomness: true, from_db: false, board_json: '')
+    @game = if from_db
               Game.new(board_size, uniform: false, board_json: board_json)
             else
               Game.new(board_size, uniform: false)
             end
     @random = enable_randomness
 
-    if PvpPlayers.all.size.positive?
+    if from_db
         PvpPlayers.all.each do |player|
           if @random
             @game.add_player(from_db: true, db_record: player)
