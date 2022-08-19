@@ -6,13 +6,20 @@ class Player
   attr_reader :name
   attr_accessor :manapool, :mana, :minions, :available_minions, :summoning_zone
 
-  def initialize(name: '', mana: 0, summoning_zone: [])
-    @name = name
-    @manapool = ManaPool.new(mana: mana) # tu tu tururu
-    @mana = @manapool.mana
+  def initialize(name: '', mana: 0, summoning_zone: [], from_db: false, db_record: [])
+    if from_db
+      @name = db_record["name"]
+      @manapool = ManaPool.new(mana: db_record["max_mana"])
+      @manapool.mana = db_record["mana"]
+    else
+      @name = name
+      @manapool = ManaPool.new(mana: mana) # tu tu tururu
+      @mana = @manapool.mana
+    end
+
+    @summoning_zone = summoning_zone
     @minions = []
     @available_minions = ['skeleton', 'skeleton archer']
-    @summoning_zone = summoning_zone
   end
 
   def status
@@ -32,6 +39,11 @@ class Player
     @minion_menu.each_pair do |id, status|
       puts "#{id} : #{status}"
     end
+  end
+
+  def save(game_id: nil)
+    player_save_state = PvpPlayers.new(game_id: game_id, name: @name, mana: @manapool.mana, max_mana: @manapool.max,summoning_zone: @summoning_zone.to_s)
+    player_save_state.save
   end
 
   def print_selectable_hash_of_unliving_minions_who_can_attack

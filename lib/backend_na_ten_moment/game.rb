@@ -75,11 +75,28 @@ class Game
     player.manapool.empty
   end
 
-  def add_player(player_name, max_mana: 0, summoning_zone: nil)
+  def add_player(player_name: '', max_mana: 0, summoning_zone: nil, from_db: false, db_record: [])
     raise DuplicatePlayerError unless @players.filter { |player| player.name == player_name }.empty?
 
-    starting_zone = summoning_zone.nil? ? @board.grab_a_starting_summoning_zone : summoning_zone
-    @players << Player.new(name: player_name, mana: max_mana, summoning_zone: starting_zone)
+    if from_db
+      starting_zone = if summoning_zone != ''
+                        summoning_zone
+                      elsif db_record["summoning_zone"] == ''
+                        summoning_zone.nil? ? @board.grab_a_starting_summoning_zone : summoning_zone
+                      else
+                        Calculations.to_a(db_record["summoning_zone"])
+                      end
+      player = PvpPlayers.find_by(name: "#{db_record['name']}")
+      player.update(summoning_zone: starting_zone)
+      player_to_add = Player.new(summoning_zone: starting_zone,from_db: true, db_record: db_record)
+      @players << player_to_add
+
+    else
+      starting_zone = summoning_zone.nil? ? @board.grab_a_starting_summoning_zone : summoning_zone
+      player_to_add = Player.new(name: player_name, mana: max_mana, summoning_zone: starting_zone)
+      @players << player_to_add
+      player_to_add.save
+    end
   end
 
   # returns summoned minion

@@ -20,10 +20,10 @@ class Field
       @position = Position.new(x, y)
       @offset = offset
       @status = status
-      @occupant = occupant
       @terrain = terrain
       @obstacle = obstacle
     end
+    @occupant = occupant
   end
 
   def update_occupant(new_occupant)
@@ -33,11 +33,9 @@ class Field
   end
 
   def make_json
-    temp_occupant = set_occupant
     field_json = {
       position: @position.make_json,
       status: @status,
-      occupant: temp_occupant,
       terrain: @terrain,
       obstacle: @obstacle,
       offset: @offset
@@ -64,11 +62,11 @@ class Field
   def assign_instance_variables_from_hash(hash_of_field)
     @offset = hash_of_field['offset']
     @status = hash_of_field['status']
-    @occupant = if hash_of_field['occupant'] != ''
-                  Minion.new(minion_json: hash_of_field['occupant'])
-                else
-                  ''
-                end
+    # @occupant = if hash_of_field['occupant'] != ''
+    #               Minion.new(minion_json: hash_of_field['occupant'])
+    #             else
+    #               ''
+    #             end
     @terrain = hash_of_field['terrain']
     @obstacle = hash_of_field['obstacle']
     @offset = hash_of_field['offset']

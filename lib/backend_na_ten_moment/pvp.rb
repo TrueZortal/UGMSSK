@@ -14,9 +14,21 @@ class Pvp
             else
               Game.new(board_size, uniform: false)
             end
-    @players = players
     @random = enable_randomness
-    populate_players
+
+    if PvpPlayers.all.size.positive?
+        PvpPlayers.all.each do |player|
+          if @random
+            @game.add_player(from_db: true, db_record: player)
+          else
+            @game.add_player(summoning_zone: @game.board.array_of_coordinates, from_db: true, db_record: player)
+          end
+        end
+    else
+      @players = players
+      populate_players
+
+    end
     # show_boardstate
     # gameplay_loop
     # resolve_skirmish
@@ -33,9 +45,9 @@ class Pvp
       # mana = Input.get.to_i
       mana = 10
       if @random
-        @game.add_player(name, max_mana: mana)
+        @game.add_player(player_name: name, max_mana: mana)
       else
-        @game.add_player(name, max_mana: mana, summoning_zone: @game.board.array_of_coordinates)
+        @game.add_player(player_name: name, max_mana: mana, summoning_zone: @game.board.array_of_coordinates)
       end
     end
   end

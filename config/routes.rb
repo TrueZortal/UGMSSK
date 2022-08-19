@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root 'games#start'
   get '/reset', to: 'games#reset'
-  get '/saveboard', to: 'games#save_state'
+  get '/add_player', to: 'games#add_player'
+  get '/remove_player', to: 'games#remove_player'
   resources :board_states
 end

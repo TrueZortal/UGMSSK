@@ -9,7 +9,7 @@ require 'minitest/autorun'
 class GameTest < Minitest::Test
   def test_a_minion_can_be_placed_on_board
     test_game = Game.new(3)
-    test_game.add_player('P1', max_mana: 5,
+    test_game.add_player(player_name:'P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
     skelly = test_game.place(owner: 'P1', type: 'skeleton', x: 1, y: 2)
     assert_equal 1, skelly.position.x
@@ -19,7 +19,7 @@ class GameTest < Minitest::Test
 
   def test_a_minion_cant_be_placed_out_of_bounds
     test_game = Game.new(3)
-    test_game.add_player('P1', max_mana: 5)
+    test_game.add_player(player_name:'P1', max_mana: 5)
     assert_raises(InvalidPositionError) do
       test_game.place(owner: 'P1', type: 'skeleton', x: 3, y: 2)
     end
@@ -27,7 +27,7 @@ class GameTest < Minitest::Test
 
   def test_a_minion_that_was_placed_exists_on_the_board
     test_game = Game.new(3)
-    test_game.add_player('P1', max_mana: 5,
+    test_game.add_player(player_name:'P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
     skelly = test_game.place(owner: 'P1', type: 'skeleton', x: 2, y: 2)
     test_field = Position.new(2, 2)
@@ -36,7 +36,7 @@ class GameTest < Minitest::Test
 
   def test_a_minion_can_move_from_a_field_to_a_field_and_does_not_exist_in_two_places_at_once
     test_game = Game.new(3)
-    test_game.add_player('P1', max_mana: 5,
+    test_game.add_player(player_name:'P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
     skellys_first_position = Position.new(1, 1)
     skelly = test_game.place(owner: 'P1', type: 'skeleton', x: 1, y: 1)
@@ -48,7 +48,7 @@ class GameTest < Minitest::Test
 
   def test_a_minions_position_updates_as_it_moves
     test_game = Game.new(3)
-    test_game.add_player('P1', max_mana: 5,
+    test_game.add_player(player_name:'P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
     skellys_first_position = Position.new(1, 1)
     skelly = test_game.place(owner: 'P1', type: 'skeleton', x: 1, y: 1)
@@ -60,7 +60,7 @@ class GameTest < Minitest::Test
 
   def test_a_minion_cannot_move_out_of_bounds
     test_game = Game.new(3)
-    test_game.add_player('P1', max_mana: 5,
+    test_game.add_player(player_name:'P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
     skelly = test_game.place(owner: 'P1', type: 'skeleton', x: 0, y: 0)
     assert_raises(InvalidPositionError) do
@@ -70,7 +70,7 @@ class GameTest < Minitest::Test
 
   def test_skeletons_can_only_move_1_square_diagonally_and_2_straight
     test_game = Game.new(4)
-    test_game.add_player('P1', max_mana: 5,
+    test_game.add_player(player_name:'P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [0, 3], [1, 0], [1, 1], [1, 2], [1, 3], [2, 0], [2, 1], [2, 2], [2, 3], [3, 0], [3, 1], [3, 2], [3, 3]])
     skelly = test_game.place(owner: 'P1', type: 'skeleton', x: 0, y: 0)
     target_field = Position.new(2, 2)
@@ -90,7 +90,7 @@ class GameTest < Minitest::Test
 
   def test_skeleton_cant_step_on_another_skeleton_or_move_to_an_occupied_square
     test_game = Game.new(3)
-    test_game.add_player('P1', max_mana: 5,
+    test_game.add_player(player_name:'P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
     skelly = test_game.place(owner: 'P1', type: 'skeleton', x: 0, y: 0)
     skellys_estranged_cousin_timmy = test_game.place(owner: 'P1', type: 'skeleton', x: 0, y: 1)
@@ -101,9 +101,9 @@ class GameTest < Minitest::Test
 
   def test_skeleton_can_only_attack_another_players_minion
     test_game = Game.new(3)
-    test_game.add_player('P1', max_mana: 5,
+    test_game.add_player(player_name:'P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
-    test_game.add_player('P2')
+    test_game.add_player(player_name:'P2')
     skelly = test_game.place(owner: 'P1', type: 'skeleton', x: 0, y: 0)
     skellys_sworn_enemy_kevin = test_game.place(owner: 'P1', type: 'skeleton', x: 0, y: 1)
     assert_raises(InvalidTargetError) do
@@ -113,9 +113,9 @@ class GameTest < Minitest::Test
 
   def test_skeleton_can_attack_within_1_square
     test_game = Game.new(3)
-    test_game.add_player('P1', max_mana: 5,
+    test_game.add_player(player_name:'P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
-    test_game.add_player('P2', max_mana: 5,
+    test_game.add_player(player_name:'P2', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
     skelly = test_game.place(owner: 'P1', type: 'skeleton', x: 0, y: 0)
     skellys_sworn_enemy_kevin = test_game.place(owner: 'P2', type: 'skeleton', x: 0, y: 1)
@@ -125,9 +125,9 @@ class GameTest < Minitest::Test
 
   def test_skeleton_cannot_attack_from_further_than_their_range
     test_game = Game.new(3)
-    test_game.add_player('P1', max_mana: 5,
+    test_game.add_player(player_name:'P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
-    test_game.add_player('P2', max_mana: 5,
+    test_game.add_player(player_name:'P2', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
     skelly = test_game.place(owner: 'P1', type: 'skeleton', x: 0, y: 0)
     skellys_sworn_enemy_kevin = test_game.place(owner: 'P2', type: 'skeleton', x: 0, y: 2)
@@ -138,7 +138,7 @@ class GameTest < Minitest::Test
 
   def test_skeleton_cant_attack_an_empty_field
     test_game = Game.new(3)
-    test_game.add_player('P1', max_mana: 5,
+    test_game.add_player(player_name:'P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
     skelly = test_game.place(owner: 'P1', type: 'skeleton', x: 0, y: 0)
     suspicious_patch_of_grass = Position.new(0, 1)
@@ -149,7 +149,7 @@ class GameTest < Minitest::Test
 
   def test_skeleton_cant_attack_an_out_of_bound_field
     test_game = Game.new(3)
-    test_game.add_player('P1', max_mana: 5,
+    test_game.add_player(player_name:'P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
     skelly = test_game.place(owner: 'P1', type: 'skeleton', x: 0, y: 0)
     assert_raises(InvalidPositionError) do
@@ -159,9 +159,9 @@ class GameTest < Minitest::Test
 
   def test_minion_with_0_hp_perishes
     test_game = Game.new(3)
-    test_game.add_player('P1', max_mana: 5,
+    test_game.add_player(player_name:'P1', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
-    test_game.add_player('P2', max_mana: 5,
+    test_game.add_player(player_name:'P2', max_mana: 5,
                                summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
     skelly = test_game.place(owner: 'P1', type: 'skeleton', x: 0, y: 0)
     skellys_sworn_enemy_kevin = test_game.place(owner: 'P2', type: 'skeleton', x: 0, y: 1)
@@ -180,30 +180,30 @@ class GameTest < Minitest::Test
 
   def test_game_can_have_players_added
     test_game = Game.new(3)
-    test_game.add_player('Mateusz')
-    test_game.add_player('Michal')
+    test_game.add_player(player_name:'Mateusz')
+    test_game.add_player(player_name:'Michal')
     assert_equal 2, test_game.players.size
   end
 
   def test_game_cant_have_two_players_with_same_name
     test_game = Game.new(3)
-    test_game.add_player('Mateusz')
+    test_game.add_player(player_name:'Mateusz')
     assert_raises(DuplicatePlayerError) do
-      test_game.add_player('Mateusz')
+      test_game.add_player(player_name:'Mateusz')
     end
   end
 
   def test_all_players_in_game_are_instances_of_player_class
     test_game = Game.new(3)
-    test_game.add_player('Mateusz')
-    test_game.add_player('Michal')
+    test_game.add_player(player_name:'Mateusz')
+    test_game.add_player(player_name:'Michal')
     assert(test_game.players.all? { |player| player.instance_of?(Player) })
   end
 
   def test_players_can_have_manapools_when_added
     test_game = Game.new(3)
-    test_game.add_player('Mateusz', max_mana: 5)
-    test_game.add_player('Michal', max_mana: 5)
+    test_game.add_player(player_name:'Mateusz', max_mana: 5)
+    test_game.add_player(player_name:'Michal', max_mana: 5)
     assert(test_game.players.all? { |player| player.mana != 0 })
   end
 
@@ -217,7 +217,7 @@ class GameTest < Minitest::Test
   def test_summoning_minions_costs_mana
     test_game = Game.new(3)
     test_player_name = 'Mateusz'
-    test_game.add_player(test_player_name, max_mana: 5,
+    test_game.add_player(player_name:test_player_name, max_mana: 5,
                                            summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
     test_game.place(owner: test_player_name, type: 'skeleton', x: 0, y: 0)
     assert_equal 4, test_game.players.select { |player| player.name == test_player_name }.first.mana
@@ -226,7 +226,7 @@ class GameTest < Minitest::Test
   def test_cant_summon_minions_with_insufficient_mana
     test_game = Game.new(3)
     test_player_name = 'Mateusz'
-    test_game.add_player(test_player_name, max_mana: 0,
+    test_game.add_player(player_name:test_player_name, max_mana: 0,
                                            summoning_zone: [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]])
     assert_raises(InsufficientManaError) do
       test_game.place(owner: test_player_name, type: 'skeleton', x: 0, y: 0)
@@ -236,7 +236,7 @@ class GameTest < Minitest::Test
   def test_cant_summon_minions_outside_of_your_summoning_zone
     test_game = Game.new(3)
     test_player_name = 'Mateusz'
-    test_game.add_player(test_player_name, max_mana: 5, summoning_zone: [[0, 0], [0, 1]])
+    test_game.add_player(player_name:test_player_name, max_mana: 5, summoning_zone: [[0, 0], [0, 1]])
     assert_raises(InvalidPositionError) do
       test_game.place(owner: test_player_name, type: 'skeleton', x: 2, y: 0)
     end
