@@ -8,9 +8,9 @@ class Player
 
   def initialize(name: '', mana: 0, summoning_zone: [], from_db: false, db_record: [])
     if from_db
-      @name = db_record["name"]
-      @manapool = ManaPool.new(mana: db_record["max_mana"])
-      @manapool.mana = db_record["mana"]
+      @name = db_record['name']
+      @manapool = ManaPool.new(mana: db_record['max_mana'])
+      @manapool.mana = db_record['mana']
     else
       @name = name
       @manapool = ManaPool.new(mana: mana) # tu tu tururu
@@ -42,7 +42,8 @@ class Player
   end
 
   def save(game_id: nil)
-    player_save_state = PvpPlayers.new(game_id: game_id, name: @name, mana: @manapool.mana, max_mana: @manapool.max,summoning_zone: @summoning_zone.to_s)
+    player_save_state = PvpPlayers.new(game_id: game_id, name: @name, mana: @manapool.mana, max_mana: @manapool.max,
+                                       summoning_zone: @summoning_zone.to_s)
     player_save_state.save
   end
 

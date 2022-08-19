@@ -71,8 +71,8 @@ class GenerateBoard
       size_of_board_edge: @size_of_board_edge,
       fields: make_json_of_fields
     }
-    json_representation_of_board = JSON.generate(board_json)
-    json_representation_of_board
+    JSON.generate(board_json)
+
     # board_json
   end
 

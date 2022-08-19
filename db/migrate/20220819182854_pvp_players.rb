@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PvpPlayers < ActiveRecord::Migration[7.0]
   def change
     create_table :pvp_players do |t|

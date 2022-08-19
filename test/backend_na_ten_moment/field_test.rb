@@ -27,10 +27,9 @@ class FieldTest < Minitest::Test
   end
 
   # def test_field_with_a_minion_can_be_recreated_from_json
-  #   # rubocop:disable all
+  #
   #   field_json = "{\"position\":\"{\\\"x\\\":0,\\\"y\\\":0,\\\"to_a\\\":[0,0]}\",\"status\":\"empty\",\"occupant\":\"{\\\"position\\\":\\\"{\\\\\\\"x\\\\\\\":0,\\\\\\\"y\\\\\\\":0,\\\\\\\"to_a\\\\\\\":[0,0]}\\\",\\\"owner\\\":\\\"Player1\\\",\\\"type\\\":\\\"skeleton\\\",\\\"health\\\":5}\",\"terrain\":\"grass\",\"obstacle\":false,\"offset\":\"-128px -0px\"}"
-  #   # rubocop:enable all
-  #   test_field = Field.new(field_json: field_json)
+  #     #   test_field = Field.new(field_json: field_json)
   #   assert_equal test_field.make_json, field_json
   # end
 end

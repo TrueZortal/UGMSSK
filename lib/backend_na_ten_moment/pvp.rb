@@ -17,13 +17,13 @@ class Pvp
     @random = enable_randomness
 
     if from_db
-        PvpPlayers.all.each do |player|
-          if @random
-            @game.add_player(from_db: true, db_record: player)
-          else
-            @game.add_player(summoning_zone: @game.board.array_of_coordinates, from_db: true, db_record: player)
-          end
+      PvpPlayers.all.each do |player|
+        if @random
+          @game.add_player(from_db: true, db_record: player)
+        else
+          @game.add_player(summoning_zone: @game.board.array_of_coordinates, from_db: true, db_record: player)
         end
+      end
     else
       @players = players
       populate_players

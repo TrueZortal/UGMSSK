@@ -31,9 +31,9 @@ class Game
   def initialize(size_of_board, uniform: true, board_json: '')
     @board = if board_json != ''
                Board.new(size_of_board, uniform: uniform, board_json: board_json)
-              else
-                Board.new(size_of_board, uniform: uniform)
-              end
+             else
+               Board.new(size_of_board, uniform: uniform)
+             end
     # reassign_minions_to_owners
     @log = Battlelog.new
     @players = []
@@ -81,14 +81,14 @@ class Game
     if from_db
       starting_zone = if summoning_zone != ''
                         summoning_zone
-                      elsif db_record["summoning_zone"] == ''
+                      elsif db_record['summoning_zone'] == ''
                         summoning_zone.nil? ? @board.grab_a_starting_summoning_zone : summoning_zone
                       else
-                        Calculations.to_a(db_record["summoning_zone"])
+                        Calculations.to_a(db_record['summoning_zone'])
                       end
-      player = PvpPlayers.find_by(name: "#{db_record['name']}")
+      player = PvpPlayers.find_by(name: (db_record['name']).to_s)
       player.update(summoning_zone: starting_zone)
-      player_to_add = Player.new(summoning_zone: starting_zone,from_db: true, db_record: db_record)
+      player_to_add = Player.new(summoning_zone: starting_zone, from_db: true, db_record: db_record)
       @players << player_to_add
 
     else

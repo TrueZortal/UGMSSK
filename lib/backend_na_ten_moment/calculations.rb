@@ -18,10 +18,9 @@ class Calculations
     else
       array = []
       string.split('], [').to_a.each do |coord|
-        array << coord.gsub(/[^,0-9]/,'').split(',').map(&:to_i)
+        array << coord.gsub(/[^,0-9]/, '').split(',').map(&:to_i)
       end
       array
     end
-
   end
 end

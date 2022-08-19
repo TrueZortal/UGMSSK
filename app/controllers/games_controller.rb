@@ -3,9 +3,9 @@
 class GamesController < ApplicationController
   def start
     if BoardState.count.zero?
-      existing_board_state =  ''
+      existing_board_state = ''
       @match = Pvp.new(players: 2, board_size: 8, uniform: false, enable_randomness: false,
-        board_json: existing_board_state)
+                       board_json: existing_board_state)
     else
       existing_board_state = BoardState.order(created_at: :desc).first['board']
       @match = Pvp.new(enable_randomness: false, from_db: true, board_json: existing_board_state)
@@ -29,17 +29,15 @@ class GamesController < ApplicationController
 
   def add_player
     if PvpPlayers.all.size >= 2 && PvpPlayers.all.size < 4
-      added_player = PvpPlayers.new(name:"Player#{PvpPlayers.all.size + 1}", mana: 10, max_mana: 10, summoning_zone:'')
+      added_player = PvpPlayers.new(name: "Player#{PvpPlayers.all.size + 1}", mana: 10, max_mana: 10,
+                                    summoning_zone: '')
       added_player.save
     end
     redirect_to root_url
   end
 
   def remove_player
-    if PvpPlayers.all.size > 2 && PvpPlayers.all.size <= 4
-      PvpPlayers.last.destroy
-    end
+    PvpPlayers.last.destroy if PvpPlayers.all.size > 2 && PvpPlayers.all.size <= 4
     redirect_to root_url
   end
-
 end
