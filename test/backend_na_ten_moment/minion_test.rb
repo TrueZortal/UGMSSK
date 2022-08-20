@@ -4,25 +4,19 @@ require 'minitest/autorun'
 # require_relative 'minion'
 
 class MinionTest < Minitest::Test
-  def test_can_create_a_new_minion_object_without_type_and_space
-    skelly = Minion.new
-    assert_nil skelly.position.x
-    assert_nil skelly.position.y
-  end
-
   def test_minion_can_be_placed_anywhere_if_not_connected_to_a_board
     skelly = Minion.new(x: 7, y: 1000)
     assert_equal 1000, skelly.position.y
   end
 
   def test_minion_can_be_assigned_an_owner
-    skelly = Minion.new(owner: 'Mateusz')
+    skelly = Minion.new(owner: 'Mateusz',x:0,y:0)
     assert_equal 'Mateusz', skelly.owner
   end
 
   def test_a_skeleton_minion_has_correct_default_values_when_created
     # skip
-    skelly = Minion.new(type: 'skeleton')
+    skelly = Minion.new(type: 'skeleton',x:0,y:0)
     assert_equal 1, skelly.attack
     assert_equal 0, skelly.defense
     assert_equal 5, skelly.health
@@ -46,7 +40,7 @@ class MinionTest < Minitest::Test
   end
 
   def test_minion_can_be_recreated_from_json
-    minion_json = Minion.new.make_json
+    minion_json = Minion.new(x:0,y:0).make_json
     test_minion = Minion.new(minion_json: minion_json)
     assert_equal test_minion.make_json, minion_json
   end

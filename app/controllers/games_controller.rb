@@ -13,7 +13,13 @@ class GamesController < ApplicationController
 
     @board = @match.game.board
     @game = @match.game
-    @game.place(owner: 'Player1', type: 'skeleton', x: 0, y: 0)
+
+    if SummonedMinion.count.positive?
+      SummonedMinion.all.each do |summoned_minion|
+        @game.place(from_db: true, db_record: summoned_minion)
+      end
+    end
+    # @game.place(owner: 'Player1', type: 'skeleton', x: 0, y: 0)
     # @game.place(owner: 'Player2', type: 'skeleton archer', x: 1, y: 1)
     # @game.place(owner: 'Player1', type: 'skeleton archer', x: 2, y: 2)
     # @game.place(owner: 'Player1', type: 'skeleton', x: 0, y: 2)

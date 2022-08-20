@@ -34,7 +34,7 @@ class Minion
   attr_accessor :attack, :defense, :health, :speed, :initiative, :range, :position
   attr_reader :mana_cost, :owner, :type, :current_health, :symbol, :fields_with_enemies_in_range
 
-  def initialize(x: nil, y: nil, owner: '', type: 'skeleton', board: nil, minion_json: '', from_db: false, db_record:'')
+  def initialize(x: 0, y: 0, owner: '', type: 'skeleton', board: nil, minion_json: '', from_db: false, db_record:'')
     raise ArgumentError unless @@MINION_DATA.keys.include?(type.to_sym)
 
     @minion_json = minion_json
@@ -53,6 +53,7 @@ class Minion
       @type = type
       @max_health = @@MINION_DATA[@type.to_sym][:health]
       @health = @max_health
+      save_state
     end
     @current_health = "#{@health}/#{@max_health}"
     @symbol = @@MINION_DATA[@type.to_sym][:symbol]
@@ -62,7 +63,6 @@ class Minion
     @initiative = @@MINION_DATA[@type.to_sym][:initiative]
     @range = @@MINION_DATA[@type.to_sym][:range]
     @mana_cost = @@MINION_DATA[@type.to_sym][:mana_cost]
-    # save_state
     #----- The below should most likely be removed to another class not be part of Minion class -----
     update_board(board)
   end
