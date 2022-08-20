@@ -1,0 +1,2 @@
+class SummonedMinion < ApplicationRecord
+end

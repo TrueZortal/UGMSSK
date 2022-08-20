@@ -101,20 +101,27 @@ class Game
 
   # returns summoned minion
   # rubocop:disable Naming Naming/MethodParameterName
-  def place(owner: '', type: '', x: nil, y: nil)
+  def place(owner: '', type: '', x: nil, y: nil, from_db: false, db_record: '')
     # rubocop:enable Naming Naming/MethodParameterName
 
     raise UnknownPlayerError unless validate_owner(owner)
 
     raise InvalidPositionError unless validate_coordinates(x, y) && validate_owner_summoning_zone(owner, x, y)
 
-    summoned_minion = Minion.new(owner: owner, type: type, x: x, y: y, board: @board)
-    minion_owner = find_owner_object_from_name(owner)
+    if from_db
+      summoned_minion = Minion.new(from_db: true, db_record: db_record, board: @board)
+      minion_owner = find_owner_object_from_name(db_record['owner'])
+    else
+      summoned_minion = Minion.new(owner: owner, type: type, x: x, y: y, board: @board)
+      minion_owner = find_owner_object_from_name(owner)
+    end
+
     raise InsufficientManaError unless validate_owner_sufficient_mana(minion_owner, summoned_minion)
 
     update_owner_status_after_summoning(minion_owner, summoned_minion)
     @log.place(summoned_minion, minion_owner.mana)
     @board.state[x][y].update_occupant(summoned_minion)
+    # p summoned_minion.class
     summoned_minion
   end
 

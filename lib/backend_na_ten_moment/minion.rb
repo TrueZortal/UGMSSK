@@ -34,12 +34,18 @@ class Minion
   attr_accessor :attack, :defense, :health, :speed, :initiative, :range, :position
   attr_reader :mana_cost, :owner, :type, :current_health, :symbol, :fields_with_enemies_in_range
 
-  def initialize(x: nil, y: nil, owner: '', type: 'skeleton', board: nil, minion_json: '')
+  def initialize(x: nil, y: nil, owner: '', type: 'skeleton', board: nil, minion_json: '', from_db: false, db_record:'')
     raise ArgumentError unless @@MINION_DATA.keys.include?(type.to_sym)
 
     @minion_json = minion_json
-    if minion_json != ''
-      from_json
+    # if minion_json != ''
+    #   from_json
+    #   @max_health = @@MINION_DATA[@type.to_sym][:health]
+    if from_db
+      @position = Position.new(db_record['x_position'],db_record['y_position'])
+      @owner = db_record['owner']
+      @health = db_record['health']
+      @type = db_record['minion_type']
       @max_health = @@MINION_DATA[@type.to_sym][:health]
     else
       @position = Position.new(x, y)
@@ -56,8 +62,14 @@ class Minion
     @initiative = @@MINION_DATA[@type.to_sym][:initiative]
     @range = @@MINION_DATA[@type.to_sym][:range]
     @mana_cost = @@MINION_DATA[@type.to_sym][:mana_cost]
+    # save_state
     #----- The below should most likely be removed to another class not be part of Minion class -----
     update_board(board)
+  end
+
+  def save_state
+    minion_to_add = SummonedMinion.new(owner: @owner,minion_type: @type, health: @health, x_position: @position.x, y_position: @position.y)
+    minion_to_add.save
   end
 
   def make_json

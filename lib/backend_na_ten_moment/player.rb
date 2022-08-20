@@ -11,6 +11,7 @@ class Player
       @name = db_record['name']
       @manapool = ManaPool.new(mana: db_record['max_mana'])
       @manapool.mana = db_record['mana']
+      @mana = @manapool.mana
     else
       @name = name
       @manapool = ManaPool.new(mana: mana) # tu tu tururu
