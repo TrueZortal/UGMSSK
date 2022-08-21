@@ -29,6 +29,8 @@ class GamesController < ApplicationController
   def reset
     BoardState.destroy_all
     PvpPlayers.destroy_all
+    SummonedMinion.destroy_all
+    EventLog.destroy_all
     # PvpPlayers.connection.execute('ALTER SEQUENCE pvp_players_id RESTART WITH 0')
     redirect_to root_url
   end

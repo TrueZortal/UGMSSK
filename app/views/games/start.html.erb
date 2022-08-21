@@ -37,8 +37,8 @@
   </section>
   <section class = "innerpadding"></section>
   <section class = "combatlog">
-  <% @game.log.log.each do |line|%>
-    <h1><%=line%></h1>
+  <% EventLog.all.each do |line|%>
+    <h1><%=line['event']%></h1>
   <% end %>
   </section>
   <section class = "padding"></section>
