@@ -6,6 +6,7 @@ class GamesController < ApplicationController
       existing_board_state = ''
       @match = Pvp.new(players: 2, board_size: 8, uniform: false, enable_randomness: false,
                        board_json: existing_board_state)
+      @match.game.board.save_state
     else
       existing_board_state = BoardState.order(created_at: :desc).first['board']
       @match = Pvp.new(enable_randomness: false, from_db: true, board_json: existing_board_state)
@@ -23,7 +24,7 @@ class GamesController < ApplicationController
     # @game.place(owner: 'Player2', type: 'skeleton archer', x: 1, y: 1)
     # @game.place(owner: 'Player1', type: 'skeleton archer', x: 2, y: 2)
     # @game.place(owner: 'Player1', type: 'skeleton', x: 0, y: 2)
-    @board.save_state
+
   end
 
   def reset
