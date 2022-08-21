@@ -17,9 +17,8 @@ class Player
       @manapool = ManaPool.new(mana: mana) # tu tu tururu
       @mana = @manapool.mana
     end
-
-    @summoning_zone = summoning_zone
     @minions = []
+    @summoning_zone = summoning_zone
     @available_minions = ['skeleton', 'skeleton archer']
   end
 
@@ -77,6 +76,9 @@ class Player
   private
 
   def minion_list
+    @minions.each do |minion|
+        p minion.status
+    end
     newline_list = +''
     if @minions.empty?
       newline_list = ' none'

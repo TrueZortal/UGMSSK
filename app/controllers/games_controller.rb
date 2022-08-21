@@ -24,6 +24,11 @@ class GamesController < ApplicationController
     # @game.place(owner: 'Player2', type: 'skeleton archer', x: 1, y: 1)
     # @game.place(owner: 'Player1', type: 'skeleton archer', x: 2, y: 2)
     # @game.place(owner: 'Player1', type: 'skeleton', x: 0, y: 2)
+    @game.players.each do |player|
+      player.minions.each do |minion|
+       p minion.quick_status
+      end
+    end
 
   end
 

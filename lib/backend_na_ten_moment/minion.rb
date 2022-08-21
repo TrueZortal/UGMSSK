@@ -142,6 +142,10 @@ class Minion
     { pos: @position.to_a, type: @type, hp: @current_health, attack: @attack, defense: @defense }
   end
 
+  def quick_status
+    "#{@type} - hp:#{@current_health} - #{@position.to_a}"
+  end
+
   # This should not be implemented here
   def print_selectable_hash_of_available_targets
     generate_selectable_hash_of_available_targets
