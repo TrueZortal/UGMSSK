@@ -139,7 +139,7 @@ class Minion
   end
 
   def status
-    { pos: @position.to_a, type: @type, hp: @current_health, attack: @attack, defense: @defense }
+    { pos: @position.to_a, type: @type, hp: @current_health }
   end
 
   def quick_status

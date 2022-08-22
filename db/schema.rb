@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_21_092905) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_22_134133) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,6 +53,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_21_092905) do
     t.integer "health", null: false
     t.integer "x_position", null: false
     t.integer "y_position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "turn_trackers", force: :cascade do |t|
+    t.integer "game_id"
+    t.integer "turn_number"
+    t.string "player_name", null: false
+    t.boolean "complete", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

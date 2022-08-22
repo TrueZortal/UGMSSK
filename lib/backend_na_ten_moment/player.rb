@@ -26,6 +26,22 @@ class Player
     status = "\nMana:#{manapool.current} \nCurrent Minions:#{minion_list}"
   end
 
+  def available_options
+    # there are minions and they can attack
+    if !@minions.empty? && @minions.any?(&:can_attack)
+      options = ['summon', 'move', 'attack', 'concede', 'pass']
+    # the mana pool is empty
+    elsif @manapool.empty?
+      options = ['move', 'concede', 'pass']
+    # there are no minions
+    elsif @minions.empty?
+      options = ['summon', 'concede', 'pass']
+    # there are minions
+    elsif !@minions.empty?
+      options = ['summon', 'move', 'concede', 'pass']
+    end
+  end
+
   def add_minion(minion_instance)
     @mana = @manapool.mana
     @minions << minion_instance

@@ -74,6 +74,15 @@ body {
     visibility: visible;
   }
 
+  .playerlist {
+
+  }
+
+  .playerlist .player_column {
+    width: auto;
+    min-width: 100px;
+  }
+
   .field:hover {
   background-blend-mode: luminosity;
   -webkit-filter: grayscale(0.4);

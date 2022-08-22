@@ -20,15 +20,32 @@ class GamesController < ApplicationController
         @game.place(from_db: true, db_record: summoned_minion)
       end
     end
-    # @game.place(owner: 'Player1', type: 'skeleton', x: 0, y: 0)
+
+    #  @game.place(owner: 'Player1', type: 'skeleton', x: 0, y: 0)
     # @game.place(owner: 'Player2', type: 'skeleton archer', x: 1, y: 1)
-    # @game.place(owner: 'Player1', type: 'skeleton archer', x: 2, y: 2)
-    # @game.place(owner: 'Player1', type: 'skeleton', x: 0, y: 2)
-    @game.players.each do |player|
-      player.minions.each do |minion|
-       p minion.quick_status
+    # p TurnTracker.count
+
+    if TurnTracker.all.empty?
+      @game.players.shuffle.each do |player|
+        p player.name
+        player_turn = TurnTracker.new(player_name: player.name)
+        player_turn.save
       end
     end
+    @popped_player = TurnTracker.first['player_name']
+    TurnTracker.first.destroy
+
+    @current_player = @game.find_owner_object_from_name(@popped_player)
+    # p TurnTracker.count
+
+
+    # @game.place(owner: 'Player1', type: 'skeleton archer', x: 2, y: 2)
+    # @game.place(owner: 'Player1', type: 'skeleton', x: 0, y: 2)
+    # @game.players.each do |player|
+    #   player.minions.each do |minion|
+    #    p minion.quick_status
+    #   end
+    # end
 
   end
 
@@ -37,6 +54,7 @@ class GamesController < ApplicationController
     PvpPlayers.destroy_all
     SummonedMinion.destroy_all
     EventLog.destroy_all
+    TurnTracker.destroy_all
     # PvpPlayers.connection.execute('ALTER SEQUENCE pvp_players_id RESTART WITH 0')
     redirect_to root_url
   end

@@ -7,11 +7,23 @@
 <section class ="gameplayrow">
 <section class ="statusbox">
     <div class ="minionsandoptions">
-      <% @game.players.sort_by {|player| player.name}.each do |player| %>
-        <p class="centred_text"><%= "#{player.name} MANA:#{player.manapool.current}" %></p>
-        <p class="centred_text"><% player.minions.each do |minion|%></p>
-        <li class="smallcenteredtext"><%=minion.status%></li>
-        <%end%>
+      <table class = "playerlist">
+        <td><p>Players in game:</p></td>
+        <% @game.players.sort_by {|player| player.name}.each do |player| %>
+        <td class = "player_column">
+          <p class="centred_text"><%= "#{player.name} MANA:#{player.manapool.current}" %></p>
+          <p class="centred_text"><% player.minions.each do |minion|%></p>
+          <li class="smallcenteredtext"><%=minion.status%></li>
+        </td>
+          <%end%>
+        <% end %>
+      </table>
+    </div>
+    <div>
+      <h1>Current player:</h1>
+      <p><%= @current_player.name%></p>
+      <% @current_player.available_options.each do |option| %>
+      <button><%= option%></button>
       <% end %>
     </div>
   </section>
@@ -44,17 +56,9 @@
   <section class = "padding"></section>
   </section>
   <div class = "upperbar">
-    <%= form_with do |form| %>
-      <% @game.players do |player|%>
-          <% player.minions do |minion|%>
-            <%= form.radio_button :age, "child" %>
-            <%= form.label :age_child, "#{minion.quick_status}" %>
-          <% end %>
-        <% end %>
 
-      <%= form.number_field :price, in: 0..@board.upper_limit, step: 1 %>
-      <%= form.number_field :price, in: 0..@board.upper_limit, step: 1 %>
-    <% end %>
+
+
   </div>
 </body>
 

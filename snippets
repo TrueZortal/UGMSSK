@@ -1,0 +1,10 @@
+<%= form_with do |form| %>
+      <% @game.players do |player|%>
+          <% player.minions do |minion|%>
+            <%= form.radio_button :age, "child" %>
+            <%= form.label :age_child, "#{minion.quick_status}" %>
+          <% end %>
+        <% end %>
+        <%= form.number_field :price, in: 0..@board.upper_limit, step: 1 %>
+      <%= form.number_field :price, in: 0..@board.upper_limit, step: 1 %>
+    <% end %>

@@ -33,8 +33,8 @@ class MinionTest < Minitest::Test
     skelly = Minion.new(type: 'skeleton', x: 1, y: 1)
     enemy = Minion.new(type: 'skeleton', x: 1, y: 2)
     skelly.attack_action(enemy)
-    expected_enemy_status = { pos: [1, 2], type: 'skeleton', hp: '4/5', attack: 1, defense: 0 }
-    expected_skelly_status = { pos: [1, 1], type: 'skeleton', hp: '5/5', attack: 1, defense: 0 }
+    expected_enemy_status = { pos: [1, 2], type: 'skeleton', hp: '4/5'}
+    expected_skelly_status = { pos: [1, 1], type: 'skeleton', hp: '5/5'}
     assert_equal expected_enemy_status, enemy.status
     assert_equal expected_skelly_status, skelly.status
   end

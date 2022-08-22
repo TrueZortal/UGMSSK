@@ -136,6 +136,9 @@ class Game
     (@players - @players.filter { |player| player.manapool.empty? && player.minions.empty? })
   end
 
+  def find_owner_object_from_name(owner_name)
+    @players.filter { |player| player.name == owner_name }.first
+  end
   private
 
   def validate_target(from_position, to_position)
@@ -165,9 +168,6 @@ class Game
     minion_owner.mana >= summoned_minion.mana_cost
   end
 
-  def find_owner_object_from_name(owner_name)
-    @players.filter { |player| player.name == owner_name }.first
-  end
 
   def update_owner_status_after_summoning(minion_owner, summoned_minion)
     minion_owner.manapool.spend(summoned_minion.mana_cost)
