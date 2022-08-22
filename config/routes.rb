@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get '/reset', to: 'games#reset'
   get '/add_player', to: 'games#add_player'
   get '/remove_player', to: 'games#remove_player'
-  resources :summoned_minions
+  resources :summoned_minions do
+    post :update_attack, on: :member
+  end
   resources :board_states
 end

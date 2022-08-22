@@ -54,7 +54,8 @@
   </section>
   <section class = "padding"></section>
   </section>
-  <div class = "upperbar">
+
+  <div class = "summon">
     <%= form_with model: SummonedMinion.new do |form| %>
       <%= form.hidden_field :owner, value: "#{@current_player.name}" %>
       <% @current_player.available_minions.each do |minion|%>
@@ -68,13 +69,28 @@
     <% end %>
   </div>
 
-  <div class = "upperbar">
+  <div class = "move">
     <% @current_player.db_minions.each do |minion|%>
       <%= form_with model: minion do |form| %>
         <%= form.hidden_field :owner, value: "#{@current_player.name}" %>
         <%= form.label :x_position, "Position X,Y for #{minion.minion_type} at" %>
         <%= form.number_field :x_position, in: 0..@board.upper_limit, step: 1 %>
         <%= form.number_field :y_position, in: 0..@board.upper_limit, step: 1 %>
+        <%= form.submit "submit"%>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class = "attack">
+    <% @current_player.db_minions_who_can_attack.each do |minion|%>
+    <p><%= "#{minion['minion_type']} from #{minion['x_position']},#{minion['y_position']} can attack:"%></p>
+      <%= form_with url: update_attack_summoned_minion_path(id: minion['id']) do |form| %>
+      <%= form.hidden_field :minion_type, value: "#{minion['minion_type']}" %>
+        <% @game.find_object_from_x_y_coordinates(minion['x_position'],minion['y_position']).find_db_entries_of_enemies_in_range.each do |target|%>
+          <%= form.hidden_field :target_id, value: "#{target['id']}" %>
+          <%= form.radio_button :minion_target, "#{target}" %>
+          <%= form.label :minion_target, "#{target['minion_type']} at #{target['x_position']},#{target['y_position']}" %>
+        <% end %>
         <%= form.submit "submit"%>
       <% end %>
     <% end %>

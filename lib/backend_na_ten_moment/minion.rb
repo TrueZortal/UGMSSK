@@ -42,11 +42,16 @@ class Minion
     #   from_json
     #   @max_health = @@MINION_DATA[@type.to_sym][:health]
     if from_db
-      @position = Position.new(db_record['x_position'],db_record['y_position'])
-      @owner = db_record['owner']
-      @health = db_record['health']
-      @type = db_record['minion_type']
-      @max_health = @@MINION_DATA[@type.to_sym][:health]
+      if db_record['health'].zero?
+        db_record.destroy
+      else
+        @position = Position.new(db_record['x_position'],db_record['y_position'])
+        @owner = db_record['owner']
+        @health = db_record['health']
+        @type = db_record['minion_type']
+        @max_health = @@MINION_DATA[@type.to_sym][:health]
+      end
+
     else
       @position = Position.new(x, y)
       @owner = owner
@@ -155,6 +160,10 @@ class Minion
     !@fields_with_enemies_in_range.empty?
   end
 
+  def find_db_entries_of_enemies_in_range
+    @fields_with_enemies_in_range.map { |field| SummonedMinion.where(x_position: field.position.x, y_position: field.position.y)}.flatten
+  end
+
   private
 
   def find_and_update_fields_in_attack_range
@@ -190,6 +199,7 @@ class Minion
     end
     @fields_with_enemies_in_range
   end
+
 
   # This should not be implemented here
   def check_if_interaction_with_field_is_not_blocked_by_obstacles(array_of_fields)

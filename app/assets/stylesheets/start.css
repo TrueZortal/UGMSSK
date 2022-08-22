@@ -109,6 +109,17 @@ body {
     width: 20px;
   }
 
+.summon {
+  /* visibility: hidden; */
+}
+
+.move {
+  /* visibility: hidden; */
+}
+
+.attack {
+  /* visibility: hidden; */
+}
 
 
 

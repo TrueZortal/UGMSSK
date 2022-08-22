@@ -49,6 +49,14 @@ class Player
     @db_minions = SummonedMinion.where owner: @name
   end
 
+  def db_minions_who_can_attack
+    array_of_records_of_minions_who_can_attack = []
+    @minions.select(&:can_attack).each do |minion|
+      array_of_records_of_minions_who_can_attack << SummonedMinion.where(x_position: minion.position.x, y_position: minion.position.y)
+    end
+    p array_of_records_of_minions_who_can_attack.flatten
+  end
+
   def print_selectable_hash_of_unliving_minions
     @minion_menu = {}
     @minions.each_with_index do |minion, index|

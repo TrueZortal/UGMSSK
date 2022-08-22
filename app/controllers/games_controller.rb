@@ -27,7 +27,7 @@ class GamesController < ApplicationController
 
     if TurnTracker.all.empty?
       @game.players.shuffle.each do |player|
-        p player.name
+        # p player.name
         player_turn = TurnTracker.new(player_name: player.name)
         player_turn.save
       end

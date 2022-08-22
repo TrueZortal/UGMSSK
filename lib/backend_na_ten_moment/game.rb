@@ -139,6 +139,10 @@ class Game
   def find_owner_object_from_name(owner_name)
     @players.filter { |player| player.name == owner_name }.first
   end
+
+  def find_object_from_x_y_coordinates(x_coordinate, y_coordinate)
+    check_field(Position.new(x_coordinate,y_coordinate)).occupant
+  end
   private
 
   def validate_target(from_position, to_position)
