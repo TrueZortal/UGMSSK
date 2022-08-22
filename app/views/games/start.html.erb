@@ -8,7 +8,6 @@
 <section class ="statusbox">
     <div class ="minionsandoptions">
       <table class = "playerlist">
-        <td><p>Players in game:</p></td>
         <% @game.players.sort_by {|player| player.name}.each do |player| %>
         <td class = "player_column">
           <p class="centred_text"><%= "#{player.name} MANA:#{player.manapool.current}" %></p>
@@ -56,10 +55,31 @@
   <section class = "padding"></section>
   </section>
   <div class = "upperbar">
-
-
-
+    <%= form_with model: SummonedMinion.new do |form| %>
+      <%= form.hidden_field :owner, value: "#{@current_player.name}" %>
+      <% @current_player.available_minions.each do |minion|%>
+        <%= form.radio_button :minion_type, "#{minion}" %>
+        <%= form.label :minion_type, "#{minion}" %>
+      <% end %>
+      <%= form.label :x_position, "Position X,Y" %>
+      <%= form.number_field :x_position, in: 0..@board.upper_limit, step: 1 %>
+      <%= form.number_field :y_position, in: 0..@board.upper_limit, step: 1 %>
+      <%= form.submit "submit"%>
+    <% end %>
   </div>
+
+  <div class = "upperbar">
+    <% @current_player.db_minions.each do |minion|%>
+      <%= form_with model: minion do |form| %>
+        <%= form.hidden_field :owner, value: "#{@current_player.name}" %>
+        <%= form.label :x_position, "Position X,Y for #{minion.minion_type} at" %>
+        <%= form.number_field :x_position, in: 0..@board.upper_limit, step: 1 %>
+        <%= form.number_field :y_position, in: 0..@board.upper_limit, step: 1 %>
+        <%= form.submit "submit"%>
+      <% end %>
+    <% end %>
+  </div>
+
 </body>
 
 

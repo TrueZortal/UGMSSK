@@ -4,7 +4,7 @@ require_relative 'mana_pool'
 
 class Player
   attr_reader :name
-  attr_accessor :manapool, :mana, :minions, :available_minions, :summoning_zone
+  attr_accessor :manapool, :mana, :minions, :available_minions, :summoning_zone, :db_minions
 
   def initialize(name: '', mana: 0, summoning_zone: [], from_db: false, db_record: [])
     if from_db
@@ -18,6 +18,7 @@ class Player
       @mana = @manapool.mana
     end
     @minions = []
+    @db_minions = SummonedMinion.where owner: @name
     @summoning_zone = summoning_zone
     @available_minions = ['skeleton', 'skeleton archer']
   end
@@ -45,6 +46,7 @@ class Player
   def add_minion(minion_instance)
     @mana = @manapool.mana
     @minions << minion_instance
+    @db_minions = SummonedMinion.where owner: @name
   end
 
   def print_selectable_hash_of_unliving_minions
