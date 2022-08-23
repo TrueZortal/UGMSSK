@@ -42,16 +42,11 @@ class Minion
     #   from_json
     #   @max_health = @@MINION_DATA[@type.to_sym][:health]
     if from_db
-      if db_record['health'].zero?
-        db_record.destroy
-      else
         @position = Position.new(db_record['x_position'],db_record['y_position'])
         @owner = db_record['owner']
         @health = db_record['health']
         @type = db_record['minion_type']
         @max_health = @@MINION_DATA[@type.to_sym][:health]
-      end
-
     else
       @position = Position.new(x, y)
       @owner = owner

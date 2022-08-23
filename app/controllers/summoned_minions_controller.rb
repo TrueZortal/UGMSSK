@@ -21,7 +21,7 @@ class SummonedMinionsController < ApplicationController
   end
 
   def update
-    p params
+    # p params
     minion_params = params['summoned_minion']
     # puts  "MINION ID MINION ID#{params['id']} MINION ID MINION ID"
     minion = SummonedMinion.find params['id']
@@ -39,13 +39,9 @@ class SummonedMinionsController < ApplicationController
       'skeleton archer': { mana_cost: 2, symbol: 'a', health: 2, attack: 2, defense: 0, speed: 1, initiative: 3,
                            range: 3 }
     }
-    p params['minion_type']
-    minion_params = params['summoned_minion']
     target = SummonedMinion.find params['target_id']
-    # p minion_params['minion_type']
-    p minion_data
     health_after_damage = target['health'] - minion_data[params['minion_type'].to_sym][:attack]
-    p health_after_damage
     target.update(health: health_after_damage)
+    redirect_to root_url
   end
 end

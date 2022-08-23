@@ -17,7 +17,11 @@ class GamesController < ApplicationController
 
     if SummonedMinion.count.positive?
       SummonedMinion.all.each do |summoned_minion|
-        @game.place(from_db: true, db_record: summoned_minion)
+        if summoned_minion['health'].positive?
+          @game.place(from_db: true, db_record: summoned_minion)
+        else
+          summoned_minion.destroy
+        end
       end
     end
 
@@ -60,7 +64,7 @@ class GamesController < ApplicationController
   end
 
   def add_player
-    if PvpPlayers.all.size >= 2 && PvpPlayers.all.size < 4
+    if PvpPlayers.all.size < 4
       added_player = PvpPlayers.new(name: "Player#{PvpPlayers.all.size + 1}", mana: 10, max_mana: 10,
                                     summoning_zone: '')
       added_player.save
@@ -69,7 +73,7 @@ class GamesController < ApplicationController
   end
 
   def remove_player
-    PvpPlayers.last.destroy if PvpPlayers.all.size > 2 && PvpPlayers.all.size <= 4
+    PvpPlayers.last.destroy if PvpPlayers.all.size > 2
     redirect_to root_url
   end
 end

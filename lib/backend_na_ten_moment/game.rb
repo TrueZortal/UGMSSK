@@ -172,10 +172,15 @@ class Game
     minion_owner.mana >= summoned_minion.mana_cost
   end
 
+  def find_owner_record_from_name(owner_name)
+    PvpPlayers.find_by(name: owner_name)
+  end
 
   def update_owner_status_after_summoning(minion_owner, summoned_minion)
     minion_owner.manapool.spend(summoned_minion.mana_cost)
+    mana_after = minion_owner.mana - summoned_minion.mana_cost
     minion_owner.add_minion(summoned_minion)
+    find_owner_record_from_name(minion_owner.name).update(mana: mana_after)
   end
 
   def check_field(position)
@@ -197,7 +202,6 @@ class Game
     minion_owner.minions.delete(minion)
   end
 
-  # need to rewrite this for actual position objects
   def different_owners(position, second_position)
     check_field(position).occupant.owner != check_field(second_position).occupant.owner
   end
