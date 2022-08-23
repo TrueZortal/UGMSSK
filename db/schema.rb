@@ -10,9 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_23_152046) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_23_181134) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "board_fields", force: :cascade do |t|
+    t.integer "game_id"
+    t.integer "x_position", null: false
+    t.integer "y_position", null: false
+    t.string "status"
+    t.string "occupant_type"
+    t.integer "occupant_id", null: false
+    t.string "terrain", null: false
+    t.boolean "obstacle", null: false
+    t.string "offset", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "board_states", force: :cascade do |t|
     t.text "board"
@@ -57,6 +71,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_23_152046) do
     t.string "summoning_zone", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "available_actions", default: [], array: true
   end
 
   create_table "summoned_minions", force: :cascade do |t|
@@ -68,15 +83,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_23_152046) do
     t.integer "y_position", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "can_attack", default: false
   end
 
   create_table "turn_trackers", force: :cascade do |t|
     t.integer "game_id"
     t.integer "turn_number"
-    t.string "player_name", null: false
     t.boolean "complete", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "player_id"
   end
 
 end

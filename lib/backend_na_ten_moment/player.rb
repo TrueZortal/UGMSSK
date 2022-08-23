@@ -3,11 +3,12 @@
 require_relative 'mana_pool'
 
 class Player
-  attr_reader :name
+  attr_reader :name, :id
   attr_accessor :manapool, :mana, :minions, :available_minions, :summoning_zone, :db_minions
 
   def initialize(name: '', mana: 0, summoning_zone: [], from_db: false, db_record: [])
     if from_db
+      @id = db_record['id']
       @name = db_record['name']
       @manapool = ManaPool.new(mana: db_record['max_mana'])
       @manapool.mana = db_record['mana']
@@ -27,19 +28,31 @@ class Player
     status = "\nMana:#{manapool.current} \nCurrent Minions:#{minion_list}"
   end
 
+  def minions?
+    SummonedMinion.where("owner_id = ?", @id).empty?
+  end
+
+  def minions_who_can_attack?
+    !SummonedMinion.where("owner_id = ? and can_attack = ?", @id, true).empty?
+  end
+
+  def mana?
+    PvpPlayers.find(@id).mana > 0
+  end
+
   def available_options
     # there are minions and they can attack
-    if !@minions.empty? && @minions.any?(&:can_attack)
-      options = ['summon', 'move', 'attack', 'concede', 'pass']
+    if !minions? && minions_who_can_attack?
+      PvpPlayers.find(@id)['available_actions'] = ['summon', 'move', 'attack', 'concede', 'pass']
     # the mana pool is empty
-    elsif @manapool.empty?
-      options = ['move', 'concede', 'pass']
+    elsif mana?
+      PvpPlayers.find(@id)['available_actions'] = ['move', 'concede', 'pass']
     # there are no minions
-    elsif @minions.empty?
-      options = ['summon', 'concede', 'pass']
+    elsif minions?
+      PvpPlayers.find(@id)['available_actions'] = ['summon', 'concede', 'pass']
     # there are minions
-    elsif !@minions.empty?
-      options = ['summon', 'move', 'concede', 'pass']
+    elsif !minions?
+      PvpPlayers.find(@id)['available_actions'] = ['summon', 'move', 'concede', 'pass']
     end
   end
 

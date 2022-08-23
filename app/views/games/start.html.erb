@@ -8,11 +8,11 @@
 <section class ="statusbox">
     <div class ="minionsandoptions">
       <table class = "playerlist">
-        <% @game.players.sort_by {|player| player.name}.each do |player| %>
+        <% PvpPlayers.all.sort { |a,b| a.id <=> b.id }.each do |player| %>
         <td class = "player_column">
-          <p class="centred_text"><%= "#{player.name} MANA:#{player.manapool.current}" %></p>
-          <p class="centred_text"><% player.minions.each do |minion|%></p>
-          <li class="smallcenteredtext"><%=minion.status%></li>
+          <p class="centred_text"><%= "#{player.name} MANA:#{player.mana}/#{player.max_mana}" %></p>
+          <p class="centred_text"><% SummonedMinion.where("owner_id = ?", player.id).each do |minion|%></p>
+          <li class="smallcenteredtext"><%="#{minion.minion_type}, @[#{minion.x_position},#{minion.y_position}] Health: #{minion.health}/#{MinionStat.find_by(minion_type: minion.minion_type).health}"%></li>
         </td>
           <%end%>
         <% end %>
@@ -20,8 +20,8 @@
     </div>
     <div>
       <h1>Current player:</h1>
-      <p><%= @current_player.name%></p>
-      <% @current_player.available_options.each do |option| %>
+      <p><%= @current_player['name']%></p>
+        <% @current_player['available_actions'].each do |option| %>
       <button><%= option%></button>
       <% end %>
     </div>
@@ -57,10 +57,10 @@
 
   <div class = "summon">
     <%= form_with model: SummonedMinion.new do |form| %>
-      <%= form.hidden_field :owner, value: "#{@current_player.name}" %>
-      <% @current_player.available_minions.each do |minion|%>
-        <%= form.radio_button :minion_type, "#{minion}" %>
-        <%= form.label :minion_type, "#{minion}" %>
+      <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
+      <% MinionStat.all.each do |minion|%>
+        <%= form.radio_button :minion_type, "#{minion['minion_type']}" %>
+        <%= form.label :minion_type, "#{minion['minion_type']}" %>
       <% end %>
       <%= form.label :x_position, "Position X,Y" %>
       <%= form.number_field :x_position, in: 0..@board.upper_limit, step: 1 %>
@@ -70,9 +70,9 @@
   </div>
 
   <div class = "move">
-    <% @current_player.db_minions.each do |minion|%>
+    <% SummonedMinion.where("owner_id = ?", @current_player.id).each do |minion|%>
       <%= form_with model: minion do |form| %>
-        <%= form.hidden_field :owner, value: "#{@current_player.name}" %>
+        <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
         <%= form.label :x_position, "Position X,Y for #{minion.minion_type} at" %>
         <%= form.number_field :x_position, in: 0..@board.upper_limit, step: 1 %>
         <%= form.number_field :y_position, in: 0..@board.upper_limit, step: 1 %>
@@ -82,8 +82,7 @@
   </div>
 
   <div class = "attack">
-    <% @current_player.db_minions_who_can_attack.each do |minion|%>
-    <p><%= "#{minion['minion_type']} from #{minion['x_position']},#{minion['y_position']} can attack:"%></p>
+    <% SummonedMinion.where("owner_id = ? and can_attack = ?", @current_player.id, true).each do |minion|%>
       <%= form_with url: update_attack_summoned_minion_path(id: minion['id']) do |form| %>
       <%= form.hidden_field :minion_type, value: "#{minion['minion_type']}" %>
         <% @game.find_object_from_x_y_coordinates(minion['x_position'],minion['y_position']).find_db_entries_of_enemies_in_range.each do |target|%>

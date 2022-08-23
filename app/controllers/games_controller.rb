@@ -29,17 +29,18 @@ class GamesController < ApplicationController
     # @game.place(owner: 'Player2', type: 'skeleton archer', x: 1, y: 1)
     # p TurnTracker.count
 
-    if TurnTracker.all.empty?
-      @game.players.shuffle.each do |player|
-        # p player.name
-        player_turn = TurnTracker.new(player_name: player.name)
+    # if TurnTracker.all.empty?
+      PvpPlayers.all.each do |player|
+        p player
+        player_turn = TurnTracker.new(player_id: player['id'])
         player_turn.save
       end
-    end
-    @popped_player = TurnTracker.first['player_name']
+    # end
+    @popped_player = TurnTracker.first
     TurnTracker.first.destroy
 
-    @current_player = @game.find_owner_object_from_name(@popped_player)
+    @current_player = @game.find_owner_record_from_id(@popped_player['player_id'])
+    # @current_player_record = @game.fin
     # p TurnTracker.count
 
 

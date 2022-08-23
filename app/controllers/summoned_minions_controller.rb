@@ -8,9 +8,9 @@ class SummonedMinionsController < ApplicationController
                            range: 3 }
     }
     minion_params = params['summoned_minion']
-
+    # p params
     minion_to_summon = SummonedMinion.new(
-      owner: minion_params['owner'],
+      owner_id: minion_params['owner_id'],
       minion_type: minion_params['minion_type'],
       health: minion_data[minion_params['minion_type'].to_sym][:health],
       x_position: minion_params['x_position'],

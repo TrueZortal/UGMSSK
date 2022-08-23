@@ -104,9 +104,9 @@ class Game
   def place(owner: '', type: '', x: nil, y: nil, from_db: false, db_record: '')
     # rubocop:enable Naming Naming/MethodParameterName
     if from_db
-      raise UnknownPlayerError unless validate_owner(db_record['owner'])
+      raise UnknownPlayerError unless validate_owner(db_record['owner_id'])
 
-      minion_owner = find_owner_object_from_name(db_record['owner'])
+      minion_owner = find_owner_object_from_id(db_record['owner_id'])
       summoned_minion = Minion.new(from_db: true, db_record: db_record, board: @board)
 
     else
@@ -136,8 +136,12 @@ class Game
     (@players - @players.filter { |player| player.manapool.empty? && player.minions.empty? })
   end
 
-  def find_owner_object_from_name(owner_name)
-    @players.filter { |player| player.name == owner_name }.first
+  def find_owner_object_from_id(owner_id)
+    @players.filter { |player| player.id == owner_id }.first
+  end
+
+  def find_owner_record_from_id(owner_id)
+    PvpPlayers.find(owner_id)
   end
 
   def find_object_from_x_y_coordinates(x_coordinate, y_coordinate)
@@ -160,8 +164,9 @@ class Game
       @board.state[x_coordinate][y_coordinate].empty?
   end
 
-  def validate_owner(owner_name)
-    @players.map(&:name).include?(owner_name)
+  def validate_owner(owner_id)
+    ![PvpPlayers.find(owner_id)].empty?
+    # @players.map(&:name).include?(owner_name)
   end
 
   def validate_owner_summoning_zone(owner, x_coordinate, y_coordinate)
@@ -177,9 +182,9 @@ class Game
   end
 
   def update_owner_status_after_summoning(minion_owner, summoned_minion)
-    minion_owner.manapool.spend(summoned_minion.mana_cost)
+    # minion_owner.manapool.spend(summoned_minion.mana_cost)
     mana_after = minion_owner.mana - summoned_minion.mana_cost
-    minion_owner.add_minion(summoned_minion)
+    # minion_owner.add_minion(summoned_minion)
     find_owner_record_from_name(minion_owner.name).update(mana: mana_after)
   end
 
