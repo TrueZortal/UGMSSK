@@ -17,6 +17,7 @@ class SummonedMinionsController < ApplicationController
       y_position: minion_params['y_position']
     )
     minion_to_summon.save
+    SummonedMinion.place(db_record: minion_to_summon)
     redirect_to root_url
   end
 

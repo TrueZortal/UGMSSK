@@ -1,0 +1,23 @@
+class CreateMinionStats < ActiveRecord::Migration[7.0]
+  def change
+    create_table :minion_stats do |t|
+      t.integer :mana_cost, null: false
+      t.integer :health, null: false
+      t.integer :attack, null: false
+      t.integer :defense, null: false
+      t.integer :speed, null: false
+      t.integer :initiative, null: false
+      t.integer :range, null: false
+      t.timestamps
+    end
+  end
+end
+
+
+# minion_data = {
+#       'skeleton': { mana_cost: 1, health: 5, attack: 1, defense: 0, speed: 2, initiative: 3, range: 1.5 },
+#       'skeleton archer': { mana_cost: 2, health: 2, attack: 2, defense: 0, speed: 1, initiative: 3,
+#                            range: 3 }
+#     }
+
+# MinionStat.new(minion_type: 'skeleton archer', mana_cost: 2, health: 2, attack: 2, defense: 0, speed: 1, initiative: 3, range: 3)

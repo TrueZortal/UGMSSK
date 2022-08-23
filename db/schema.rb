@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_22_134133) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_23_152046) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -34,6 +34,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_22_134133) do
     t.integer "y", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "minion_stats", force: :cascade do |t|
+    t.integer "mana_cost", null: false
+    t.integer "health", null: false
+    t.integer "attack", null: false
+    t.integer "defense", null: false
+    t.integer "speed", null: false
+    t.integer "initiative", null: false
+    t.integer "range", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "minion_type"
   end
 
   create_table "pvp_players", force: :cascade do |t|
