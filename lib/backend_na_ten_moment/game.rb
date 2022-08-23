@@ -121,8 +121,8 @@ class Game
     end
 
 
-    update_owner_status_after_summoning(minion_owner, summoned_minion)
-    @log.place(summoned_minion, minion_owner.mana)
+    # update_owner_status_after_summoning(minion_owner, summoned_minion)
+    # @log.place(summoned_minion, minion_owner.mana)
     @board.state[summoned_minion.position.x][summoned_minion.position.y].update_occupant(summoned_minion)
     # p summoned_minion.class
     summoned_minion
@@ -183,9 +183,9 @@ class Game
 
   def update_owner_status_after_summoning(minion_owner, summoned_minion)
     # minion_owner.manapool.spend(summoned_minion.mana_cost)
-    mana_after = minion_owner.mana - summoned_minion.mana_cost
+    # mana_after = minion_owner.mana - summoned_minion.mana_cost
     # minion_owner.add_minion(summoned_minion)
-    find_owner_record_from_name(minion_owner.name).update(mana: mana_after)
+    # find_owner_record_from_name(minion_owner.name).update(mana: mana_after)
   end
 
   def check_field(position)

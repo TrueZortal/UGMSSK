@@ -58,6 +58,7 @@
   <div class = "summon">
     <%= form_with model: SummonedMinion.new do |form| %>
       <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
+      <%= form.hidden_field :owner, value: "#{@current_player.name}" %>
       <% MinionStat.all.each do |minion|%>
         <%= form.radio_button :minion_type, "#{minion['minion_type']}" %>
         <%= form.label :minion_type, "#{minion['minion_type']}" %>
