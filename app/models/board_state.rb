@@ -2,9 +2,44 @@
 
 class BoardState < ApplicationRecord
   def self.create_board(game_id: nil, size_of_board_edge: 4)
+    board = BoardState.new(game_id: game_id)
+    board.save
     generate_board_fields(size_of_board_edge, game_id)
-    # generate_a_pathfinding_array
+    make_dijkstra_information(game_id)
   end
+
+  # takes game_id
+  # generates a routing hash for use in djikstra pathfinding
+  def self.make_dijkstra_information(game_id)
+    routing = {}
+    field_index = []
+    all_fields_array = BoardField.where(game_id: game_id).to_a
+    all_fields_array.each do |field|
+      all_fields_array.each do |another_field|
+        weight = Calculations.distance(field, another_field)
+        if Calculations.distance(field, another_field) < 1.42 && (field != another_field && field.obstacle == false && another_field.obstacle == false)
+          from = [field.x_position, field.y_position]
+          to = [another_field.x_position, another_field.y_position]
+          if !routing.key?(from)
+            routing[from] = { to => weight }
+          else
+            routing[from][to] = weight
+          end
+
+          if !routing.key?(to)
+            routing[to] = { from => weight }
+          else
+            routing[to][from] = weight
+          end
+          field_index << from unless field_index.include?(from)
+          field_index << to unless field_index.include?(to)
+        end
+      end
+    end
+    pathfinding_data = JSON.generate(routing)
+    BoardState.find_by(game_id: game_id).update(pathfinding_data: pathfinding_data)
+  end
+
 
   # takes: integer size of board edge, integer game_id
   # returns: creates boardfield rows with appropriate parameters
@@ -35,6 +70,7 @@ class BoardState < ApplicationRecord
           terrain: chosen_terrain,
           obstacle: is_obstacle(chosen_terrain),
           offset: choose_offset(chosen_terrain),
+          occupied: is_obstacle(chosen_terrain)
         )
         field.save
       end
@@ -139,6 +175,7 @@ class BoardState < ApplicationRecord
     end
     temp_array
   end
+
 end
 
 

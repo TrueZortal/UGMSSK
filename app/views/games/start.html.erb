@@ -34,9 +34,9 @@
             <tr>
               <% line.each do |field| %>
                   <td>
-                    <h1 data-controller="position" data-action="click->position#greet" address="<%= field %>" class="field" style="--position: <%= field.offset%>">
+                    <h1 data-controller="position" data-action="click->position#greet" address="<%= field.occupant_id %>" class="field" style="--position: <%= field.offset%>">
                     <span class="tooltiptext"><%= "[#{field.x_position},#{field.y_position}]"%></span>
-                    <% if field.occupant_id != nil %>
+                    <% if field.occupant_type != '' %>
                       <%= image_tag MinionStat.find_by(minion_type: field.occupant_type).icon,  class: "minion" %>
                     <% end %>
                     </h1>

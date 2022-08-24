@@ -14,6 +14,9 @@ end
 class InvalidPlacementError < StandardError
 end
 
+class InvalidMovementError < StandardError
+end
+
 class SummonedMinion < ApplicationRecord
   def self.place(db_record: '')
     owner = PvpPlayers.find(db_record.owner_id)
@@ -33,6 +36,13 @@ class SummonedMinion < ApplicationRecord
         occupied: true
       )
       TurnTracker.end_turn(game_id: owner.game_id, player_id: db_record.owner_id)
+    else
+      SummonedMinion.find(db_record.id).destroy
     end
+  end
+
+  def self.move(minion_record: nil, parameters: nil)
+    p minion_record
+    p parameters
   end
 end
