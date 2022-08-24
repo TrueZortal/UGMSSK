@@ -13,12 +13,12 @@ class SummonedMinionsController < ApplicationController
       owner: minion_params['owner'],
       owner_id: minion_params['owner_id'],
       minion_type: minion_params['minion_type'],
-      health: minion_data[minion_params['minion_type'].to_sym][:health],
+      health: MinionStat.find_by(minion_type: minion_params['minion_type']).health,
       x_position: minion_params['x_position'],
       y_position: minion_params['y_position']
     )
-    minion_to_summon.save
     SummonedMinion.place(db_record: minion_to_summon)
+    minion_to_summon.save
     redirect_to root_url
   end
 
