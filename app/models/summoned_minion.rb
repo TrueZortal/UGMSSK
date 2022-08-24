@@ -12,5 +12,6 @@ class SummonedMinion < ApplicationRecord
       occupant_type: db_record.minion_type,
       occupied: true
     )
+    TurnTracker.end_turn(game_id: owner.game_id, player_id: db_record.owner_id)
   end
 end

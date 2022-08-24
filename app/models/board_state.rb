@@ -45,9 +45,8 @@ class BoardState < ApplicationRecord
   #returns: array of lines for rendering
   def self.arrayify_for_rendering(game_id: nil)
     rendering_array = []
-    size_of_board_edge = 8
     board_fields = BoardField.where(game_id: game_id)
-    p board_fields
+    size_of_board_edge = Math.sqrt(board_fields.size).to_i
     size_of_board_edge.times do |x|
       temp_array = []
       size_of_board_edge.times do |y|

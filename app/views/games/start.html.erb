@@ -64,8 +64,8 @@
         <%= form.label :minion_type, "#{minion['minion_type']}" %>
       <% end %>
       <%= form.label :x_position, "Position X,Y" %>
-      <%= form.number_field :x_position, in: 0..@board - 1, step: 1 %>
-      <%= form.number_field :y_position, in: 0..@board - 1, step: 1 %>
+      <%= form.number_field :x_position, in: 0..7, step: 1 %>
+      <%= form.number_field :y_position, in: 0..7, step: 1 %>
       <%= form.submit "submit"%>
     <% end %>
   </div>
@@ -75,8 +75,8 @@
       <%= form_with model: minion do |form| %>
         <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
         <%= form.label :x_position, "Position X,Y for #{minion.minion_type} at" %>
-        <%= form.number_field :x_position, in: 0..@board - 1, step: 1 %>
-        <%= form.number_field :y_position, in: 0..@board - 1, step: 1 %>
+        <%= form.number_field :x_position, in: 0..7, step: 1 %>
+        <%= form.number_field :y_position, in: 0..7, step: 1 %>
         <%= form.submit "submit"%>
       <% end %>
     <% end %>
