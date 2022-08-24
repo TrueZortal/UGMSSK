@@ -25,7 +25,7 @@ class SummonedMinionsController < ApplicationController
     minion_params = params['summoned_minion']
     # puts  "MINION ID MINION ID#{params['id']} MINION ID MINION ID"
     minion = SummonedMinion.find params['id']
-    SummonedMinion.move(minion_record: minion, params: minion_params)
+    SummonedMinion.move(db_record: minion, parameters: minion_params)
     # p minion
     minion.update(
       x_position: minion_params['x_position'],

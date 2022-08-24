@@ -1,11 +1,10 @@
 class Pathfinding < ApplicationRecord
   def self.find_shortest_path(starting_field_address_array, target_field_address_array, game_id: nil)
     infinity = 50
-    routing = JSON.parse(BoardState.find_by(game_id: game_id)).to_h
+    routing = JSON.parse(BoardState.find_by(game_id: game_id).pathfinding_data).to_h
     field_index = routing.keys
-    dijkstra(starting_field_address_array)
 
-    return unless routing.key?(target_field_address_array)
+    # return unless routing.key?(target_field_address_array)
 
     distance = {}
     prev = {}
@@ -36,15 +35,20 @@ class Pathfinding < ApplicationRecord
 
     shortest_path = []
     distance = 0
-    return p 'NO PATH' unless routing.key?(target_field_address_array)
+    # return p 'NO PATH' unless routing.key?(target_field_address_array)
 
-    until target_field_address_array == starting_node
+    until target_field_address_array == starting_field_address_array
       shortest_path << target_field_address_array if prev[target_field_address_array] != -1
-      distance += routing[prev[target_field_address_array]][target_field_address_array]
-      target_field_address_array = prev[target_field_address_array]
+      # p distance
+      # p routing
+      p prev
+      # p routing
+      p target_field_address_array.to_s
+      distance += routing[prev[target_field_address_array.to_s]][target_field_address_array.to_s]
+      target_field_address_array = prev[target_field_address_array.to_s]
     end
     shortest_path << target_field_address_array
 
-    { shortest_path => distance }
+    { @shortest_path => distance }
   end
 end

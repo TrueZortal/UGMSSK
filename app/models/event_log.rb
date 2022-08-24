@@ -10,10 +10,10 @@ class EventLog < ApplicationRecord
     save_event(event)
   end
 
-  # def self.move(unit, to_position)
-  #   event = "#{unit.owner} moved #{unit.type} from #{unit.position.to_a} to #{to_position.to_a}"
-  #   save_event(event)
-  # end
+  def self.move(unit_db_record, from_position, to_position)
+    event = "#{unit_db_record.owner} moved #{unit_db_record.minion_type} from #{from_position} to #{to_position}"
+    save_event(event)
+  end
 
   # def self.attack(unit, another_unit, damage)
   #   message = another_unit.health.positive? ? "has #{another_unit.current_health} health" : 'perished'
