@@ -13,16 +13,17 @@
           <p class="centred_text"><%= "#{player.name} MANA:#{player.mana}/#{player.max_mana}" %></p>
           <p class="centred_text"><% SummonedMinion.where("owner_id = ?", player.id).each do |minion|%></p>
           <li class="smallcenteredtext"><%="#{minion.minion_type}, @[#{minion.x_position},#{minion.y_position}] Health: #{minion.health}/#{MinionStat.find_by(minion_type: minion.minion_type).health}"%></li>
-        </td>
           <%end%>
+        </td>
+
         <% end %>
       </table>
     </div>
     <div>
       <h1>Current player:</h1>
-      <p><%= @current_player['name']%></p>
+        <p><%= @current_player.name%></p>
         <% @current_player['available_actions'].each do |option| %>
-      <button><%= option%></button>
+        <button><%= option%></button>
       <% end %>
     </div>
   </section>

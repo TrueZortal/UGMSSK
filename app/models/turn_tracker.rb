@@ -16,7 +16,7 @@ class TurnTracker < ApplicationRecord
   end
 
   def self.end_turn(game_id: nil, player_id: nil)
-    TurnTracker.find_by(game_id: game_id, player_id: player_id).update(complete: true)
+    TurnTracker.find_by(game_id: game_id, player_id: player_id, complete: false).update(complete: true)
   end
 end
 

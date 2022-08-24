@@ -1,9 +1,23 @@
+#implement below errors:
+# class InvalidMovementError < StandardError
+# end
+
+# class OutOfRangeError < StandardError
+# end
+
+# class InvalidTargetError < StandardError
+# end
+
+class InsufficientManaError < StandardError
+end
+
 class SummonedMinion < ApplicationRecord
   def self.place(db_record: '')
     owner = PvpPlayers.find(db_record.owner_id)
     mana_before = owner.mana
     mana_after = mana_before - MinionStat.find_by(minion_type: db_record.minion_type).mana_cost
 
+    raise InsufficientManaError if mana_after.negative?
 
     owner.update(mana: mana_after)
     EventLog.place(db_record, mana_after)
