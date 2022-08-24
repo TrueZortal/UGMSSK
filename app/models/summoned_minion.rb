@@ -24,6 +24,7 @@ class SummonedMinion < ApplicationRecord
     mana_after = mana_before - MinionStat.find_by(minion_type: db_record.minion_type).mana_cost
     target_field_record = BoardField.find_by(game_id: owner.game_id, x_position: db_record.x_position, y_position: db_record.y_position)
 
+    begin
     raise InvalidPlacementError if target_field_record.occupied
     raise InsufficientManaError if mana_after.negative?
 
@@ -36,7 +37,8 @@ class SummonedMinion < ApplicationRecord
         occupied: true
       )
       TurnTracker.end_turn(game_id: owner.game_id, player_id: db_record.owner_id)
-    else
+    end
+    rescue StandardError
       SummonedMinion.find(db_record.id).destroy
     end
   end
