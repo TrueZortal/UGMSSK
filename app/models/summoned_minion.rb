@@ -1,9 +1,16 @@
 class SummonedMinion < ApplicationRecord
   def self.place(db_record: '')
-    mana_before = PvpPlayers.find(db_record.owner_id).mana
+    owner = PvpPlayers.find(db_record.owner_id)
+    mana_before = owner.mana
     mana_after = mana_before - MinionStat.find_by(minion_type: db_record.minion_type).mana_cost
-    PvpPlayers.find(db_record.owner_id).update(mana: mana_after)
+
+
+    owner.update(mana: mana_after)
     EventLog.place(db_record, mana_after)
-    # need to rewrite the board logic for fields to be stored within database
+    BoardField.find_by(game_id: owner.game_id, x_position: db_record.x_position, y_position: db_record.y_position).update(
+      occupant_id: db_record.id,
+      occupant_type: db_record.minion_type,
+      occupied: true
+    )
   end
 end

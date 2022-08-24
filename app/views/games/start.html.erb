@@ -8,7 +8,7 @@
 <section class ="statusbox">
     <div class ="minionsandoptions">
       <table class = "playerlist">
-        <% PvpPlayers.all.sort { |a,b| a.id <=> b.id }.each do |player| %>
+        <% PvpPlayers.where(game_id: @game.id).sort { |a,b| a.id <=> b.id }.each do |player| %>
         <td class = "player_column">
           <p class="centred_text"><%= "#{player.name} MANA:#{player.mana}/#{player.max_mana}" %></p>
           <p class="centred_text"><% SummonedMinion.where("owner_id = ?", player.id).each do |minion|%></p>
@@ -29,14 +29,14 @@
   <section class ="boardcontainer">
     <div>
       <table class = "board">
-          <% @board.render_board.each_with_index do |line, index|%>
+          <% BoardState.arrayify_for_rendering(game_id: @game.id).each_with_index do |line, index|%>
             <tr>
               <% line.each do |field| %>
                   <td>
-                    <h1 data-controller="position" data-action="click->position#greet" address="<%= field.make_json %>" class="field" style="--position: <%= field.offset%>">
-                    <span class="tooltiptext"><%= field.position.to_a%></span>
-                    <% if field.occupied? %>
-                      <%= image_tag field.occupant.icon,  class: "minion" %>
+                    <h1 data-controller="position" data-action="click->position#greet" address="<%= field %>" class="field" style="--position: <%= field.offset%>">
+                    <span class="tooltiptext"><%= "[#{field.x_position},#{field.y_position}]"%></span>
+                    <% if field.occupant_id != nil %>
+                      <%= image_tag MinionStat.find_by(minion_type: field.occupant_type).icon,  class: "minion" %>
                     <% end %>
                     </h1>
                   </td>
@@ -64,8 +64,8 @@
         <%= form.label :minion_type, "#{minion['minion_type']}" %>
       <% end %>
       <%= form.label :x_position, "Position X,Y" %>
-      <%= form.number_field :x_position, in: 0..@board.upper_limit, step: 1 %>
-      <%= form.number_field :y_position, in: 0..@board.upper_limit, step: 1 %>
+      <%= form.number_field :x_position, in: 0..@board - 1, step: 1 %>
+      <%= form.number_field :y_position, in: 0..@board - 1, step: 1 %>
       <%= form.submit "submit"%>
     <% end %>
   </div>
@@ -75,8 +75,8 @@
       <%= form_with model: minion do |form| %>
         <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
         <%= form.label :x_position, "Position X,Y for #{minion.minion_type} at" %>
-        <%= form.number_field :x_position, in: 0..@board.upper_limit, step: 1 %>
-        <%= form.number_field :y_position, in: 0..@board.upper_limit, step: 1 %>
+        <%= form.number_field :x_position, in: 0..@board - 1, step: 1 %>
+        <%= form.number_field :y_position, in: 0..@board - 1, step: 1 %>
         <%= form.submit "submit"%>
       <% end %>
     <% end %>

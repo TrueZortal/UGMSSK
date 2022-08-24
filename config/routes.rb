@@ -12,4 +12,5 @@ Rails.application.routes.draw do
     post :update_attack, on: :member
   end
   resources :board_states
+  resources :games
 end

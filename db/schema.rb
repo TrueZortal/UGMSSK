@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_23_192437) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_24_105445) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,12 +20,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_23_192437) do
     t.integer "y_position", null: false
     t.string "status"
     t.string "occupant_type"
-    t.integer "occupant_id", null: false
+    t.integer "occupant_id"
     t.string "terrain", null: false
     t.boolean "obstacle", null: false
     t.string "offset", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "occupied", default: false
   end
 
   create_table "board_states", force: :cascade do |t|
@@ -38,6 +39,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_23_192437) do
   create_table "event_logs", force: :cascade do |t|
     t.integer "game_id"
     t.string "event", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.integer "player_ids", default: [], array: true
+    t.integer "current_turn", default: 0
+    t.integer "current_player_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

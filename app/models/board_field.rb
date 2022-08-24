@@ -1,2 +1,3 @@
 class BoardField < ApplicationRecord
+
 end
