@@ -1,3 +1,6 @@
+class InvalidMovementError < StandardError
+end
+
 class Pathfinding < ApplicationRecord
   def self.find_shortest_path(starting_field, target_field, game_id: nil)
     infinity = 50
@@ -6,7 +9,7 @@ class Pathfinding < ApplicationRecord
     target_field_address_array = [target_field.x_position, target_field.y_position].to_s
     field_index = routing.keys
 
-    return unless routing.key?(target_field_address_array)
+    raise InvalidMovementError unless routing.key?(target_field_address_array)
 
     distance = {}
     prev = {}
@@ -46,9 +49,5 @@ class Pathfinding < ApplicationRecord
     shortest_path << target_field_address_array
 
     distance
-  end
-
-  def self.find_fields_within_attack_range(starting_field)
-
   end
 end

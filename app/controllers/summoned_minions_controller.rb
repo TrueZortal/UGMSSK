@@ -21,28 +21,15 @@ class SummonedMinionsController < ApplicationController
 
   # move a minion
   def update
-    # p params
-    minion_params = params['summoned_minion']
-    # puts  "MINION ID MINION ID#{params['id']} MINION ID MINION ID"
-    minion = SummonedMinion.find params['id']
-    SummonedMinion.move(db_record: minion, parameters: minion_params)
-    # p minion
-    minion.update(
-      x_position: minion_params['x_position'],
-      y_position: minion_params['y_position']
-    )
+    SummonedMinion.move(parameters: params)
+
     redirect_to root_url
   end
 
   def update_attack
-    minion_data = {
-      'skeleton': { mana_cost: 1, symbol: 's', health: 5, attack: 1, defense: 0, speed: 2, initiative: 3, range: 1.5 },
-      'skeleton archer': { mana_cost: 2, symbol: 'a', health: 2, attack: 2, defense: 0, speed: 1, initiative: 3,
-                           range: 3 }
-    }
-    target = SummonedMinion.find params['target_id']
-    health_after_damage = target['health'] - minion_data[params['minion_type'].to_sym][:attack]
-    target.update(health: health_after_damage)
+
+    SummonedMinion.attack(parameters: params)
+
     redirect_to root_url
   end
 end

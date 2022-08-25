@@ -88,7 +88,7 @@
     <% SummonedMinion.where("owner_id = ? and can_attack = ?", @current_player.id, true).each do |minion|%>
       <p><%= "#{minion.minion_type} at #{minion.x_position},#{minion.y_position}"%><p>
       <%= form_with url: update_attack_summoned_minion_path(id: minion['id']) do |form| %>
-      <%= form.hidden_field :minion_type, value: "#{minion['minion_type']}" %>
+      <%= form.hidden_field :minion_type, value: "#{minion.minion_type}" %>
         <% minion.available_targets.each do |target|%>
           <% target_record = SummonedMinion.find(target)%>
           <%= form.hidden_field :target_id, value: "#{target}" %>
