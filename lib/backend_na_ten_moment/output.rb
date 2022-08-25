@@ -1,21 +1,21 @@
-# frozen_string_literal: true
+# # frozen_string_literal: true
 
-class Output
-  def initialize(output: $stdout)
-    @output = output
-  end
+# class Output
+#   def initialize(output: $stdout)
+#     @output = output
+#   end
 
-  def print(string)
-    print_to_web(string)
-  end
+#   def print(string)
+#     print_to_web(string)
+#   end
 
-  private
+#   private
 
-  def print_to_console(string)
-    @output.puts(string)
-  end
+#   def print_to_console(string)
+#     @output.puts(string)
+#   end
 
-  def print_to_web(string)
-    string
-  end
-end
+#   def print_to_web(string)
+#     string
+#   end
+# end

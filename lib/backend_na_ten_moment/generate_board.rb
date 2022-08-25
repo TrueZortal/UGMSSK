@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative 'field'
-require_relative 'minion'
-require_relative 'position'
+# require_relative 'field'
+# require_relative 'minion'
+# require_relative 'position'
 # require_relative 'calculations'
 
 class InvalidMovementError < StandardError
