@@ -38,6 +38,8 @@ class SummonedMinion < ApplicationRecord
       )
       TurnTracker.end_turn(game_id: owner.game_id, player_id: db_record.owner_id)
       # Need to add find fields with enemies in range for attacking logic
+
+
     end
     rescue StandardError
       SummonedMinion.find(db_record.id).destroy
@@ -69,7 +71,28 @@ class SummonedMinion < ApplicationRecord
       )
       EventLog.move(db_record, from_field, to_field)
       TurnTracker.end_turn(game_id: owner.game_id, player_id: db_record.owner_id)
+
       # Need to add find fields with enemies in range for attacking logic
     end
   end
 end
+
+# @board_fields&.filter do |field|
+#   field.position != @position && @position.distance(field.position) <= @range
+# end&.each do |field|
+#   @fields_in_attack_range << field
+# end
+# @fields_in_attack_range.uniq!
+
+
+# fields_in_attack_range = []
+# BoardField.where(game_id: owner.game_id).each do |field|
+#   distance = Calculations.distance(starting_field, field)
+#   if distance < range && field.occupied && !field.obstacle && starting_field.id != field.id
+#     p starting_field.id
+#     p field.id
+#     p starting_field.id != field.id
+#     fields_in_attack_range << field
+#   end
+# end
+# fields_in_attack_range

@@ -16,6 +16,7 @@ class TurnTracker < ApplicationRecord
   end
 
   def self.end_turn(game_id: nil, player_id: nil)
+    Game.check_and_update_minions_who_can_attack(game_id: game_id)
     TurnTracker.find_by(game_id: game_id, player_id: player_id, complete: false).update(complete: true)
   end
 end

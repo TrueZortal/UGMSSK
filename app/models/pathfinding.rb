@@ -47,4 +47,8 @@ class Pathfinding < ApplicationRecord
 
     distance
   end
+
+  def self.find_fields_within_attack_range(starting_field)
+
+  end
 end

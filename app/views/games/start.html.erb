@@ -84,13 +84,16 @@
   </div>
 
   <div class = "attack">
+    <p>Attack with:</p>
     <% SummonedMinion.where("owner_id = ? and can_attack = ?", @current_player.id, true).each do |minion|%>
+      <p><%= "#{minion.minion_type} at #{minion.x_position},#{minion.y_position}"%><p>
       <%= form_with url: update_attack_summoned_minion_path(id: minion['id']) do |form| %>
       <%= form.hidden_field :minion_type, value: "#{minion['minion_type']}" %>
-        <% @game.find_object_from_x_y_coordinates(minion['x_position'],minion['y_position']).find_db_entries_of_enemies_in_range.each do |target|%>
-          <%= form.hidden_field :target_id, value: "#{target['id']}" %>
-          <%= form.radio_button :minion_target, "#{target}" %>
-          <%= form.label :minion_target, "#{target['minion_type']} at #{target['x_position']},#{target['y_position']}" %>
+        <% minion.available_targets.each do |target|%>
+          <% target_record = SummonedMinion.find(target)%>
+          <%= form.hidden_field :target_id, value: "#{target}" %>
+          <%= form.radio_button :minion_target, "#{target_record.minion_type}" %>
+          <%= form.label :minion_target, "#{target_record.minion_type} at #{target_record.x_position},#{target_record.y_position}" %>
         <% end %>
         <%= form.submit "submit"%>
       <% end %>
