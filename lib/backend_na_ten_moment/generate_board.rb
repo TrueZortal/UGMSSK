@@ -124,7 +124,6 @@ class GenerateBoard
     @field_index << target unless @field_index.include?(target)
   end
 
-
   def set_summoning_zones_to_be_positions
     coordinate_array_of_summoning_zones = find_summoning_zone_coordinate_arrays
     coordinate_array_of_summoning_zones.each do |summoning_zone|
@@ -145,5 +144,4 @@ class GenerateBoard
     array_of_summoning_zones << Calculations.combine_arrays(upper_bound, upper_bound)
     array_of_summoning_zones
   end
-
 end

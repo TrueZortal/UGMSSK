@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TurnTracker < ApplicationRecord
   def self.current_turn_complete_or_doesnt_exist?(game_id)
     TurnTracker.where(game_id: game_id, complete: false).to_a.empty?
@@ -20,4 +22,3 @@ class TurnTracker < ApplicationRecord
     TurnTracker.find_by(game_id: game_id, player_id: player_id, complete: false).update(complete: true)
   end
 end
-

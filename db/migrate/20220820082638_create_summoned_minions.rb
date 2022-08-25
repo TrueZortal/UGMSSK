@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSummonedMinions < ActiveRecord::Migration[7.0]
   def change
     create_table :summoned_minions do |t|

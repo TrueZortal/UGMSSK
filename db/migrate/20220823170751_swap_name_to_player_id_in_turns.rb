@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SwapNameToPlayerIdInTurns < ActiveRecord::Migration[7.0]
   def change
     remove_column :turn_trackers, :player_name, :string

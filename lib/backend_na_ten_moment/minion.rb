@@ -34,7 +34,7 @@ class Minion
   attr_accessor :attack, :defense, :health, :speed, :initiative, :range, :position
   attr_reader :mana_cost, :owner, :type, :current_health, :symbol, :fields_with_enemies_in_range
 
-  def initialize(x: 0, y: 0, owner: '', type: 'skeleton', board: nil, minion_json: '', from_db: false, db_record:'')
+  def initialize(x: 0, y: 0, owner: '', type: 'skeleton', board: nil, minion_json: '', from_db: false, db_record: '')
     raise ArgumentError unless @@MINION_DATA.keys.include?(type.to_sym)
 
     @minion_json = minion_json
@@ -42,11 +42,11 @@ class Minion
     #   from_json
     #   @max_health = @@MINION_DATA[@type.to_sym][:health]
     if from_db
-        @position = Position.new(db_record['x_position'],db_record['y_position'])
-        @owner = db_record['owner']
-        @health = db_record['health']
-        @type = db_record['minion_type']
-        @max_health = @@MINION_DATA[@type.to_sym][:health]
+      @position = Position.new(db_record['x_position'], db_record['y_position'])
+      @owner = db_record['owner']
+      @health = db_record['health']
+      @type = db_record['minion_type']
+      @max_health = @@MINION_DATA[@type.to_sym][:health]
     else
       @position = Position.new(x, y)
       @owner = owner
@@ -68,7 +68,8 @@ class Minion
   end
 
   def save_state
-    minion_to_add = SummonedMinion.new(owner: @owner,minion_type: @type, health: @health, x_position: @position.x, y_position: @position.y)
+    minion_to_add = SummonedMinion.new(owner: @owner, minion_type: @type, health: @health, x_position: @position.x,
+                                       y_position: @position.y)
     minion_to_add.save
   end
 
@@ -156,7 +157,9 @@ class Minion
   end
 
   def find_db_entries_of_enemies_in_range
-    @fields_with_enemies_in_range.map { |field| SummonedMinion.where(x_position: field.position.x, y_position: field.position.y)}.flatten
+    @fields_with_enemies_in_range.map do |field|
+      SummonedMinion.where(x_position: field.position.x, y_position: field.position.y)
+    end.flatten
   end
 
   private
@@ -171,17 +174,6 @@ class Minion
     @fields_in_attack_range.uniq!
   end
 
-  # This should not be implemented here
-  def find_fields_between_self_and_target(field)
-    array_of_bidrectional_route_coordinates = @position.get_valid_routes(field.position)
-    biderctional_array_of_route_fields = []
-    array_of_bidrectional_route_coordinates.each do |array_of_coordinates|
-      biderctional_array_of_route_fields << @board_fields.filter do |route_field|
-        array_of_coordinates.include?(route_field.position.to_a)
-      end
-    end
-    biderctional_array_of_route_fields
-  end
 
   # This should be only partially implemented here/call outside method for this
   def find_enemies_in_attack_range
@@ -195,7 +187,17 @@ class Minion
     @fields_with_enemies_in_range
   end
 
-
+  # This should not be implemented here
+  def find_fields_between_self_and_target(field)
+    array_of_bidrectional_route_coordinates = @position.get_valid_routes(field.position)
+    biderctional_array_of_route_fields = []
+    array_of_bidrectional_route_coordinates.each do |array_of_coordinates|
+      biderctional_array_of_route_fields << @board_fields.filter do |route_field|
+        array_of_coordinates.include?(route_field.position.to_a)
+      end
+    end
+    biderctional_array_of_route_fields
+  end
   # This should not be implemented here
   def check_if_interaction_with_field_is_not_blocked_by_obstacles(array_of_fields)
     array_of_fields.filter! do |field|

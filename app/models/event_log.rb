@@ -17,14 +17,15 @@ class EventLog < ApplicationRecord
     save_event(event)
   end
 
-  # def self.attack(unit, another_unit, damage)
-  #   message = another_unit.health.positive? ? "has #{another_unit.current_health} health" : 'perished'
-  #   who_attacked_who = "#{unit.owner} attacked #{another_unit.owner}s #{another_unit.type} with their #{unit.type}"
-  #   from_to_position = "from #{unit.position.to_a} to #{another_unit.position.to_a}"
-  #   attacked_unit_status = "#{another_unit.owner}s #{another_unit.type} #{message}"
-  #   event = " #{who_attacked_who} #{from_to_position} causing #{damage} damage. #{attacked_unit_status}"
-  #   save_event(event)
-  # end
+  def self.attack(unit_db_record, another_unit_db_record, damage, health_after_damage)
+    message = health_after_damage.positive? ? "has #{health_after_damage}/#{MinionStat.find_by(minion_type: another_unit_db_record.minion_type).health} health" : 'perished'
+    from_position = [unit_db_record.x_position, unit_db_record.y_position].to_s
+    to_position = [another_unit_db_record.x_position, another_unit_db_record.y_position].to_s
+    who_attacked_who = "#{unit_db_record.owner} attacked #{another_unit_db_record.owner}s #{another_unit_db_record.minion_type} at #{to_position} with their #{unit_db_record.minion_type}"
+    attacked_unit_status = "#{another_unit_db_record.owner}s #{another_unit_db_record.minion_type} #{message}"
+    event = " #{who_attacked_who}causing #{damage} damage. #{attacked_unit_status}"
+    save_event(event)
+  end
 
   # def self.concede(player)
   #   minion_list = player.minions.map(&:status).join("\n")

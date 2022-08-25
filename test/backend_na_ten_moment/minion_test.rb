@@ -10,13 +10,13 @@ class MinionTest < Minitest::Test
   end
 
   def test_minion_can_be_assigned_an_owner
-    skelly = Minion.new(owner: 'Mateusz',x:0,y:0)
+    skelly = Minion.new(owner: 'Mateusz', x: 0, y: 0)
     assert_equal 'Mateusz', skelly.owner
   end
 
   def test_a_skeleton_minion_has_correct_default_values_when_created
     # skip
-    skelly = Minion.new(type: 'skeleton',x:0,y:0)
+    skelly = Minion.new(type: 'skeleton', x: 0, y: 0)
     assert_equal 1, skelly.attack
     assert_equal 0, skelly.defense
     assert_equal 5, skelly.health
@@ -33,14 +33,14 @@ class MinionTest < Minitest::Test
     skelly = Minion.new(type: 'skeleton', x: 1, y: 1)
     enemy = Minion.new(type: 'skeleton', x: 1, y: 2)
     skelly.attack_action(enemy)
-    expected_enemy_status = { pos: [1, 2], type: 'skeleton', hp: '4/5'}
-    expected_skelly_status = { pos: [1, 1], type: 'skeleton', hp: '5/5'}
+    expected_enemy_status = { pos: [1, 2], type: 'skeleton', hp: '4/5' }
+    expected_skelly_status = { pos: [1, 1], type: 'skeleton', hp: '5/5' }
     assert_equal expected_enemy_status, enemy.status
     assert_equal expected_skelly_status, skelly.status
   end
 
   def test_minion_can_be_recreated_from_json
-    minion_json = Minion.new(x:0,y:0).make_json
+    minion_json = Minion.new(x: 0, y: 0).make_json
     test_minion = Minion.new(minion_json: minion_json)
     assert_equal test_minion.make_json, minion_json
   end

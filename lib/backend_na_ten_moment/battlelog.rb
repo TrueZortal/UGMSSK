@@ -15,8 +15,8 @@ class Battlelog
   end
 
   def save_event(event, game_id: nil)
-  db_event = EventLog.new(game_id: game_id, event: event)
-  db_event.save
+    db_event = EventLog.new(game_id: game_id, event: event)
+    db_event.save
   end
 
   def place(unit, mana_after_placing)

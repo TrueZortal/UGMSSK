@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # # frozen_string_literal: true
 
 # require_relative 'field'
@@ -100,7 +101,7 @@
 #   end
 
 #   # returns summoned minion
-#   # rubocop:disable Naming Naming/MethodParameterName
+# Naming/MethodParameterName
 #   def place(owner: '', type: '', x: nil, y: nil, from_db: false, db_record: '')
 #     # rubocop:enable Naming Naming/MethodParameterName
 #     if from_db
@@ -119,7 +120,6 @@
 
 #       raise InsufficientManaError unless validate_owner_sufficient_mana(minion_owner, summoned_minion)
 #     end
-
 
 #     # update_owner_status_after_summoning(minion_owner, summoned_minion)
 #     # @log.place(summoned_minion, minion_owner.mana)

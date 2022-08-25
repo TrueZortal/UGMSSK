@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class InvalidMovementError < StandardError
 end
 
 class Pathfinding < ApplicationRecord
   def self.find_shortest_path(starting_field, target_field, game_id: nil)
     infinity = 50
-    routing = JSON.parse(BoardState.find_by(game_id: game_id).pathfinding_data, {symbolize_nammes: true})#.to_h
+    routing = JSON.parse(BoardState.find_by(game_id: game_id).pathfinding_data, { symbolize_nammes: true }) # .to_h
     starting_field_address_array = [starting_field.x_position, starting_field.y_position].to_s
     target_field_address_array = [target_field.x_position, target_field.y_position].to_s
     field_index = routing.keys

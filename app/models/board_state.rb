@@ -17,29 +17,29 @@ class BoardState < ApplicationRecord
     all_fields_array.each do |field|
       all_fields_array.each do |another_field|
         weight = Calculations.distance(field, another_field)
-        if Calculations.distance(field, another_field) < 1.42 && (field != another_field && field.obstacle == false && another_field.obstacle == false)
-          from = [field.x_position, field.y_position]
-          to = [another_field.x_position, another_field.y_position]
-          if !routing.key?(from)
-            routing[from] = { to => weight }
-          else
-            routing[from][to] = weight
-          end
+        next unless Calculations.distance(field,
+                                          another_field) < 1.42 && (field != another_field && field.obstacle == false && another_field.obstacle == false)
 
-          if !routing.key?(to)
-            routing[to] = { from => weight }
-          else
-            routing[to][from] = weight
-          end
-          field_index << from unless field_index.include?(from)
-          field_index << to unless field_index.include?(to)
+        from = [field.x_position, field.y_position]
+        to = [another_field.x_position, another_field.y_position]
+        if !routing.key?(from)
+          routing[from] = { to => weight }
+        else
+          routing[from][to] = weight
         end
+
+        if !routing.key?(to)
+          routing[to] = { from => weight }
+        else
+          routing[to][from] = weight
+        end
+        field_index << from unless field_index.include?(from)
+        field_index << to unless field_index.include?(to)
       end
     end
     pathfinding_data = JSON.generate(routing)
     BoardState.find_by(game_id: game_id).update(pathfinding_data: pathfinding_data)
   end
-
 
   # takes: integer size of board edge, integer game_id
   # returns: creates boardfield rows with appropriate parameters
@@ -50,15 +50,13 @@ class BoardState < ApplicationRecord
 
     size_of_board_edge.times do |x|
       size_of_board_edge.times do |y|
-        if valid_obstacle_coordinates.include?([x,y]) && obstacles < obstacle_limit
-          chosen_terrain = terrain_with_obstacle_chance_selector
-        else
-          chosen_terrain = terrain_selector
-        end
+        chosen_terrain = if valid_obstacle_coordinates.include?([x, y]) && obstacles < obstacle_limit
+                           terrain_with_obstacle_chance_selector
+                         else
+                           terrain_selector
+                         end
 
-        if is_obstacle(chosen_terrain)
-          obstacles += 1
-        end
+        obstacles += 1 if is_obstacle(chosen_terrain)
 
         field = BoardField.new(
           game_id: game_id,
@@ -77,8 +75,8 @@ class BoardState < ApplicationRecord
     end
   end
 
-  #takes: game_id
-  #returns: array of lines for rendering
+  # takes: game_id
+  # returns: array of lines for rendering
   def self.arrayify_for_rendering(game_id: nil)
     rendering_array = []
     board_fields = BoardField.where(game_id: game_id)
@@ -93,8 +91,8 @@ class BoardState < ApplicationRecord
     rendering_array
   end
 
-  #takes: String terrain type
-  #returns: Boolean of obstacle
+  # takes: String terrain type
+  # returns: Boolean of obstacle
   def self.is_obstacle(terrain_string)
     obstacles = %w[
       tree
@@ -109,36 +107,35 @@ class BoardState < ApplicationRecord
     generation_key = {
       'grass': { 'tree': 3, 'house': 1, 'grass': 10 },
       'dirt': { 'tree': 1, 'house': 1, 'dirt': 10 },
-      'tree': { 'tree': 5, 'house': 1, 'dirt': 3 , 'grass': 10},
+      'tree': { 'tree': 5, 'house': 1, 'dirt': 3, 'grass': 10 },
       'house': { 'grass': 10, 'house': 3, 'dirt': 5 }
     }
 
-      field_pool = []
-      generation_key[chosen_terrain.to_sym].map do |terrain, weight|
-        weight.times { field_pool << terrain }
-      end
+    field_pool = []
+    generation_key[chosen_terrain.to_sym].map do |terrain, weight|
+      weight.times { field_pool << terrain }
+    end
     field_pool.sample.to_s
   end
 
-
   # returns: String chosen field terrain based on the last field
   def self.terrain_selector
-      generation_key = {
-        'grass': { 'grass': 15, 'dirt': 1 },
-        'dirt': { 'dirt': 1, 'grass': 1 },
-        'house': { 'grass': 15, 'dirt': 1 },
-        'tree': { 'grass': 15, 'dirt': 1 }
-      }
+    generation_key = {
+      'grass': { 'grass': 15, 'dirt': 1 },
+      'dirt': { 'dirt': 1, 'grass': 1 },
+      'house': { 'grass': 15, 'dirt': 1 },
+      'tree': { 'grass': 15, 'dirt': 1 }
+    }
 
-      if BoardField.all.empty?
-        'grass'
-      else
-        field_pool = []
-        generation_key[BoardField.last.terrain.to_sym].map do |terrain, weight|
-          weight.times { field_pool << terrain }
-        end
-        field_pool.sample
+    if BoardField.all.empty?
+      'grass'
+    else
+      field_pool = []
+      generation_key[BoardField.last.terrain.to_sym].map do |terrain, weight|
+        weight.times { field_pool << terrain }
       end
+      field_pool.sample
+    end
   end
 
   # takes: string terrain
@@ -175,10 +172,7 @@ class BoardState < ApplicationRecord
     end
     temp_array
   end
-
 end
-
-
 
 # create_table "board_fields", force: :cascade do |t|
 #   t.integer "game_id"

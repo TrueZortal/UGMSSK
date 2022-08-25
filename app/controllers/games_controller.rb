@@ -3,7 +3,7 @@
 class GamesController < ApplicationController
   def start
     if Game.all.empty?
-      @game = Game.new(current_turn:0)
+      @game = Game.new(current_turn: 0)
       @game.save
       2.times do
         PvpPlayers.add_player(@game.id)
@@ -15,7 +15,6 @@ class GamesController < ApplicationController
     end
 
     # p TurnTracker.pull_current_player(game_record: @game)
-
 
     #   PvpPlayers.where(game_id: @game.id).each do |player|
     #     # p player
@@ -29,6 +28,7 @@ class GamesController < ApplicationController
 
     @current_player = PvpPlayers.find(TurnTracker.pull_current_player_id(game_id: @game.id))
   end
+
   def reset
     BoardState.destroy_all
     BoardField.destroy_all

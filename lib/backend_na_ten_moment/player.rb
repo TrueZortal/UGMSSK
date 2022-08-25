@@ -12,12 +12,11 @@ class Player
       @name = db_record['name']
       @manapool = ManaPool.new(mana: db_record['max_mana'])
       @manapool.mana = db_record['mana']
-      @mana = @manapool.mana
     else
       @name = name
       @manapool = ManaPool.new(mana: mana) # tu tu tururu
-      @mana = @manapool.mana
     end
+    @mana = @manapool.mana
     @minions = []
     @db_minions = SummonedMinion.where owner: @name
     @summoning_zone = summoning_zone
@@ -29,30 +28,30 @@ class Player
   end
 
   def minions?
-    SummonedMinion.where("owner_id = ?", @id).empty?
+    SummonedMinion.where('owner_id = ?', @id).empty?
   end
 
   def minions_who_can_attack?
-    !SummonedMinion.where("owner_id = ? and can_attack = ?", @id, true).empty?
+    !SummonedMinion.where('owner_id = ? and can_attack = ?', @id, true).empty?
   end
 
   def mana?
-    PvpPlayers.find(@id).mana > 0
+    PvpPlayers.find(@id).mana.positive?
   end
 
   def available_options
     # there are minions and they can attack
     if !minions? && minions_who_can_attack?
-      PvpPlayers.find(@id)['available_actions'] = ['summon', 'move', 'attack', 'concede', 'pass']
+      PvpPlayers.find(@id)['available_actions'] = %w[summon move attack concede pass]
     # the mana pool is empty
     elsif mana?
-      PvpPlayers.find(@id)['available_actions'] = ['move', 'concede', 'pass']
+      PvpPlayers.find(@id)['available_actions'] = %w[move concede pass]
     # there are no minions
     elsif minions?
-      PvpPlayers.find(@id)['available_actions'] = ['summon', 'concede', 'pass']
+      PvpPlayers.find(@id)['available_actions'] = %w[summon concede pass]
     # there are minions
     elsif !minions?
-      PvpPlayers.find(@id)['available_actions'] = ['summon', 'move', 'concede', 'pass']
+      PvpPlayers.find(@id)['available_actions'] = %w[summon move concede pass]
     end
   end
 
@@ -65,7 +64,8 @@ class Player
   def db_minions_who_can_attack
     array_of_records_of_minions_who_can_attack = []
     @minions.select(&:can_attack).each do |minion|
-      array_of_records_of_minions_who_can_attack << SummonedMinion.where(x_position: minion.position.x, y_position: minion.position.y)
+      array_of_records_of_minions_who_can_attack << SummonedMinion.where(x_position: minion.position.x,
+                                                                         y_position: minion.position.y)
     end
     array_of_records_of_minions_who_can_attack.flatten
   end
@@ -116,7 +116,7 @@ class Player
 
   def minion_list
     @minions.each do |minion|
-        p minion.status
+      p minion.status
     end
     newline_list = +''
     if @minions.empty?
