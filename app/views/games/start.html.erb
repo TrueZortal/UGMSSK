@@ -22,7 +22,7 @@
         <p><%= @current_player.name%> - available actions:</p>
         <% @current_player['available_actions'].each do |option| %>
           <button data-action="click->menu#<%="#{option}"%>"><%="#{option}"%></button>
-        <% end %> <button>concede</button> <button>concede</button>
+        <% end %> <button>pass</button> <button>concede</button>
        <div data-controller="menu" id = "summon" class="summon">
     <p>Summon:</p>
     <%= form_with model: SummonedMinion.new do |form| %>
