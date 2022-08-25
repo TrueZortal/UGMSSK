@@ -109,12 +109,17 @@ body {
     width: 20px;
   }
 
-  div.hidden {
-    /* display: none; */
+  div.summon {
+    display: none;
   }
 
+  div.attack {
+    display: none;
+  }
 
-
+  div.move {
+    display: none;
+  }
 
 
 

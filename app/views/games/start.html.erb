@@ -21,9 +21,9 @@
       <h1>Current player:</h1>
         <p><%= @current_player.name%> - available actions:</p>
         <% @current_player['available_actions'].each do |option| %>
-        <button data-action="click->hello#<%="#{option}Toggle()"%>"><%="#{option}"%></button>
-      <% end %>
-       <div id = "summon" class="hidden">
+          <button data-action="click->menu#<%="#{option}"%>"><%="#{option}"%></button>
+        <% end %> <button>concede</button> <button>concede</button>
+       <div data-controller="menu" id = "summon" class="summon">
     <p>Summon:</p>
     <%= form_with model: SummonedMinion.new do |form| %>
       <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
@@ -39,7 +39,7 @@
     <% end %>
   </div>
 
-  <div id = "move" class="hidden">
+  <div data-controller="menu" id = "move" class="move">
     <p>Move with:</p>
     <% SummonedMinion.where("owner_id = ?", @current_player.id).each do |minion|%>
       <%= form_with model: minion do |form| %>
@@ -52,7 +52,7 @@
     <% end %>
   </div>
 
-  <div id = "attack" class="hidden">
+  <div data-controller="menu" id = "attack" class="attack">
     <p>Attack with:</p>
     <% SummonedMinion.where("owner_id = ? and can_attack = ?", @current_player.id, true).each do |minion|%>
       <p><%= "#{minion.minion_type} at #{minion.x_position},#{minion.y_position}"%><p>

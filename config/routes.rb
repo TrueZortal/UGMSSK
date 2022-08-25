@@ -9,6 +9,10 @@ Rails.application.routes.draw do
   resources :summoned_minions do
     post :update_attack, on: :member
   end
+  resources :pvp_players do
+    post :pass, on: :member
+    post :concede, on: :member
+  end
   resources :board_states
   resources :games
 end
