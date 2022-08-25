@@ -10,7 +10,9 @@ class EventLog < ApplicationRecord
     save_event(event)
   end
 
-  def self.move(unit_db_record, from_position, to_position)
+  def self.move(unit_db_record, from_field, to_field)
+    from_position = [from_field.x_position, from_field.y_position].to_s
+    to_position = [to_field.x_position, to_field.y_position].to_s
     event = "#{unit_db_record.owner} moved #{unit_db_record.minion_type} from #{from_position} to #{to_position}"
     save_event(event)
   end
