@@ -64,7 +64,7 @@ class SummonedMinion < ApplicationRecord
     target_field_record = BoardField.find_by(game_id: owner.game_id, x_position: minion_to_summon.x_position,
                                              y_position: minion_to_summon.y_position)
 
-    begin
+    # begin
       raise InvalidPlacementError if target_field_record.occupied
       raise InsufficientManaError if mana_after.negative?
 
@@ -78,9 +78,9 @@ class SummonedMinion < ApplicationRecord
         )
         TurnTracker.end_turn(game_id: owner.game_id, player_id: minion_to_summon.owner_id)
       end
-    rescue StandardError
-      SummonedMinion.find(minion_to_summon.id).destroy
-    end
+    # rescue StandardError
+    #   SummonedMinion.find(minion_to_summon.id).destroy
+    # end
   end
 
   # <SummonedMinion id: 16, owner_id: 29, owner: "Player1", minion_type: "skeleton archer", health: 2, x_position: 2, y_position: 3, created_at: "2022-08-24 21:24:46.169036000 +0000", updated_at: "2022-08-24 21:26:08.392501000 +0000", can_attack: false>
@@ -95,9 +95,6 @@ class SummonedMinion < ApplicationRecord
     to_field = BoardField.find_by(game_id: game_id, x_position: minion_params['x_position'].to_i,
                                   y_position: minion_params['y_position'].to_i)
     shortest_path = Pathfinding.find_shortest_path(from_field, to_field, game_id: game_id)
-
-    p shortest_path
-    p MinionStat.find_by(minion_type: minion.minion_type).speed
     raise InvalidMovementError if shortest_path > MinionStat.find_by(minion_type: minion.minion_type).speed
 
     if shortest_path <= speed
@@ -120,5 +117,15 @@ class SummonedMinion < ApplicationRecord
       TurnTracker.end_turn(game_id: game_id, player_id: minion.owner_id)
 
     end
+  end
+
+  def self.get_abandoned(minion_id: nil)
+    EventLog.got_abandoned(unit_db_record: SummonedMinion.find(minion_id))
+    BoardField.find_by(occupant_id: minion_id).update(
+      occupant_id: nil,
+      occupant_type: '',
+      occupied: false
+    )
+    SummonedMinion.find(minion_id).delete
   end
 end

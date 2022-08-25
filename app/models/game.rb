@@ -13,11 +13,38 @@ class Game < ApplicationRecord
     game.save
   end
 
+  def self.remove_players_who_lost(game_id: nil)
+    Game.find(game_id).player_ids.each do |player_id|
+      if PvpPlayers.has_lost?(player_id: player_id)
+        player = PvpPlayers.find(player_id)
+        EventLog.has_lost(player_db_record: player)
+        players = Game.find(game_id).player_ids - [player_id]
+        Game.find(game_id).update(player_ids: players)
+      end
+    end
+  end
+
   def self.move_game_to_next_turn(game_id: nil)
     game = Game.find(game_id)
     turn = game.current_turn + 1
     game.update(current_turn: turn)
     game.save
+  end
+
+  def self.start_new(parameters: nil)
+    game = Game.new(current_turn: 0)
+    game.save
+    2.times do
+      PvpPlayers.add_player(game.id)
+    end
+    BoardState.create_board(game_id: game.id, size_of_board_edge: 8)
+    PvpPlayers.check_and_set_available_player_actions(game_id: game.id)
+    game
+  end
+
+  def self.continue(game_id: nil)
+    Game.last
+    # Game.find(game_id)
   end
 
   # takes: game_id
@@ -29,7 +56,6 @@ class Game < ApplicationRecord
       occupied_fields.each do |another_field|
         next unless validate_targets(field, another_field)
 
-        # p "THIS HAS HAPPENED"
         minion = SummonedMinion.find(field.occupant_id)
         minion.update(can_attack: true)
         minion.available_targets << another_field.occupant_id
@@ -46,7 +72,6 @@ class Game < ApplicationRecord
 
   def self.clear_targets_and_can_attack_clauses_for_all_minion_occupied_fields(game_id: nil)
     BoardField.where(game_id: game_id, occupied: true, obstacle: false).each do |field|
-      # p "THIS OTHER THING HAS HAPPENED (RESETTING)"
       reset_minion = SummonedMinion.find(field.occupant_id)
       reset_minion.update(
         can_attack: false,

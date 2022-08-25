@@ -14,11 +14,21 @@ class TurnTracker < ApplicationRecord
         player_turn.save
       end
     end
-    TurnTracker.where(game_id: game_id, complete: false).first.player_id
+    PvpPlayers.find(TurnTracker.where(game_id: game_id, complete: false).first.player_id)
   end
 
   def self.end_turn(game_id: nil, player_id: nil)
+    Game.remove_players_who_lost(game_id: game_id)
     Game.check_and_update_minions_who_can_attack(game_id: game_id)
+    check_win_conditions(game_id: game_id)
+    PvpPlayers.check_and_set_available_player_actions(game_id: game_id)
     TurnTracker.find_by(game_id: game_id, player_id: player_id, complete: false).update(complete: true)
+  end
+
+  def self.check_win_conditions(game_id: nil)
+    players = Game.find(game_id).player_ids
+    if players.size == 1
+      EventLog.winner(player_db_record: PvpPlayers.find(players[0]))
+    end
   end
 end

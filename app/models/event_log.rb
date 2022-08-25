@@ -27,10 +27,25 @@ class EventLog < ApplicationRecord
     save_event(event)
   end
 
-  # def self.concede(player)
-  #   minion_list = player.minions.map(&:status).join("\n")
-  #   event = "#{player.name} has conceded, their minions #{minion_list} all perished"
-  #   save_event(event)
-  # end
+  def self.got_abandoned(unit_db_record: nil)
+    event = "#{unit_db_record.minion_type} on [#{unit_db_record.x_position},#{unit_db_record.y_position}] has perished abandoned by #{unit_db_record.owner}"
+    save_event(event)
+  end
+
+
+  def self.has_lost(player_db_record: nil)
+    event = "#{player_db_record.name} has lost all of their mana and minions, they've been eliminated"
+    save_event(event)
+  end
+
+  def self.winner(player_db_record: nil)
+    event = "#{player_db_record.name} has emerged victorious!!!"
+    save_event(event)
+  end
+
+  def self.has_conceded(player_db_record: player)
+    event = "#{player.name} has conceded"
+    save_event(event)
+  end
 
 end
