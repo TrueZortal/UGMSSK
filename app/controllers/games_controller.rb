@@ -2,11 +2,11 @@
 
 class GamesController < ApplicationController
   def start
-    if Game.all.empty?
-      @game = Game.start_new
-    else
-      @game = Game.continue
-    end
+    @game = if Game.all.empty?
+              Game.start_new
+            else
+              Game.continue
+            end
     # p @game
     @current_player = TurnTracker.pull_current_player_id(game_id: @game.id)
   end
@@ -25,5 +25,3 @@ class GamesController < ApplicationController
 
   def start_game; end
 end
-
-

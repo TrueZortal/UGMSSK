@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EventLog < ApplicationRecord
   def self.save_event(event, game_id: nil)
     db_event = EventLog.new(game_id: game_id, event: event)
@@ -32,7 +34,6 @@ class EventLog < ApplicationRecord
     save_event(event)
   end
 
-
   def self.has_lost(player_db_record: nil)
     event = "#{player_db_record.name} has lost all of their mana and minions, they've been eliminated"
     save_event(event)
@@ -47,5 +48,4 @@ class EventLog < ApplicationRecord
     event = "#{player.name} has conceded"
     save_event(event)
   end
-
 end

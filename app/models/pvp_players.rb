@@ -31,24 +31,24 @@ class PvpPlayers < ApplicationRecord
 
   def self.check_and_set_available_player_actions(game_id: nil)
     Game.find(game_id).player_ids.each do |player_id|
-        # there are minions who can attack and there is mana
+      # there are minions who can attack and there is mana
       if !minions?(player_id: player_id) && minions_who_can_attack?(player_id: player_id) && mana?(player_id: player_id)
-        PvpPlayers.find(player_id).update(available_actions: ['summon', 'move', 'attack', 'concede', 'pass'])
+        PvpPlayers.find(player_id).update(available_actions: %w[summon move attack concede pass])
         # there are minions who can attack and there isn't mana
       elsif !minions?(player_id: player_id) && minions_who_can_attack?(player_id: player_id) && !mana?(player_id: player_id)
-        PvpPlayers.find(player_id).update(available_actions: ['move', 'attack', 'concede', 'pass'])
+        PvpPlayers.find(player_id).update(available_actions: %w[move attack concede pass])
         # there are minions and there is mana
       elsif !minions?(player_id: player_id) && mana?(player_id: player_id)
-        PvpPlayers.find(player_id).update(available_actions: ['summon', 'move', 'concede', 'pass'])
+        PvpPlayers.find(player_id).update(available_actions: %w[summon move concede pass])
         # there are minions but there isn't mana
       elsif !minions?(player_id: player_id) && !mana?(player_id: player_id)
-        PvpPlayers.find(player_id).update(available_actions: ['move', 'concede', 'pass'])
+        PvpPlayers.find(player_id).update(available_actions: %w[move concede pass])
       # there are no minions but there is mana
       elsif minions?(player_id: player_id) && mana?(player_id: player_id)
-        PvpPlayers.find(player_id).update(available_actions: ['summon', 'concede', 'pass'])
+        PvpPlayers.find(player_id).update(available_actions: %w[summon concede pass])
       # there are no minions and there isnt mana
       elsif minions?(player_id: player_id) && !mana?(player_id: player_id)
-        PvpPlayers.find(player_id).update(available_actions: ['concede', 'pass'])
+        PvpPlayers.find(player_id).update(available_actions: %w[concede pass])
       end
     end
   end
@@ -69,5 +69,3 @@ class PvpPlayers < ApplicationRecord
     !mana?(player_id: player_id) && minions?(player_id: player_id)
   end
 end
-
-

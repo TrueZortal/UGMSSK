@@ -1,8 +1,6 @@
 <body>
 <div class = "upperbar">
 <button><%= link_to "Reset Board", "/reset"%></button>
-<button><%= link_to "Add Player", "/add_player"%></button>
-<button><%= link_to "Remove Player", "/remove_player"%></button>
 </div>
 <section class ="gameplayrow">
 <section class ="statusbox">
@@ -25,38 +23,7 @@
         <% @current_player['available_actions'].each do |option| %>
         <button data-action="click->hello#<%="#{option}Toggle()"%>"><%="#{option}"%></button>
       <% end %>
-    </div>
-  </section>
-  <section class ="boardcontainer">
-    <div>
-      <table class = "board">
-          <% BoardState.arrayify_for_rendering(game_id: @game.id).each_with_index do |line, index|%>
-            <tr>
-              <% line.each do |field| %>
-                  <td>
-                    <h1 data-controller="position" data-action="click->position#greet" address="<%= field.occupant_id %>" class="field" style="--position: <%= field.offset%>">
-                    <span class="tooltiptext"><%= "[#{field.x_position},#{field.y_position}]"%></span>
-                    <% if field.occupant_id != nil %>
-                      <%= image_tag MinionStat.find_by(minion_type: field.occupant_type).icon,  class: "minion" %>
-                    <% end %>
-                    </h1>
-                  </td>
-              <% end %>
-            </tr>
-          <% end %>
-      </table>
-    </div>
-  </section>
-  <section class = "innerpadding"></section>
-  <section class = "combatlog">
-  <% EventLog.all.each do |line|%>
-    <h1><%=line['event']%></h1>
-  <% end %>
-  </section>
-  <section class = "padding"></section>
-  </section>
-
-  <div id = "summon" class="hidden">
+       <div id = "summon" class="hidden">
     <p>Summon:</p>
     <%= form_with model: SummonedMinion.new do |form| %>
       <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
@@ -101,6 +68,38 @@
       <% end %>
     <% end %>
   </div>
+    </div>
+  </section>
+  <section class ="boardcontainer">
+    <div>
+      <table class = "board">
+          <% BoardState.arrayify_for_rendering(game_id: @game.id).each_with_index do |line, index|%>
+            <tr>
+              <% line.each do |field| %>
+                  <td>
+                    <h1 data-controller="position" data-action="click->position#greet" address="<%= field.occupant_id %>" class="field" style="--position: <%= field.offset%>">
+                    <span class="tooltiptext"><%= "[#{field.x_position},#{field.y_position}]"%></span>
+                    <% if field.occupant_id != nil %>
+                      <%= image_tag MinionStat.find_by(minion_type: field.occupant_type).icon,  class: "minion" %>
+                    <% end %>
+                    </h1>
+                  </td>
+              <% end %>
+            </tr>
+          <% end %>
+      </table>
+    </div>
+  </section>
+  <section class = "innerpadding"></section>
+  <section class = "combatlog">
+  <% EventLog.all.each do |line|%>
+    <h1><%=line['event']%></h1>
+  <% end %>
+  </section>
+  <section class = "padding"></section>
+  </section>
+
+
 
 </body>
 

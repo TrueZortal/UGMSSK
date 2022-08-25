@@ -15,12 +15,12 @@ class Game < ApplicationRecord
 
   def self.remove_players_who_lost(game_id: nil)
     Game.find(game_id).player_ids.each do |player_id|
-      if PvpPlayers.has_lost?(player_id: player_id)
-        player = PvpPlayers.find(player_id)
-        EventLog.has_lost(player_db_record: player)
-        players = Game.find(game_id).player_ids - [player_id]
-        Game.find(game_id).update(player_ids: players)
-      end
+      next unless PvpPlayers.has_lost?(player_id: player_id)
+
+      player = PvpPlayers.find(player_id)
+      EventLog.has_lost(player_db_record: player)
+      players = Game.find(game_id).player_ids - [player_id]
+      Game.find(game_id).update(player_ids: players)
     end
   end
 
@@ -67,7 +67,8 @@ class Game < ApplicationRecord
   def self.validate_targets(field, another_field)
     field.occupant_id != another_field.occupant_id && SummonedMinion.find(field.occupant_id).owner_id != SummonedMinion.find(another_field.occupant_id).owner_id && Calculations.distance(
       field, another_field
-    ) < MinionStat.find_by(minion_type: field.occupant_type).range && check_if_line_exists_between_two_fields(field, another_field)
+    ) < MinionStat.find_by(minion_type: field.occupant_type).range && check_if_line_exists_between_two_fields(field,
+                                                                                                              another_field)
   end
 
   def self.clear_targets_and_can_attack_clauses_for_all_minion_occupied_fields(game_id: nil)
@@ -105,7 +106,9 @@ class Game < ApplicationRecord
       change_of_y = decide_modifier(relative_position[1])
       temp_position = [temp_position[0] + change_of_x, temp_position[1] + change_of_y]
       coordinates_between << temp_position
-      relative_position = relative_distance_between_two_fields(field, BoardField.find_by(x_position:temp_position[0], y_position: temp_position[1]))
+      relative_position = relative_distance_between_two_fields(field,
+                                                               BoardField.find_by(x_position: temp_position[0],
+                                                                                  y_position: temp_position[1]))
     end
     coordinates_between - [field.x_position, field.y_position]
   end

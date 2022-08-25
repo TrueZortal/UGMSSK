@@ -27,8 +27,6 @@ class TurnTracker < ApplicationRecord
 
   def self.check_win_conditions(game_id: nil)
     players = Game.find(game_id).player_ids
-    if players.size == 1
-      EventLog.winner(player_db_record: PvpPlayers.find(players[0]))
-    end
+    EventLog.winner(player_db_record: PvpPlayers.find(players[0])) if players.size == 1
   end
 end
