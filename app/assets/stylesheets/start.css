@@ -125,6 +125,10 @@ body {
     display: none;
   }
 
+  .floatybutton {
+    float: left;
+    width: auto;
+  }
 
 
 

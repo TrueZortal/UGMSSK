@@ -20,8 +20,8 @@
       <h1>Current player:</h1>
       <p><%= @current_player.name%> - available actions:</p>
       <% @current_player['available_actions'].each do |option| %>
-        <button data-action="click->menu#<%="#{option}"%>"><%="#{option}"%></button>
-      <% end %> <button>pass</button> <button>concede</button>
+        <button class = "floatybutton" data-action="click->menu#<%="#{option}"%>"><%="#{option}"%></button>
+      <% end %><%= button_to "pass", pass_pvp_player_path(@current_player), method: :get, class: "floatybutton"  %> <%= button_to "concede", concede_pvp_player_path(@current_player), method: :get, class: "floatybutton"%>
     <div data-controller="menu" id = "summon" class="summon">
     <p>Summon:</p>
     <%= form_with model: SummonedMinion.new do |form| %>

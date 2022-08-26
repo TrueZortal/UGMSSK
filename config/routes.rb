@@ -10,8 +10,8 @@ Rails.application.routes.draw do
     post :update_attack, on: :member
   end
   resources :pvp_players do
-    post :pass, on: :member
-    post :concede, on: :member
+    get :pass, on: :member
+    get :concede, on: :member
   end
   resources :board_states
   resources :games

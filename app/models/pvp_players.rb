@@ -4,7 +4,7 @@ class PvpPlayers < ApplicationRecord
   # validates :board, presence: true
   def self.add_player(game_id)
     # if PvpPlayers.where(game_id: game_id).size < 4
-    added_player = PvpPlayers.new(name: "Player#{PvpPlayers.all.size + 1}", mana: 10, max_mana: 10,
+    added_player = PvpPlayers.new(name: "Player#{PvpPlayers.all.size + 1}", mana: 2, max_mana: 10,
                                   summoning_zone: '', game_id: game_id, color: pick_color)
     added_player.save
     Game.add_player(game_id: game_id, player_id: added_player.id)
@@ -28,14 +28,17 @@ class PvpPlayers < ApplicationRecord
   end
 
   def self.pass(player_id: nil)
-    TurnTracker.end_turn(game_id: PvpPlayers.find(player_id).game_id, player_id: player_id)
+    player = PvpPlayers.find(player_id)
+    EventLog.has_passed(player_db_record: player)
+    TurnTracker.end_turn(game_id: player.game_id, player_id: player_id)
   end
 
-  def self.concede(player_id: nil, game_id: nil)
+  def self.concede(player_id: nil)
+    game_id = Game.find(PvpPlayers.find(player_id).game_id).id
     SummonedMinion.where(owner_id: player_id).each do |minion|
-      SummonedMinion.get_abandoned(minion_id: minion)
+      SummonedMinion.get_abandoned(minion_id: minion.id)
     end
-    EventLog.has_conceded(player_db_record: player)
+    EventLog.has_conceded(player_db_record: PvpPlayers.find(player_id))
     players = Game.find(game_id).player_ids - [player_id]
     Game.find(game_id).update(player_ids: players)
     TurnTracker.end_turn(game_id: PvpPlayers.find(player_id).game_id, player_id: player_id)

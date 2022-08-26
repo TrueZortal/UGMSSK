@@ -44,8 +44,13 @@ class EventLog < ApplicationRecord
     save_event(event)
   end
 
+  def self.has_passed(player_db_record: player)
+    event = "#{player_db_record.name} has passed their turn"
+    save_event(event)
+  end
+
   def self.has_conceded(player_db_record: player)
-    event = "#{player.name} has conceded"
+    event = "#{player_db_record.name} has conceded"
     save_event(event)
   end
 end
