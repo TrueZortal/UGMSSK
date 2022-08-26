@@ -19,6 +19,8 @@ body {
   .statusbox .centred_text {
     text-align: center;
     font-size: 1.1rem;
+    background-color:var(--color);
+
   }
 
   .statusbox .smallcenteredtext {
@@ -49,6 +51,8 @@ body {
     background-image: url('board_tiles');
     background-position: var(--position);
     background-repeat: no-repeat;
+    background-color:var(--color);
+    background-blend-mode: multiply;
     padding: 0px;
     margin: 0;
     width: 64px;

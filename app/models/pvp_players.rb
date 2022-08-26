@@ -5,10 +5,22 @@ class PvpPlayers < ApplicationRecord
   def self.add_player(game_id)
     # if PvpPlayers.where(game_id: game_id).size < 4
     added_player = PvpPlayers.new(name: "Player#{PvpPlayers.all.size + 1}", mana: 10, max_mana: 10,
-                                  summoning_zone: '', game_id: game_id)
+                                  summoning_zone: '', game_id: game_id, color: pick_color)
     added_player.save
     Game.add_player(game_id: game_id, player_id: added_player.id)
     # end
+  end
+
+  def self.pick_color
+    colors = [
+      'rgba(255, 0, 0, 1)', # red
+      'rgba(11, 190, 13, 1)', # green
+      'rgba(11, 17, 191, 1)', # blue
+      'rgba(255, 125, 0, 1)', # orange
+      # 'rgba(255, 112, 245, 1)', # pink
+      'rgba(84, 43, 18, 1)' #brown
+    ]
+    colors.sample
   end
 
   def self.remove_player(game_id)

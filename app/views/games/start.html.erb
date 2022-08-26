@@ -8,22 +8,21 @@
       <table class = "playerlist">
         <% PvpPlayers.where(game_id: @game.id).sort { |a,b| a.id <=> b.id }.each do |player| %>
         <td class = "player_column">
-          <p class="centred_text"><%= "#{player.name} MANA:#{player.mana}/#{player.max_mana}" %></p>
+          <p class="centred_text" style= "--color: <%= player.color%>;"><%= "#{player.name} MANA:#{player.mana}/#{player.max_mana}" %></p>
           <p class="centred_text"><% SummonedMinion.where("owner_id = ?", player.id).each do |minion|%></p>
           <li class="smallcenteredtext"><%="#{minion.minion_type}, @[#{minion.x_position},#{minion.y_position}] Health: #{minion.health}/#{MinionStat.find_by(minion_type: minion.minion_type).health}"%></li>
           <%end%>
         </td>
-
         <% end %>
       </table>
     </div>
     <div data-controller="menu">
       <h1>Current player:</h1>
-        <p><%= @current_player.name%> - available actions:</p>
-        <% @current_player['available_actions'].each do |option| %>
-          <button data-action="click->menu#<%="#{option}"%>"><%="#{option}"%></button>
-        <% end %> <button>pass</button> <button>concede</button>
-       <div data-controller="menu" id = "summon" class="summon">
+      <p><%= @current_player.name%> - available actions:</p>
+      <% @current_player['available_actions'].each do |option| %>
+        <button data-action="click->menu#<%="#{option}"%>"><%="#{option}"%></button>
+      <% end %> <button>pass</button> <button>concede</button>
+    <div data-controller="menu" id = "summon" class="summon">
     <p>Summon:</p>
     <%= form_with model: SummonedMinion.new do |form| %>
       <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
@@ -68,7 +67,7 @@
       <% end %>
     <% end %>
   </div>
-    </div>
+  </div>
   </section>
   <section class ="boardcontainer">
     <div>
@@ -77,10 +76,10 @@
             <tr>
               <% line.each do |field| %>
                   <td>
-                    <h1 data-controller="position" data-action="click->position#greet" address="<%= field.occupant_id %>" class="field" style="--position: <%= field.offset%>">
+                    <h1 data-controller="position" data-action="click->position#greet" address="<%= field.occupant_id %>" class="field" style="--position: <%= field.offset%>; --color: <%= field.occupied && !field.obstacle ? PvpPlayers.find(SummonedMinion.find(field.occupant_id).owner_id).color : 'rgba(255, 0, 0, 0)' %>;">
                     <span class="tooltiptext"><%= "[#{field.x_position},#{field.y_position}]"%></span>
                     <% if field.occupant_id != nil %>
-                      <%= image_tag MinionStat.find_by(minion_type: field.occupant_type).icon,  class: "minion" %>
+                      <%= image_tag MinionStat.find_by(minion_type: field.occupant_type).icon, class: "minion" %>
                     <% end %>
                     </h1>
                   </td>
