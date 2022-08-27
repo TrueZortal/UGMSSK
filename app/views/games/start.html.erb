@@ -21,9 +21,8 @@
       <p><%= @current_player.name%> - available actions:</p>
       <% @current_player['available_actions'].each do |option| %>
         <button class = "floatybutton" data-action="click->menu#<%="#{option}"%>"><%="#{option}"%></button>
-      <% end %><%= button_to "pass", pass_pvp_player_path(@current_player), method: :get, class: "floatybutton"  %> <%= button_to "concede", concede_pvp_player_path(@current_player), method: :get, class: "floatybutton"%>
+      <% end %><%= button_to "pass", pass_pvp_player_path(@current_player), method: :get, class: "floatybutton"  %> <%= button_to "concede", concede_pvp_player_path(@current_player), method: :get, style: "width: auto;"%>
     <div data-controller="menu" id = "summon" class="summon">
-    <p>Summon:</p>
     <%= form_with model: SummonedMinion.new do |form| %>
       <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
       <%= form.hidden_field :owner, value: "#{@current_player.name}" %>
@@ -39,7 +38,6 @@
   </div>
 
   <div data-controller="menu" id = "move" class="move">
-    <p>Move with:</p>
     <% SummonedMinion.where("owner_id = ?", @current_player.id).each do |minion|%>
       <%= form_with model: minion do |form| %>
         <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
@@ -52,7 +50,6 @@
   </div>
 
   <div data-controller="menu" id = "attack" class="attack">
-    <p>Attack with:</p>
     <% SummonedMinion.where("owner_id = ? and can_attack = ?", @current_player.id, true).each do |minion|%>
       <p><%= "#{minion.minion_type} at #{minion.x_position},#{minion.y_position}"%><p>
       <%= form_with url: update_attack_summoned_minion_path(id: minion['id']) do |form| %>
