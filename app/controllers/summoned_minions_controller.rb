@@ -29,4 +29,6 @@ class SummonedMinionsController < ApplicationController
     # p minion
     render json: minion
   end
+
+
 end

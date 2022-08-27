@@ -14,6 +14,9 @@ Rails.application.routes.draw do
     get :pass, on: :member
     get :concede, on: :member
   end
+  resources :board_fields do
+    post :update_drag, on: :member
+  end
   resources :board_states
   resources :games
 end

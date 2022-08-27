@@ -37,8 +37,8 @@ export default class extends Controller {
     console.log("Field drag started")
     // field_id = event.target.getAttribute('data-field-id')
     let id = {
-      field_id: event.target.getAttribute('data-field-id'),
-      occupant_id: event.target.getAttribute('data-occupant-id')
+      field_id: event.target.getAttribute('data-field-id')
+      // ,occupant_id: event.target.getAttribute('data-occupant-id')
     }
     console.log(id)
     event.dataTransfer.setData('text/plain', JSON.stringify(id))
@@ -76,8 +76,14 @@ export default class extends Controller {
     if (id === null) {
       id = event.target.getAttribute("data-field-id")
     }
-    console.log(id)
-    console.log(JSON.parse(event.dataTransfer.getData('text/plain')))
+    let fromFieldData = JSON.parse(event.dataTransfer.getData('text/plain'))
+    const headers = {
+      "from_field_id": fromFieldData['field_id'],
+      "to_field_id": id
+    }
+    // console.log(id)
+    // console.log()
     console.log("Field on drop fired")
+    fetch("/board_fields/"+ id +"/update_drag/", { headers, method: "POST" })
   }
 }
