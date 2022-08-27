@@ -35,8 +35,14 @@ export default class extends Controller {
     event.dataTransfer.dropEffect = "move"
     event.dataTransfer.effectAllowed = "move"
     console.log("Field drag started")
-    let id = event.target
+    // field_id = event.target.getAttribute('data-field-id')
+    let id = {
+      field_id: event.target.getAttribute('data-field-id'),
+      occupant_id: event.target.getAttribute('data-occupant-id')
+    }
     console.log(id)
+    event.dataTransfer.setData('text/plain', JSON.stringify(id))
+    // allows fetching via method
     // let minion = fetch('/summoned_minions/'+id+'/grab/')
     // .then((response) => response.json())
 
@@ -46,7 +52,7 @@ export default class extends Controller {
 
   onDragEnd(event) {
     // event.preventDefault()
-    console.log("Field drag ended")
+    // console.log("Field drag ended")
   }
 
   onDragOver(event) {
@@ -65,13 +71,13 @@ export default class extends Controller {
   }
 
   onDrop(event) {
-    // event.preventDefault()
-    event.dataTransfer.dropEffect = "move"
-    event.dataTransfer.effectAllowed = "move"
-    // console.log("Field drag started")
-    let id = event.target
+    event.preventDefault()
+    let id = event.target.getAttribute('field_id')
+    if (id === null) {
+      id = event.target.getAttribute("data-field-id")
+    }
     console.log(id)
-    // console.log(event)
+    console.log(JSON.parse(event.dataTransfer.getData('text/plain')))
     console.log("Field on drop fired")
   }
 }
