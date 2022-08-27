@@ -21,4 +21,12 @@ class SummonedMinionsController < ApplicationController
 
     redirect_to root_url
   end
+
+  def grab
+    # p params
+
+    minion = SummonedMinion.find(params['id'])
+    # p minion
+    render json: minion
+  end
 end

@@ -68,15 +68,17 @@
   </section>
   <section class ="boardcontainer">
     <div>
-      <table class = "board">
+      <table data-controller="minion" data-action="click->minion#setListeners"class = "board">
           <% BoardState.arrayify_for_rendering(game_id: @game.id).each_with_index do |line, index|%>
             <tr>
               <% line.each do |field| %>
                   <td>
-                    <h1 data-controller="position" data-action="click->position#greet" address="<%= field.occupant_id %>" class="field" style="--position: <%= field.offset%>; --color: <%= field.occupied && !field.obstacle ? PvpPlayers.find(SummonedMinion.find(field.occupant_id).owner_id).color : 'rgba(255, 0, 0, 0)' %>;">
+                    <h1 class="field" style="--position: <%= field.offset%>; --color: <%= field.occupied && !field.obstacle ? PvpPlayers.find(SummonedMinion.find(field.occupant_id).owner_id).color : 'rgba(255, 0, 0, 0)' %>;">
                     <span class="tooltiptext"><%= "[#{field.x_position},#{field.y_position}]"%></span>
                     <% if field.occupant_id != nil %>
-                      <%= image_tag MinionStat.find_by(minion_type: field.occupant_type).icon, class: "minion" %>
+                      <div draggable = "true" class="minion" data-controller="minion" data-action="click->minion#getId" occupant_id="<%= field.occupant_id %>">
+                      <%= image_tag MinionStat.find_by(minion_type: field.occupant_type).icon, class: "minion_image" %>
+                      </div>
                     <% end %>
                     </h1>
                   </td>

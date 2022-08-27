@@ -34,8 +34,12 @@ body {
     flex: auto;
   }
 
-  .boardcontainer .minion {
+  .boardcontainer .minion_image {
     position: absolute;
+  }
+
+  .minion {
+    cursor: move;
   }
 
   .boardcontainer .board {

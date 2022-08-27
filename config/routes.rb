@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get '/reset', to: 'games#reset'
   resources :summoned_minions do
     post :update_attack, on: :member
+    get :grab, on: :member
   end
   resources :pvp_players do
     get :pass, on: :member
