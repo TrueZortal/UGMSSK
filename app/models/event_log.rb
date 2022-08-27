@@ -53,4 +53,9 @@ class EventLog < ApplicationRecord
     event = "#{player_db_record.name} has conceded"
     save_event(event)
   end
+
+  def self.error(error_msg)
+    event = "#{error_msg} has occured"
+    save_event(event)
+  end
 end

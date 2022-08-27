@@ -78,7 +78,8 @@ class SummonedMinion < ApplicationRecord
         )
         TurnTracker.end_turn(game_id: owner.game_id, player_id: minion_to_summon.owner_id)
       end
-    rescue StandardError
+    rescue StandardError => e
+      EventLog.error(e)
       SummonedMinion.find(minion_to_summon.id).destroy
     end
   end
