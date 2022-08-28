@@ -96,10 +96,10 @@
   <section class = "innerpadding"></section>
   <section class = "combatlog">
   <% EventLog.all.each do |line|%>
-    <h1><%=line['event']%></h1>
+    <div data-controller= "combatlog" class = "message"><%=line['event']%></div>
   <% end %>
   </section>
-  <section class = "padding"></section>
+  <section class="padding"></section>
   </section>
 
 

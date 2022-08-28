@@ -3,6 +3,6 @@
 class ApplicationController < ActionController::Base
   rescue_from(Exception) do |e|
     EventLog.error(e)
-    redirect_to root_path
+    redirect_to :controller => 'games', :action => 'start', :format=>:html
   end
 end

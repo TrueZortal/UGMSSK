@@ -65,6 +65,23 @@ class Game < ApplicationRecord
   end
 
   def self.validate_targets(field, another_field)
+    p " THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS"
+    p " THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS"
+    p " THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS"
+    p " THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS"
+    p "condition met, not self harming #{field.occupant_id != another_field.occupant_id}"
+    p "condition met, not team killing #{SummonedMinion.find(field.occupant_id).owner_id != SummonedMinion.find(another_field.occupant_id).owner_id}"
+    p "condition met, in range #{Calculations.distance(field, another_field) < MinionStat.find_by(minion_type: field.occupant_type).range}"
+    p "condition met, line of sight exists #{check_if_line_exists_between_two_fields(field, another_field)}"
+    p "overall #{ field.occupant_id != another_field.occupant_id && SummonedMinion.find(field.occupant_id).owner_id != SummonedMinion.find(another_field.occupant_id).owner_id && Calculations.distance(
+      field, another_field
+    ) < MinionStat.find_by(minion_type: field.occupant_type).range && check_if_line_exists_between_two_fields(field,
+                                                                                                              another_field)}"
+    p " THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS"
+    p " THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS"
+    p " THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS"
+    p " THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS"
+
     field.occupant_id != another_field.occupant_id && SummonedMinion.find(field.occupant_id).owner_id != SummonedMinion.find(another_field.occupant_id).owner_id && Calculations.distance(
       field, another_field
     ) < MinionStat.find_by(minion_type: field.occupant_type).range && check_if_line_exists_between_two_fields(field,
@@ -94,7 +111,7 @@ class Game < ApplicationRecord
       end
       the_answer << test_array.any?(true)
     end
-    p the_answer.any?(false)
+    the_answer.any?(false)
   end
 
   def self.get_route_between(field, another_field)

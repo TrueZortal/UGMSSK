@@ -7,8 +7,8 @@
 # class OutOfRangeError < StandardError
 # end
 
-# class InvalidTargetError < StandardError
-# end
+class InvalidTargetError < StandardError
+end
 
 class InsufficientManaError < StandardError
 end
@@ -27,9 +27,12 @@ class SummonedMinion < ApplicationRecord
   def self.attack(parameters: nil)
     minion = SummonedMinion.find parameters['id']
     target = SummonedMinion.find parameters['target_id']
+    starting_field = BoardField.find_by(occupant_id: minion.id)
     attack_field = BoardField.find_by(occupant_id: target.id)
     owner = PvpPlayers.find(minion.owner_id)
-    raise WrongPlayerError if minion.owner_id != TurnTracker.pull_current_player_id(game_id: owner.game_id).id
+    begin
+      raise WrongPlayerError if minion.owner_id != TurnTracker.pull_current_player_id(game_id: owner.game_id).id
+      raise InvalidTargetError unless Game.validate_targets(starting_field, attack_field)
 
     damage = MinionStat.find_by(minion_type: minion.minion_type).attack - MinionStat.find_by(minion_type: target.minion_type).defense
     damage = 1 if damage.negative?
@@ -47,8 +50,10 @@ class SummonedMinion < ApplicationRecord
       target.update(health: health_after_damage)
       EventLog.attack(minion, target, damage, health_after_damage)
     end
-
     TurnTracker.end_turn(game_id: owner.game_id, player_id: minion.owner_id)
+    rescue StandardError => e
+      EventLog.error(e)
+    end
   end
 
   def self.place(parameters: nil)

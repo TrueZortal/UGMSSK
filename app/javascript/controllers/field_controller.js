@@ -34,7 +34,7 @@ export default class extends Controller {
 
   onDragEnd(event) {
     // event.preventDefault()
-    setTimeout(function(){ location.reload(); }, 200);
+    setTimeout(function(){ location.reload(); }, 500);
     // console.log("Field drag ended")
   }
 
