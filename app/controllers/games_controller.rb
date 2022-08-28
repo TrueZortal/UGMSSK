@@ -2,6 +2,7 @@
 
 class GamesController < ApplicationController
   def start
+    p params
     @game = if Game.all.empty?
               Game.start_new
             else

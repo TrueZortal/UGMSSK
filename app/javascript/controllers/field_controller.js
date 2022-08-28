@@ -77,13 +77,21 @@ export default class extends Controller {
       id = event.target.getAttribute("data-field-id")
     }
     let fromFieldData = JSON.parse(event.dataTransfer.getData('text/plain'))
-    const headers = {
-      "from_field_id": fromFieldData['field_id'],
-      "to_field_id": id
-    }
-    // console.log(id)
+    console.log(fromFieldData)
     // console.log()
     console.log("Field on drop fired")
-    fetch("/board_fields/"+ id +"/update_drag/", { headers, method: "POST" })
+    fetch("/board_fields/"+ id +"/update_drag/", {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "from_field_id": fromFieldData['field_id'],
+        "to_field_id": id
+      })
+      // mode: "no-cors",
+      // headers: headers
+    })
   }
 }

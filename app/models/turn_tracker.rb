@@ -14,6 +14,8 @@ class TurnTracker < ApplicationRecord
         player_turn.save
       end
     end
+    p game_id
+    p TurnTracker.where(game_id: game_id, complete: false).first
     PvpPlayers.find(TurnTracker.where(game_id: game_id, complete: false).first.player_id)
   end
 

@@ -19,6 +19,9 @@ end
 class InvalidMovementError < StandardError
 end
 
+class WrongPlayerError < StandardError
+end
+
 class SummonedMinion < ApplicationRecord
   # <ActionController::Parameters {"authenticity_token"=>"_TWhDYYJ3_K1rFu4RJcILakDJynGWV0QXoymLpzklG-0vZ0PYoEgB9gOhzC-v9XK9bxN6TFXs6YGx57x5kmIyg", "minion_type"=>"skeleton archer", "target_id"=>"38", "minion_target"=>"skeleton", "commit"=>"submit", "controller"=>"summoned_minions", "action"=>"update_attack", "id"=>"39"} permitted: false>
   def self.attack(parameters: nil)
@@ -26,6 +29,8 @@ class SummonedMinion < ApplicationRecord
     target = SummonedMinion.find parameters['target_id']
     attack_field = BoardField.find_by(occupant_id: target.id)
     owner = PvpPlayers.find(minion.owner_id)
+    raise WrongPlayerError if minion.owner_id != TurnTracker.pull_current_player_id(game_id: owner.game_id).id
+
     damage = MinionStat.find_by(minion_type: minion.minion_type).attack - MinionStat.find_by(minion_type: target.minion_type).defense
     damage = 1 if damage.negative?
 
@@ -91,6 +96,9 @@ class SummonedMinion < ApplicationRecord
     minion = SummonedMinion.find parameters['id']
     owner = PvpPlayers.find(minion.owner_id)
     game_id = owner.game_id
+
+    raise WrongPlayerError if minion.owner_id != TurnTracker.pull_current_player_id(game_id: game_id).id
+
     speed = MinionStat.find_by(minion_type: minion.minion_type).speed
     from_field = BoardField.find_by(game_id: game_id, x_position: minion.x_position, y_position: minion.y_position)
     to_field = BoardField.find_by(game_id: game_id, x_position: minion_params['x_position'].to_i,
@@ -116,8 +124,10 @@ class SummonedMinion < ApplicationRecord
         y_position: minion_params['y_position']
       )
       TurnTracker.end_turn(game_id: game_id, player_id: minion.owner_id)
-
     end
+    # rescue StandardError => e
+    #   EventLog.error(e)
+    # end
   end
 
   def self.get_abandoned(minion_id: nil)
