@@ -4,7 +4,7 @@ export default class extends Controller {
   // static targets = [ "hideable" ]
 
   connect() {
-    // setTimeout(function(){ location.reload(); }, 5000);
+    setTimeout(function(){ location.reload(); }, 10000);
   }
 
   summon() {
