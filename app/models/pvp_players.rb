@@ -48,16 +48,16 @@ class PvpPlayers < ApplicationRecord
     Game.find(game_id).player_ids.each do |player_id|
       # there are minions who can attack and there is mana
       if !minions?(player_id: player_id) && minions_who_can_attack?(player_id: player_id) && mana?(player_id: player_id)
-        PvpPlayers.find(player_id).update(available_actions: %w[summon move attack])
+        PvpPlayers.find(player_id).update(available_actions: %w[summon])
         # there are minions who can attack and there isn't mana
       elsif !minions?(player_id: player_id) && minions_who_can_attack?(player_id: player_id) && !mana?(player_id: player_id)
-        PvpPlayers.find(player_id).update(available_actions: %w[move attack])
+        PvpPlayers.find(player_id).update(available_actions: [])
         # there are minions and there is mana
       elsif !minions?(player_id: player_id) && mana?(player_id: player_id)
-        PvpPlayers.find(player_id).update(available_actions: %w[summon move])
+        PvpPlayers.find(player_id).update(available_actions: %w[summon])
         # there are minions but there isn't mana
       elsif !minions?(player_id: player_id) && !mana?(player_id: player_id)
-        PvpPlayers.find(player_id).update(available_actions: %w[move])
+        PvpPlayers.find(player_id).update(available_actions: [])
       # there are no minions but there is mana
       elsif minions?(player_id: player_id) && mana?(player_id: player_id)
         PvpPlayers.find(player_id).update(available_actions: %w[summon])

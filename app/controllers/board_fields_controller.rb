@@ -9,7 +9,7 @@ def update_drag
   to_field_id = params['to_field_id'].to_i
   from_field = BoardField.find(from_field_id)
   to_field =  BoardField.find(to_field_id)
-  if to_field.occupied
+  if to_field.occupied && !to_field.obstacle
     pseudo_params = {
       "id" => from_field.occupant_id,
       "target_id" => to_field.occupant_id
@@ -26,7 +26,7 @@ def update_drag
     SummonedMinion.move(parameters: pseudo_params)
   end
 
-  redirect_to root_url
+  redirect_to :controller => 'games', :action => 'start', :format=>:html
 end
 
 def board_field_params

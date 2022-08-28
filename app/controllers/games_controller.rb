@@ -4,12 +4,16 @@ class GamesController < ApplicationController
   def start
     p params
     @game = if Game.all.empty?
-              Game.start_new
-            else
-              Game.continue
-            end
+      Game.start_new
+    else
+      Game.continue
+    end
     # p @game
     @current_player = TurnTracker.pull_current_player_id(game_id: @game.id)
+    # respond_to do |format|
+    #   format.html
+    #   format.json {render :template => "games/start"}
+    # end
   end
 
   def reset
