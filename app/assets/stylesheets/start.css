@@ -36,10 +36,14 @@ body {
 
   .boardcontainer .minion_image {
     position: absolute;
+    opacity:1;
   }
 
-  .minion {
+  .boardcontainer .minion {
     cursor: move;
+
+    background-color:var(--color);
+    background-blend-mode: multiply;
   }
 
   .boardcontainer .board {

@@ -1,0 +1,22 @@
+.gameplayrow .combatlog {
+  font-size: x-small;
+  text-align: left;
+  overscroll-behavior-y: contain;
+  scroll-snap-type: y proximity;
+  height:auto;
+  max-height:500px;
+  color:aliceblue;
+  flex: 25%;
+  background-color: black;
+  border: 3px dotted white;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.combatlog .message {
+  margin-bottom: 5px;
+  font-size: 0.7rem;
+}
+.combatlog > .message > .message:last-child {
+  scroll-snap-align: end;
+}
