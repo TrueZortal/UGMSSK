@@ -9,11 +9,11 @@ export default class extends Controller {
 
   summon() {
     var summon = document.getElementById("summon")
-    var move = document.getElementById("move")
-    var attack = document.getElementById("attack")
+    // var move = document.getElementById("move")
+    // var attack = document.getElementById("attack")
 
-    move.style.display = "none"
-    attack.style.display = "none"
+    // move.style.display = "none"
+    // attack.style.display = "none"
     if (summon.style.display === "none") {
       summon.style.display = "block";
     } else {

@@ -34,23 +34,23 @@ class SummonedMinion < ApplicationRecord
       raise WrongPlayerError if minion.owner_id != TurnTracker.pull_current_player_id(game_id: owner.game_id).id
       raise InvalidTargetError unless Game.validate_targets(starting_field, attack_field)
 
-    damage = MinionStat.find_by(minion_type: minion.minion_type).attack - MinionStat.find_by(minion_type: target.minion_type).defense
-    damage = 1 if damage.negative?
+      damage = MinionStat.find_by(minion_type: minion.minion_type).attack - MinionStat.find_by(minion_type: target.minion_type).defense
+      damage = 1 if damage.negative?
 
-    health_after_damage = target.health - damage
-    if health_after_damage <= 0
-      EventLog.attack(minion, target, damage, health_after_damage)
-      SummonedMinion.delete(target.id)
-      attack_field.update(
-        occupant_id: nil,
-        occupant_type: '',
-        occupied: false
-      )
-    else
-      target.update(health: health_after_damage)
-      EventLog.attack(minion, target, damage, health_after_damage)
-    end
-    TurnTracker.end_turn(game_id: owner.game_id, player_id: minion.owner_id)
+      health_after_damage = target.health - damage
+      if health_after_damage <= 0
+        EventLog.attack(minion, target, damage, health_after_damage)
+        SummonedMinion.delete(target.id)
+        attack_field.update(
+          occupant_id: nil,
+          occupant_type: '',
+          occupied: false
+        )
+      else
+        target.update(health: health_after_damage)
+        EventLog.attack(minion, target, damage, health_after_damage)
+      end
+      TurnTracker.end_turn(game_id: owner.game_id, player_id: minion.owner_id)
     rescue StandardError => e
       EventLog.error(e)
     end

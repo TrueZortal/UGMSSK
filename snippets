@@ -8,3 +8,32 @@
 37
 
 PvpPlayers.find(SummonedMinion.find(field.occupant_id)).color
+
+#deprecated implementation of move and attack forms
+<div data-controller="menu" id = "move" class="move">
+    <% SummonedMinion.where("owner_id = ?", @current_player.id).each do |minion|%>
+      <%= form_with model: minion do |form| %>
+        <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
+        <%= form.label :x_position, "Position X,Y for #{minion.minion_type} at" %>
+        <%= form.number_field :x_position, in: 0..7, step: 1 %>
+        <%= form.number_field :y_position, in: 0..7, step: 1 %>
+        <%= form.submit "submit"%>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div data-controller="menu" id = "attack" class="attack">
+    <% SummonedMinion.where("owner_id = ? and can_attack = ?", @current_player.id, true).each do |minion|%>
+      <p><%= "#{minion.minion_type} at #{minion.x_position},#{minion.y_position}"%><p>
+      <%= form_with url: update_attack_summoned_minion_path(id: minion['id']) do |form| %>
+      <%= form.hidden_field :minion_type, value: "#{minion.minion_type}" %>
+        <% minion.available_targets.each do |target|%>
+          <% target_record = SummonedMinion.find(target)%>
+          <%= form.hidden_field :target_id, value: "#{target}" %>
+          <%= form.radio_button :minion_target, "#{target_record.minion_type}" %>
+          <%= form.label :minion_target, "#{target_record.minion_type} at #{target_record.x_position},#{target_record.y_position}" %>
+        <% end %>
+        <%= form.submit "submit"%>
+      <% end %>
+    <% end %>
+  </div>

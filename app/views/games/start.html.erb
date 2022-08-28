@@ -1,105 +1,90 @@
 <body>
-<div class = "upperbar">
-<button><%= link_to "Reset Board", "/reset"%></button>
-</div>
+<section class = "navigation_game_status_bar">
+  <div class = "navigation_menu">
+    <%= button_to "Reset Board", reset_path, method: :get, class:"menubutton" %>
+  </div>
+</section>
 <section class ="gameplayrow">
-<section class ="statusbox">
-    <div class ="minionsandoptions">
-      <table class = "playerlist">
-        <% PvpPlayers.where(game_id: @game.id).sort { |a,b| a.id <=> b.id }.each do |player| %>
-        <td class = "player_column">
-          <p class="centred_text" style= "--color: <%= player.color%>;"><%= "#{player.name} MANA:#{player.mana}/#{player.max_mana}" %></p>
-          <p class="centred_text"><% SummonedMinion.where("owner_id = ?", player.id).each do |minion|%></p>
-          <li class="smallcenteredtext"><%="#{minion.minion_type}, @[#{minion.x_position},#{minion.y_position}] Health: #{minion.health}/#{MinionStat.find_by(minion_type: minion.minion_type).health}"%></li>
-          <%end%>
-        </td>
-        <% end %>
-      </table>
-    </div>
-    <div data-controller="menu">
-      <h1>Current player:</h1>
-      <p><%= @current_player.name%> - available actions:</p>
-      <% @current_player['available_actions'].each do |option| %>
-        <button class = "floatybutton" data-action="click->menu#<%="#{option}"%>"><%="#{option}"%></button>
-      <% end %><%= button_to "pass", pass_pvp_player_path(@current_player), method: :get, class: "floatybutton"  %> <%= button_to "concede", concede_pvp_player_path(@current_player), method: :get, style: "width: auto;"%>
-    <div data-controller="menu" id = "summon" class="summon">
-    <%= form_with model: SummonedMinion.new do |form| %>
-      <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
-      <%= form.hidden_field :owner, value: "#{@current_player.name}" %>
-      <% MinionStat.all.each do |minion|%>
-        <%= form.radio_button :minion_type, "#{minion['minion_type']}" %>
-        <%= form.label :minion_type, "#{minion['minion_type']}" %>
-      <% end %>
-      <%= form.label :x_position, "Position X,Y" %>
-      <%= form.number_field :x_position, in: 0..7, step: 1 %>
-      <%= form.number_field :y_position, in: 0..7, step: 1 %>
-      <%= form.submit "submit"%>
-    <% end %>
-  </div>
-
-  <div data-controller="menu" id = "move" class="move">
-    <% SummonedMinion.where("owner_id = ?", @current_player.id).each do |minion|%>
-      <%= form_with model: minion do |form| %>
-        <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
-        <%= form.label :x_position, "Position X,Y for #{minion.minion_type} at" %>
-        <%= form.number_field :x_position, in: 0..7, step: 1 %>
-        <%= form.number_field :y_position, in: 0..7, step: 1 %>
-        <%= form.submit "submit"%>
-      <% end %>
-    <% end %>
-  </div>
-
-  <div data-controller="menu" id = "attack" class="attack">
-    <% SummonedMinion.where("owner_id = ? and can_attack = ?", @current_player.id, true).each do |minion|%>
-      <p><%= "#{minion.minion_type} at #{minion.x_position},#{minion.y_position}"%><p>
-      <%= form_with url: update_attack_summoned_minion_path(id: minion['id']) do |form| %>
-      <%= form.hidden_field :minion_type, value: "#{minion.minion_type}" %>
-        <% minion.available_targets.each do |target|%>
-          <% target_record = SummonedMinion.find(target)%>
-          <%= form.hidden_field :target_id, value: "#{target}" %>
-          <%= form.radio_button :minion_target, "#{target_record.minion_type}" %>
-          <%= form.label :minion_target, "#{target_record.minion_type} at #{target_record.x_position},#{target_record.y_position}" %>
-        <% end %>
-        <%= form.submit "submit"%>
-      <% end %>
-    <% end %>
-  </div>
-  </div>
-  </section>
-  <section class ="boardcontainer">
-    <div>
-      <table  class = "board">
-          <% BoardState.arrayify_for_rendering(game_id: @game.id).each_with_index do |line, index|%>
-            <tr>
-              <% line.each do |field| %>
-                  <td>
-                    <h1 class="field"
-                    data-controller="field"
-                    data-action="dragstart->field#onDragStart dragover->field#onDragOver dragenter->field#onDragEnter drop->field#onDrop dragend->field#onDragEnd"
-                    occupant_id="<%= field.occupant_id %>"
-                    field_id="<%= field.id%>"
-                    style="--position: <%= field.offset%>; --color: <%= field.occupied && !field.obstacle ? PvpPlayers.find(SummonedMinion.find(field.occupant_id).owner_id).color : 'rgba(255, 0, 0, 0)' %>;">
-                    <span class="tooltiptext"><%= "[#{field.x_position},#{field.y_position}]"%></span>
-                    <% if field.occupant_id != nil %>
-                      <div class="minion" data-controller="minion" data-action="click->minion#getId"  >
-                      <%= image_tag MinionStat.find_by(minion_type: field.occupant_type).icon, class: "minion_image",  data: { occupant_id: "#{field.occupant_id}", field_id: "#{field.id}" ,x_position: "#{field.x_position}", y_position: "#{field.y_position}"}%>
-                      </div>
-                    <% end %>
-                    </h1>
-                  </td>
-              <% end %>
-            </tr>
+  <section class ="statusbox">
+      <div data-controller="menu">
+        <h1>Current player:</h1>
+        <p><%= @current_player.name%> - available actions:</p>
+        <% @current_player['available_actions'].each do |option| %>
+          <button class = "floatybutton" data-action="click->menu#<%="#{option}"%>"><%="#{option}"%></button>
+        <% end %><%= button_to "pass", pass_pvp_player_path(@current_player), method: :get, class: "floatybutton"  %> <%= button_to "concede", concede_pvp_player_path(@current_player), method: :get, class: "floatybutton", style: "width: auto;"%>
+      <div class = "horizontal_padding"></div>
+      <div data-controller="menu" id = "summon" class="summon">
+        <div class = "summon_wrapper">
+          <%= form_with model: SummonedMinion.new do |form| %>
+            <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
+            <%= form.hidden_field :owner, value: "#{@current_player.name}" %>
+            <% MinionStat.all.each do |minion|%>
+              <%= form.radio_button :minion_type, "#{minion['minion_type']}" %>
+              <%= form.label :minion_type, "#{minion['minion_type']}" %>
+            <% end %>
+            <%= form.label :x_position, "Position X,Y" %>
+            <%= form.number_field :x_position, in: 0..7, step: 1 %>
+            <%= form.number_field :y_position, in: 0..7, step: 1 %>
+            <%= form.submit "submit"%>
           <% end %>
-      </table>
+          </div>
+        </div>
     </div>
-  </section>
+    </section>
+
+    <section class = "box_with_board_log_and_player">
+    <div class ="boardcontainer">
+      <div>
+        <table  class = "board">
+            <% BoardState.arrayify_for_rendering(game_id: @game.id).each_with_index do |line, index|%>
+              <tr>
+                <% line.each do |field| %>
+                    <td>
+                      <h1 class="field"
+                      data-controller="field"
+                      data-action="dragstart->field#onDragStart dragover->field#onDragOver dragenter->field#onDragEnter drop->field#onDrop dragend->field#onDragEnd"
+                      occupant_id="<%= field.occupant_id %>"
+                      field_id="<%= field.id%>"
+                      style="--position: <%= field.offset%>; --color: <%= field.occupied && !field.obstacle ? PvpPlayers.find(SummonedMinion.find(field.occupant_id).owner_id).color : 'rgba(255, 0, 0, 0)' %>;">
+                      <span class="tooltiptext"><%= "[#{field.x_position},#{field.y_position}]"%></span>
+                      <% if field.occupant_id != nil %>
+                        <div class="minion" data-controller="minion" data-action="click->minion#getId"  >
+                        <%= image_tag MinionStat.find_by(minion_type: field.occupant_type).icon, class: "minion_image",  data: { occupant_id: "#{field.occupant_id}", field_id: "#{field.id}" ,x_position: "#{field.x_position}", y_position: "#{field.y_position}"}%>
+                        </div>
+                      <% end %>
+                      </h1>
+                    </td>
+                <% end %>
+              </tr>
+            <% end %>
+        </table>
+      </div>
+      <section class = "innerpadding"></section>
+      <div class = "combatlog">
+        <% EventLog.all.each do |line|%>
+          <div data-controller= "combatlog" class = "message"><%=line['event']%></div>
+        <% end %>
+      </div>
+    </div>
+    <div class = "players_in_game_display">
+    <table class = "playerlist">
+            <% PvpPlayers.where(game_id: @game.id).sort { |a,b| a.id <=> b.id }.each do |player| %>
+            <td class = "player_column">
+              <p class="name_text" style= "--color: <%= player.color%>;"><%= "#{player.name} MANA:#{player.mana}/#{player.max_mana}" %></p>
+              <% SummonedMinion.where("owner_id = ?", player.id).each do |minion|%>
+              <li class="smallcenteredtext"><%="#{minion.minion_type}, @[#{minion.x_position},#{minion.y_position}] Health: #{minion.health}/#{MinionStat.find_by(minion_type: minion.minion_type).health}"%></li>
+              <%end%>
+            </td>
+            <% end %>
+    </table>
+  </div>
+    </section>
   <section class = "innerpadding"></section>
-  <section class = "combatlog">
-  <% EventLog.all.each do |line|%>
-    <div data-controller= "combatlog" class = "message"><%=line['event']%></div>
-  <% end %>
+
+    <section class="padding"></section>
   </section>
-  <section class="padding"></section>
+  <section>
+
   </section>
 </body>
 

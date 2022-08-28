@@ -18,7 +18,7 @@ class PvpPlayers < ApplicationRecord
       'rgba(11, 17, 191, 1)', # blue
       'rgba(255, 125, 0, 1)', # orange
       # 'rgba(255, 112, 245, 1)', # pink
-      'rgba(84, 43, 18, 1)' #brown
+      'rgba(84, 43, 18, 1)' # brown
     ]
     colors.sample
   end
@@ -61,9 +61,9 @@ class PvpPlayers < ApplicationRecord
       # there are no minions but there is mana
       elsif minions?(player_id: player_id) && mana?(player_id: player_id)
         PvpPlayers.find(player_id).update(available_actions: %w[summon])
-      # there are no minions and there isnt mana
-      # elsif minions?(player_id: player_id) && !mana?(player_id: player_id)
-      #   PvpPlayers.find(player_id).update(available_actions: %w[concede pass])
+        # there are no minions and there isnt mana
+        # elsif minions?(player_id: player_id) && !mana?(player_id: player_id)
+        #   PvpPlayers.find(player_id).update(available_actions: %w[concede pass])
       end
     end
   end

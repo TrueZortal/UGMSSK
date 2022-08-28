@@ -1,37 +1,74 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
 body {
   background-color: darkgreen;
 }
 
-  .upperbar {
-    height: 60px;
+  .navigation_game_status_bar {
+    height: 80px;
+    background-color: rgb(5, 76, 5);
+    background-image: url("banner_thing.jpg");
+    background-repeat: no-repeat;
+    background-size: 2000px 900px;
+    background-position: -100px ;
+    background-blend-mode: multiply;
+    border:5px solid rgb(0, 0, 0);
+    border-radius: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin-left: 100px;
+    margin-right: 100px;
+  }
+
+  .navigation_menu {
+    /* border:3px solid rgb(0, 253, 17); */
+    width:fit-content;
+    margin-left: 50px;
+    /* float:left; */
+    /* display:flex; */
+  }
+
+  .navigation_menu .menubutton {
+    float: left;
+    font-variant-caps: small-caps;
+    width: 100px;
+    font-weight: bold;
+    font-style: oblique;
+    font-size: 16px;
+    border: 1px solid darkgreen;
+    background-color:rgba(109, 44, 44, 0.172);
+    color: aliceblue;
+    transition-duration: 0.4s;
+  }
+
+  .menubutton:hover {
+    background-color: rgb(109, 44, 44); /* Green */
+  }
+  .gameplayrow .statusbox {
     background-color: darkgreen;
+    width: 250px;
+    /* flex: 20%; */
   }
 
   .gameplayrow {
+    margin-top: 50px;
     display: flex;
+    justify-content: center;
+    align-content: center;
   }
 
-  .gameplayrow .statusbox {
-    background-color: darkgreen;
-    flex: 50%;
+  .box_with_board_log_and_player {
+    /* border:3px solid rgb(200, 12, 221); */
   }
 
-  .statusbox .centred_text {
-    text-align: center;
-    font-size: 1.1rem;
-    background-color:var(--color);
-
-  }
-
-  .statusbox .smallcenteredtext {
-    text-align: center;
-    font-size: 0.8rem;
-    color:aliceblue;
-  }
-
-  .gameplayrow .boardcontainer {
-    background-color: rgb(80, 165, 80);
-    flex: auto;
+  .boardcontainer {
+    background-color:darkgreen;
+    display: flex;
+    /* justify-content: center;
+    align-content: center; */
   }
 
   .boardcontainer .minion_image {
@@ -40,16 +77,18 @@ body {
   }
 
   .boardcontainer .minion {
-    cursor: move;
+    cursor: -webkit-grab;
 
     background-color:var(--color);
     background-blend-mode: multiply;
   }
 
   .boardcontainer .board {
+    display:inline-block;
+    border:3px solid rgb(0, 0, 0);
     border-collapse: separate;
     border-spacing:0;
-    background-color: darkgreen;
+    background-color: rgb(155, 200, 63);
     margin-left: auto;
     margin-right: auto;
   }
@@ -86,15 +125,6 @@ body {
     visibility: visible;
   }
 
-  .playerlist {
-
-  }
-
-  .playerlist .player_column {
-    width: auto;
-    min-width: 100px;
-  }
-
   .field:hover {
   background-blend-mode: luminosity;
   -webkit-filter: grayscale(0.4);
@@ -107,10 +137,11 @@ body {
     scroll-snap-type: y proximity;
     height:auto;
     max-height:500px;
+    width: 400px;
     color:aliceblue;
-    flex: 25%;
+    /* flex: 25%; */
     background-color: black;
-    border: 3px dotted white;
+    /* border: 3px dotted white; */
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -119,34 +150,77 @@ body {
     margin-bottom: 5px;
     font-size: 0.7rem;
   }
-  .combatlog > .message > .message:last-child {
-    scroll-snap-align: end;
-  }
 
   .padding {
-    width: 50px;
+    width: 150px;
   }
 
   .innerpadding {
     width: 20px;
   }
 
+  .summon_wrapper {
+
+  }
+
   div.summon {
+    /* margin: auto; */
     display: none;
   }
 
-  div.attack {
-    display: none;
-  }
-
-  div.move {
-    display: none;
+  .horizontal_padding {
+    height: 50px;
   }
 
   .floatybutton {
     float: left;
     width: auto;
+    font-size: 16px;
+    border: 1px solid darkgreen;
+    background-color:rgb(109, 44, 44);
+    transition-duration: 0.4s;
+    font-variant-caps: small-caps;
   }
 
+  .floatybutton:hover {
+    background-color: #4CAF50; /* Green */
+    color: white;
+  }
+
+  .players_in_game_display {
+    align-content: left;
+    /* border:3px solid rgb(253, 0, 0); */
+    /* margin: auto; */
+    width:fit-content;
+    height:fit-content;
+    /* max-height: 150px; */
+    display:flex;
+  }
+
+  .playerlist {
+    vertical-align: top;
+  }
+
+  .playerlist .player_column {
+    /* border:3px solid rgba(0, 0, 0, 0.207); */
+    vertical-align: top;
+    width: 250px;
+    min-width: 100px;
+    margin-right: 150px;
+  }
+
+  .players_in_game_display .name_text {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background-color:var(--color);
+    border: 1px solid black;
+  }
+
+  .players_in_game_display .smallcenteredtext {
+    text-align: center;
+    font-size: 0.8rem;
+    color:aliceblue;
+  }
 
 
