@@ -17,8 +17,8 @@ export default class extends Controller {
 
   onDragStart(event){
     // event.preventDefault()
-    event.dataTransfer.dropEffect = "move"
-    event.dataTransfer.effectAllowed = "move"
+    // event.dataTransfer.dropEffect = "move"
+    // event.dataTransfer.effectAllowed = "move"
     console.log("Field drag started")
 
     let id = {
@@ -45,7 +45,7 @@ export default class extends Controller {
 
   onDragEnter(event) {
     event.preventDefault()
-    // console.log("Field drag was entered")
+    console.log("Field drag was entered")
   }
 
   onDragLeave(event) {
@@ -63,6 +63,9 @@ export default class extends Controller {
     console.log(fromFieldData)
     // console.log()
     console.log("Field on drop fired")
+    if (fromFieldData['field_id'] === id) {
+      // same field, no action
+    } else {
     fetch("/board_fields/"+ id +"/update_drag/", {
       method: "POST",
       headers: {
@@ -74,5 +77,6 @@ export default class extends Controller {
         "to_field_id": id
       })
     })
+  }
   }
 }

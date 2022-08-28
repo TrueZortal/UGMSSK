@@ -3,6 +3,10 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   // static targets = [ "hideable" ]
 
+  connect() {
+    setTimeout(function(){ location.reload(); }, 5000);
+  }
+
   summon() {
     var summon = document.getElementById("summon")
     var move = document.getElementById("move")
@@ -17,6 +21,7 @@ export default class extends Controller {
     }
   }
 
+  //deprecated with the drag and drop functionality, leaving in the case of troubleshooting
   move() {
     var summon = document.getElementById("summon")
     var move = document.getElementById("move")
@@ -31,6 +36,7 @@ export default class extends Controller {
     }
   }
 
+  //deprecated with the drag and drop functionality, leaving in the case of troubleshooting
   attack() {
     var summon = document.getElementById("summon")
     var move = document.getElementById("move")
