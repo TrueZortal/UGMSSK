@@ -13,8 +13,8 @@ committed marked by ✅
   - implemented separate methods for verifying line of movement and line of sight ✅
 - make dragging back to origin cancel move and not result in refresh ✅
 - If the last player in the turn passes new turn doesn't automatically generate resulting in an error (p1-> move p2-> pass == error) ✅
-- disabled line of movement verification as it was resulting in inconsistent movement => Game::populate_possible_moves (commented out)
-- fixed a bug where a minion with range of 3 was falling just short of reaching something 3 fields away
+- disabled line of movement verification as it was resulting in inconsistent movement => Game::populate_possible_moves (commented out)✅
+- fixed a bug where a minion with range of 3 was falling just short of reaching something 3 fields away✅
 
 ## Core function to-do list => missing/expected core/basic functionalities or required improvements
 - event log should only report based on game_id and order by update date
