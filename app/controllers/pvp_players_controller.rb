@@ -2,14 +2,18 @@
 
 class PvpPlayersController < ActionController::Base
   def pass
-    # p params
-    PvpPlayers.pass(player_id: params['id'].to_i)
+    p params
+    PvpPlayers.pass(player_id: player_params[:id].to_i)
     redirect_to root_path
   end
 
   def concede
     # p params
-    PvpPlayers.concede(player_id: params['id'].to_i)
+    PvpPlayers.concede(player_id: player_params[:id].to_i)
     redirect_to root_path
+  end
+
+  def player_params
+    params.permit(:id)
   end
 end

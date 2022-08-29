@@ -2,7 +2,6 @@
 
 class GamesController < ApplicationController
   def start
-    p params
     @game = if Game.all.empty?
               Game.start_new
             else
@@ -29,4 +28,10 @@ class GamesController < ApplicationController
   end
 
   def start_game; end
+
+  private
+
+  def game_params
+    params.permit(:game_id)
+  end
 end

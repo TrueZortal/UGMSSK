@@ -5,9 +5,9 @@ class BoardFieldsController < ApplicationController
 
   def update_drag
     # p headers
-    p params
-    from_field_id = params['from_field_id'].to_i
-    to_field_id = params['to_field_id'].to_i
+    # p params
+    from_field_id = board_field_params['from_field_id'].to_i
+    to_field_id = board_field_params['to_field_id'].to_i
     from_field = BoardField.find(from_field_id)
     to_field = BoardField.find(to_field_id)
     if to_field.occupied && !to_field.obstacle
@@ -30,8 +30,15 @@ class BoardFieldsController < ApplicationController
     redirect_to controller: 'games', action: 'start', format: :html
   end
 
+  private
+
   def board_field_params
-    params.require(:from_field_id, :to_field_id)
+    params.permit(
+      :from_field_id,
+      :to_field_id,
+      :id,
+      :board_field => {}
+    )
   end
 end
 

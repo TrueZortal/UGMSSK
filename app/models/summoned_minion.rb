@@ -27,12 +27,11 @@ class SummonedMinion < ApplicationRecord
   def self.attack(parameters: nil)
     minion = SummonedMinion.find parameters['id']
     target = SummonedMinion.find parameters['target_id']
-    starting_field = BoardField.find_by(occupant_id: minion.id)
     attack_field = BoardField.find_by(occupant_id: target.id)
     owner = PvpPlayers.find(minion.owner_id)
     begin
       raise WrongPlayerError if minion.owner_id != TurnTracker.pull_current_player_id(game_id: owner.game_id).id
-      raise InvalidTargetError unless Game.validate_targets(starting_field, attack_field)
+      raise InvalidTargetError unless minion.available_targets.include?(target.id)
 
       damage = MinionStat.find_by(minion_type: minion.minion_type).attack - MinionStat.find_by(minion_type: target.minion_type).defense
       damage = 1 if damage.negative?
@@ -109,7 +108,7 @@ class SummonedMinion < ApplicationRecord
     to_field = BoardField.find_by(game_id: game_id, x_position: minion_params['x_position'].to_i,
                                   y_position: minion_params['y_position'].to_i)
     shortest_path = Pathfinding.find_shortest_path(from_field, to_field, game_id: game_id)
-    raise InvalidMovementError if shortest_path > MinionStat.find_by(minion_type: minion.minion_type).speed
+    raise InvalidMovementError if !minion.valid_moves.include?(to_field.id)
 
     if shortest_path <= speed
       from_field.update(

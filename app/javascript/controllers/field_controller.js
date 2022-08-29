@@ -21,35 +21,75 @@ export default class extends Controller {
     // event.dataTransfer.effectAllowed = "move"
     console.log("Field drag started")
 
+    let occupant_id = event.target.getAttribute('data-occupant-id')
+
     let id = {
-      field_id: event.target.getAttribute('data-field-id')
+      field_id: event.target.getAttribute('data-field-id'),
+      occupant_id: occupant_id
     }
     console.log(id)
     event.dataTransfer.setData('text/plain', JSON.stringify(id))
-    // allows fetching via method
-    // let minion = fetch('/summoned_minions/'+id+'/grab/')
-    // .then((response) => response.json())
+    // async query of fields from database with highlight function
+    let minion = fetch('/summoned_minions/'+occupant_id+'/grab/')
+    .then((response) => response.json())
+    .then((minion) => {
+      return minion
+    })
+
+    const moveList = () => {
+      minion.then((a) => {
+        const allFields = document.querySelectorAll('.field')
+          allFields.forEach((element) => {
+            // console.log(element.getAttribute('occupant_id'))
+          if (a.available_targets.includes(parseInt(element.getAttribute('occupant_id')))) {
+            element.style.backgroundColor = "red"
+          } else if (a.valid_moves.includes(parseInt(element.getAttribute('field_id')))) {
+            element.style.backgroundColor = "chartreuse"
+          }
+        // a.forEach((element) => {
+        //   let highlight_field = document.getElementById(element)
+        //   highlight_field.style.backgroundColor = "chartreuse"
+        // })
+      })
+    })
+  }
+    moveList()
+
+    // goodFields.forEach(element => console.log(element))
+
   }
 
 
   onDragEnd(event) {
-    // event.preventDefault()
-    setTimeout(function(){ location.reload(); }, 500);
+    event.preventDefault()
+    // console.log(event)
+    const allFields = document.querySelectorAll('.field')
+    allFields.forEach((element) => {
+      if (element.style.backgroundColor === "chartreuse") {
+      element.style.backgroundColor = "transparent"
+    } else if (element.style.backgroundColor === "red") {
+      element.style.backgroundColor = "transparent"
+    }
+    })
+    // let fromFieldData = JSON.parse(event.dataTransfer.getData('text/plain'))
+    // console.log(fromFieldData)
+    // setTimeout(function(){ location.reload(); }, 500);
     // console.log("Field drag ended")
   }
 
   onDragOver(event) {
     event.preventDefault()
+    // console.log(event.target)
     // console.log("Field on drag over fired")
   }
 
   onDragEnter(event) {
     event.preventDefault()
-    console.log("Field drag was entered")
+    // console.log("Field drag was entered")
   }
 
   onDragLeave(event) {
-    // event.preventDefault()
+    event.preventDefault()
     // console.log("Field drag event was left")
   }
 
@@ -59,8 +99,9 @@ export default class extends Controller {
     if (id === null) {
       id = event.target.getAttribute("data-field-id")
     }
+
     let fromFieldData = JSON.parse(event.dataTransfer.getData('text/plain'))
-    console.log(fromFieldData)
+    // console.log(fromFieldData)
     // console.log()
     console.log("Field on drop fired")
     if (fromFieldData['field_id'] === id) {
@@ -75,8 +116,10 @@ export default class extends Controller {
       body: JSON.stringify({
         "from_field_id": fromFieldData['field_id'],
         "to_field_id": id
+        // ,'malicious_parametr': "blabla haxxorhuehue"
       })
     })
+    setTimeout(function(){ location.reload(); }, 1000);
   }
   }
 }

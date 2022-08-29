@@ -53,39 +53,35 @@ class Game < ApplicationRecord
     clear_targets_and_can_attack_clauses_for_all_minion_occupied_fields(game_id: game_id)
     occupied_fields = BoardField.where(game_id: game_id, occupied: true, obstacle: false)
     occupied_fields.each do |field|
+      populate_possible_moves(game_id: game_id, field: field)
       occupied_fields.each do |another_field|
-        next unless validate_targets(field, another_field)
 
-        minion = SummonedMinion.find(field.occupant_id)
-        minion.update(can_attack: true)
-        minion.available_targets << another_field.occupant_id
+
+        if validate_targets(field, another_field)
+          minion = SummonedMinion.find(field.occupant_id)
+          minion.update(can_attack: true)
+          minion.available_targets << another_field.occupant_id
+          minion.save
+        end
+      end
+    end
+  end
+
+  def self.populate_possible_moves(game_id: nil, field: nil)
+    BoardField.where(game_id: game_id).each do |inner_field|
+      shortest_path = Pathfinding.find_shortest_path_for_movement_array(field, inner_field, game_id: game_id)
+      minion = SummonedMinion.find(field.occupant_id)
+      if shortest_path <= MinionStat.find_by(minion_type: minion.minion_type).speed && !inner_field.obstacle && !inner_field.occupied && check_if_line_of_movement_exists_between_two_fields(field,inner_field)
+        minion.valid_moves << inner_field.id
         minion.save
       end
     end
   end
 
   def self.validate_targets(field, another_field)
-    p ' THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS'
-    p ' THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS'
-    p ' THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS'
-    p ' THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS'
-    p "condition met, not self harming #{field.occupant_id != another_field.occupant_id}"
-    p "condition met, not team killing #{SummonedMinion.find(field.occupant_id).owner_id != SummonedMinion.find(another_field.occupant_id).owner_id}"
-    p "condition met, in range #{Calculations.distance(field,
-                                                       another_field) < MinionStat.find_by(minion_type: field.occupant_type).range}"
-    p "condition met, line of sight exists #{check_if_line_exists_between_two_fields(field, another_field)}"
-    p "overall #{ field.occupant_id != another_field.occupant_id && SummonedMinion.find(field.occupant_id).owner_id != SummonedMinion.find(another_field.occupant_id).owner_id && Calculations.distance(
-      field, another_field
-    ) < MinionStat.find_by(minion_type: field.occupant_type).range && check_if_line_exists_between_two_fields(field,
-                                                                                                              another_field)}"
-    p ' THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS'
-    p ' THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS'
-    p ' THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS'
-    p ' THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS THIS'
-
     field.occupant_id != another_field.occupant_id && SummonedMinion.find(field.occupant_id).owner_id != SummonedMinion.find(another_field.occupant_id).owner_id && Calculations.distance(
       field, another_field
-    ) < MinionStat.find_by(minion_type: field.occupant_type).range && check_if_line_exists_between_two_fields(field,
+    ) < MinionStat.find_by(minion_type: field.occupant_type).range && check_if_line_of_sight_exists_between_two_fields(field,
                                                                                                               another_field)
   end
 
@@ -94,13 +90,14 @@ class Game < ApplicationRecord
       reset_minion = SummonedMinion.find(field.occupant_id)
       reset_minion.update(
         can_attack: false,
+        valid_moves: [],
         available_targets: []
       )
       reset_minion.save
     end
   end
 
-  def self.check_if_line_exists_between_two_fields(field, another_field)
+  def self.check_if_line_of_sight_exists_between_two_fields(field, another_field)
     routes = []
     routes << get_route_between(field, another_field)
     routes << get_route_between(another_field, field)
@@ -109,6 +106,21 @@ class Game < ApplicationRecord
       test_array = []
       route.each do |coordinate|
         test_array << BoardField.find_by(x_position: coordinate[0], y_position: coordinate[1]).obstacle
+      end
+      the_answer << test_array.any?(true)
+    end
+    the_answer.any?(false)
+  end
+
+  def self.check_if_line_of_movement_exists_between_two_fields(field, another_field)
+    routes = []
+    routes << get_route_between(field, another_field)
+    routes << get_route_between(another_field, field)
+    the_answer = []
+    routes.each do |route|
+      test_array = []
+      route.each do |coordinate|
+        test_array << (BoardField.find_by(x_position: coordinate[0], y_position: coordinate[1]).obstacle || BoardField.find_by(x_position: coordinate[0], y_position: coordinate[1]).occupied)
       end
       the_answer << test_array.any?(true)
     end
