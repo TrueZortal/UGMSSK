@@ -9,10 +9,11 @@ class GamesController < ApplicationController
             end
     # p @game
     @current_player = TurnTracker.pull_current_player_id(game_id: @game.id)
-    # respond_to do |format|
-    #   format.html
-    #   format.json {render :template => "games/start"}
-    # end
+
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   def reset

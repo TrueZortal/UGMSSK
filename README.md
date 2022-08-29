@@ -1,22 +1,16 @@
 # Ultimate Giga Master Super Summoner King
 
 ## Current Version
-Web-Alpha 0.0.2
+Web-Alpha 0.0.3
 
 ## Doing => Changes planned for the next version
 committed marked by ✅
 ---
-- add strong params to all controllers ✅
-- highlight valid movement/attack fields on drag✅ => this is deemed more important than maintaining minion coloring (gets reset after refresh anyway ++ will be replaced with color variants)
-  - valid movements are now calculated at end/start of turn ✅
-  - added valid_movements migration to SummonedMinions ✅
-  - implemented separate methods for verifying line of movement and line of sight ✅
-- make dragging back to origin cancel move and not result in refresh ✅
-- If the last player in the turn passes new turn doesn't automatically generate resulting in an error (p1-> move p2-> pass == error) ✅
-- disabled line of movement verification as it was resulting in inconsistent movement => Game::populate_possible_moves (commented out)✅
-- fixed a bug where a minion with range of 3 was falling just short of reaching something 3 fields away✅
+
 
 ## Core function to-do list => missing/expected core/basic functionalities or required improvements
+- move everything to model <--- update_drag from controller BoardField to model
+- Review loop in game which assigns valid targets/movement fields
 - event log should only report based on game_id and order by update date
 - address full page refreshes, make sure only required elements are refreshed
 - add tests, loads of tests
@@ -29,6 +23,8 @@ committed marked by ✅
 - enable saving combat log, match history
 - replay system (via testing implementation of simulating movements)
 
+
+
 ## Friendly reminders from past self taht are somewhat relevant
 - keep current version as "local" where can be played from one browser
 
@@ -39,11 +35,11 @@ committed marked by ✅
 - server side processing of move is approaching 1 second need to revise efficiency
 
 ## Things that'd be cool to have and will most likely be prioritised over the core to-do's because they are fun
-- floating damage text
-- revise how database is accessed (?)
 - implement "attack type" within minion class to enable different kinds of attacks e.g cleave, straight line, artillery, ranged, splash
 - implement "movement type" within minion class to enable different kinds of movement e.g flying/teleportation
 - implement "spellbook" interface where minions/spells are dragged out onto the board
+- floating damage text
+- revise how database is accessed (?)
 - order tokens/models on fiverr and graphics
 - implement a mana meter
 - add minion health bars/numbers
@@ -60,3 +56,14 @@ committed marked by ✅
  - View gets rendered twice after drag/drop with only them visible(?)
 
  Version/Release Log:
+
+v0.0.3:
+- add strong params to all controllers ✅
+- highlight valid movement/attack fields on drag✅ => this is deemed more important than maintaining minion coloring (gets reset after refresh anyway ++ will be replaced with color variants)
+  - valid movements are now calculated at end/start of turn ✅
+  - added valid_movements migration to SummonedMinions ✅
+  - implemented separate methods for verifying line of movement and line of sight ✅
+- make dragging back to origin cancel move and not result in refresh ✅
+- If the last player in the turn passes new turn doesn't automatically generate resulting in an error (p1-> move p2-> pass == error) ✅
+- disabled line of movement verification as it was resulting in inconsistent movement => Game::populate_possible_moves (commented out)✅
+- fixed a bug where a minion with range of 3 was falling just short of reaching something 3 fields away✅

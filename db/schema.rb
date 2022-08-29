@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_29_083931) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_29_175446) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -88,6 +88,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_29_083931) do
     t.string "color"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.text "token", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sessions_on_user_id", unique: true
+  end
+
   create_table "summoned_minions", force: :cascade do |t|
     t.integer "owner_id"
     t.string "owner"
@@ -111,4 +119,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_29_083931) do
     t.integer "player_id"
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "game_id"
+    t.text "uuid", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "sessions", "users"
 end
