@@ -40,22 +40,16 @@ export default class extends Controller {
       minion.then((a) => {
         const allFields = document.querySelectorAll('.field')
           allFields.forEach((element) => {
-            // console.log(element.getAttribute('occupant_id'))
           if (a.available_targets.includes(parseInt(element.getAttribute('occupant_id')))) {
             element.style.backgroundColor = "red"
           } else if (a.valid_moves.includes(parseInt(element.getAttribute('field_id')))) {
             element.style.backgroundColor = "chartreuse"
           }
-        // a.forEach((element) => {
-        //   let highlight_field = document.getElementById(element)
-        //   highlight_field.style.backgroundColor = "chartreuse"
-        // })
       })
     })
   }
     moveList()
 
-    // goodFields.forEach(element => console.log(element))
 
   }
 
@@ -71,10 +65,6 @@ export default class extends Controller {
       element.style.backgroundColor = "transparent"
     }
     })
-    // let fromFieldData = JSON.parse(event.dataTransfer.getData('text/plain'))
-    // console.log(fromFieldData)
-    // setTimeout(function(){ location.reload(); }, 500);
-    // console.log("Field drag ended")
   }
 
   onDragOver(event) {
@@ -101,25 +91,26 @@ export default class extends Controller {
     }
 
     let fromFieldData = JSON.parse(event.dataTransfer.getData('text/plain'))
-    // console.log(fromFieldData)
-    // console.log()
     console.log("Field on drop fired")
     if (fromFieldData['field_id'] === id) {
       // same field, no action
     } else {
-    fetch("/board_fields/"+ id +"/update_drag/", {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "from_field_id": fromFieldData['field_id'],
-        "to_field_id": id
-        // ,'malicious_parametr': "blabla haxxorhuehue"
+      fetch("/board_fields/"+ id +"/update_drag/", {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "from_field_id": fromFieldData['field_id'],
+          "to_field_id": id
+          // ,'malicious_parametr': "blabla haxxorhuehue"
+        })
       })
-    })
-    setTimeout(function(){ location.reload(); }, 1000);
-  }
+      .then((a) => {
+        setTimeout(function(){ location.reload(); }, 50);
+      })
+    }
   }
 }
+

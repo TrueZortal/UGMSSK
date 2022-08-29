@@ -4,6 +4,8 @@
 Web-Alpha 0.0.2
 
 ## Doing => Changes planned for the next version
+committed marked by ✅
+---
 - add strong params to all controllers ✅
 - highlight valid movement/attack fields on drag✅ => this is deemed more important than maintaining minion coloring (gets reset after refresh anyway ++ will be replaced with color variants)
   - valid movements are now calculated at end/start of turn ✅
@@ -11,8 +13,11 @@ Web-Alpha 0.0.2
   - implemented separate methods for verifying line of movement and line of sight ✅
 - make dragging back to origin cancel move and not result in refresh ✅
 - If the last player in the turn passes new turn doesn't automatically generate resulting in an error (p1-> move p2-> pass == error) ✅
+- disabled line of movement verification as it was resulting in inconsistent movement => Game::populate_possible_moves (commented out)
+- fixed a bug where a minion with range of 3 was falling just short of reaching something 3 fields away
 
-## Core function to-do list => missing expected core/basic functionalities
+## Core function to-do list => missing/expected core/basic functionalities or required improvements
+- event log should only report based on game_id and order by update date
 - address full page refreshes, make sure only required elements are refreshed
 - add tests, loads of tests
 - add support for multiple combats/landing page
@@ -30,9 +35,11 @@ Web-Alpha 0.0.2
 
 ## Technical debt pit of shame and eternal suffering
 - revise attack/move SummonedMinion to work natively with drag/drop params passed from js
+- line of sight calculation is pretty bad for movement - revise dijkstra implementation(maybe, only affecting with speed 3+ though)
 - server side processing of move is approaching 1 second need to revise efficiency
 
 ## Things that'd be cool to have and will most likely be prioritised over the core to-do's because they are fun
+- floating damage text
 - revise how database is accessed (?)
 - implement "attack type" within minion class to enable different kinds of attacks e.g cleave, straight line, artillery, ranged, splash
 - implement "movement type" within minion class to enable different kinds of movement e.g flying/teleportation
@@ -47,7 +54,7 @@ Web-Alpha 0.0.2
 - implement necromancer system with possible impact on the undead: talents? Levels?
 - inventory system for necromancer
 - revise damage calculation(%defense, types of attack)
-- add minions: zombie, mummy, vampire, ghost, lich, standardbearer, undead dragon, slime
+- add minions: zombie, mummy, vampire, ghost, lich, standardbearer, undead dragon, slime etc etc
 
 ## Bug List:
  - View gets rendered twice after drag/drop with only them visible(?)
