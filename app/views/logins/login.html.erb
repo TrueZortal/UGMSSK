@@ -1,0 +1,14 @@
+<div>
+<h1>Welcome to the Ultimate Giga Master Super Summoner King</h1>
+<h3>to proceed please log in</h3>
+
+<% if @current_user%>
+  <p>logged in as <%= @current_user.name %></p>
+  <%= button_to "log out", logout_path%>
+<% end %>
+<%= form_with model: @user do |form| %>
+  <%= form.text_field :name%>
+  <%= form.submit "Get me in there"%>
+<%end%>
+</div>
+

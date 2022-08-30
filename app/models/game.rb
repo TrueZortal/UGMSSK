@@ -31,9 +31,17 @@ class Game < ApplicationRecord
     game.save
   end
 
-  def self.start_new(parameters: nil)
-    game = Game.new(current_turn: 0)
+  def self.start_new_on_existing_id(game_id: nil)
+    game = Game.find(game_id)
+    p game
+    game.update(
+      player_ids: [],
+      current_turn: 0,
+      current_player_id: nil
+    )
+    p game
     game.save
+    p game
     2.times do
       PvpPlayers.add_player(game.id)
     end
@@ -43,7 +51,7 @@ class Game < ApplicationRecord
   end
 
   def self.continue(game_id: nil)
-    Game.last
+    Game.find(game_id)
     # Game.find(game_id)
   end
 

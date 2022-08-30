@@ -1,9 +1,5 @@
 <body>
-<section class = "navigation_game_status_bar">
-  <div class = "navigation_menu">
-    <%= button_to "Reset Board", reset_path, method: :get, class:"menubutton" %>
-  </div>
-</section>
+
 <section class ="gameplayrow">
   <section class ="statusbox">
       <div data-controller="menu">
@@ -16,6 +12,7 @@
       <div data-controller="menu" id = "summon" class="summon">
         <div class = "summon_wrapper">
           <%= form_with model: SummonedMinion.new do |form| %>
+            <%= form. hidden_field :game_id, value: "#{@current_player.game_id}"%>
             <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
             <%= form.hidden_field :owner, value: "#{@current_player.name}" %>
             <% MinionStat.all.each do |minion|%>
@@ -62,7 +59,7 @@
       </div>
       <section class = "innerpadding"></section>
       <div class = "combatlog">
-        <% EventLog.all.each do |line|%>
+        <% EventLog.where(game_id: @game.id).order("created_at DESC").each do |line|%>
           <div data-controller= "combatlog" class = "message"><%=line['event']%></div>
         <% end %>
       </div>

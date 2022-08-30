@@ -61,6 +61,7 @@ class SummonedMinion < ApplicationRecord
     minion_to_summon = SummonedMinion.new(
       owner: minion_params['owner'],
       owner_id: minion_params['owner_id'],
+      game_id: minion_params['game_id'],
       minion_type: minion_params['minion_type'],
       health: MinionStat.find_by(minion_type: minion_type).health,
       x_position: minion_params['x_position'],

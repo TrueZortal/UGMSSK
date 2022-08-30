@@ -27,7 +27,7 @@ class BoardFieldsController < ApplicationController
       SummonedMinion.move(parameters: pseudo_params)
     end
 
-    redirect_to controller: 'games', action: 'start', format: :html
+    redirect_to "/games/#{PvpPlayers.find(player_params['id'].to_i).game_id}"
   end
 
   private

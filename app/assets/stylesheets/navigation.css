@@ -1,0 +1,68 @@
+.navigation_game_status_bar {
+  height: 80px;
+  background-color: rgb(5, 76, 5);
+  background-image: url("banner_thing.jpg");
+  background-repeat: no-repeat;
+  background-size: 2000px 900px;
+  background-position: -100px ;
+  background-blend-mode: multiply;
+  border:5px solid rgb(0, 0, 0);
+  border-radius: 15%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+.loginstatus_box {
+  width: 150px;
+  justify-content: right;
+}
+
+.loginstatus {
+  color: aliceblue;
+  /* align-self: center; */
+}
+
+.navigation_menu {
+  /* border:3px solid rgb(0, 253, 17); */
+  flex:80%;
+  /* width:fit-content; */
+  margin-left: 50px;
+  /* display:flex; */
+}
+
+.navigation_menu .menubutton {
+  align-self: center;
+  font-variant-caps: small-caps;
+  width: 100px;
+  font-weight: bold;
+  font-style: oblique;
+  font-size: 16px;
+  border: 1px solid darkgreen;
+  background-color:rgba(109, 44, 44, 0.172);
+  color: aliceblue;
+  transition-duration: 0.4s;
+}
+
+.loginstatus_box .logout_button {
+  justify-self: right;
+  font-variant-caps: small-caps;
+  width: 100px;
+  font-weight: bold;
+  font-style: oblique;
+  font-size: 12px;
+  border: 1px solid darkgreen;
+  background-color:rgba(109, 44, 44, 0.172);
+  color: aliceblue;
+  transition-duration: 0.4s;
+}
+
+.menubutton:hover {
+  background-color: rgb(109, 44, 44); /* Green */
+}
+
+.logout_button:hover {
+  background-color: rgb(109, 44, 44); /* Green */
+}

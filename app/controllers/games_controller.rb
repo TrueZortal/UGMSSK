@@ -1,14 +1,21 @@
 # frozen_string_literal: true
 
 class GamesController < ApplicationController
-  def start
-    @game = if Game.all.empty?
-              Game.start_new
+  def show
+    if session[:current_user_uuid]
+      @current_user = User.find_by(uuid: session[:current_user_uuid] )
+    else
+      redirect_to root_path
+    end
+
+    game_id = game_params['id'].to_i
+    @game = if Game.exists?(id: game_id) && !PvpPlayers.where(game_id: game_id).empty?
+              Game.continue(game_id: game_id)
             else
-              Game.continue
+              Game.start_new_on_existing_id(game_id: game_id)
             end
-    # p @game
-    @current_player = TurnTracker.pull_current_player_id(game_id: @game.id)
+
+    @current_player = TurnTracker.pull_current_player_id(game_id: game_id)
 
     respond_to do |format|
       format.html
@@ -17,13 +24,14 @@ class GamesController < ApplicationController
   end
 
   def reset
-    BoardState.destroy_all
-    BoardField.destroy_all
-    PvpPlayers.destroy_all
-    SummonedMinion.destroy_all
-    EventLog.destroy_all
-    TurnTracker.destroy_all
-    Game.destroy_all
+    game_id = game_params['id'].to_i
+    BoardState.where(game_id: game_id).destroy_all
+    BoardField.where(game_id: game_id).destroy_all
+    PvpPlayers.where(game_id: game_id).destroy_all
+    SummonedMinion.where(game_id: game_id).destroy_all
+    EventLog.where(game_id: game_id).destroy_all
+    TurnTracker.where(game_id: game_id).destroy_all
+    # Game.find(game_id).destroy
 
     redirect_to root_url
   end
@@ -33,6 +41,6 @@ class GamesController < ApplicationController
   private
 
   def game_params
-    params.permit(:game_id)
+    params.permit(:id)
   end
 end

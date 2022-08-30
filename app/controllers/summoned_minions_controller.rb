@@ -7,16 +7,15 @@ class SummonedMinionsController < ApplicationController
     p params
     p minion_params
     SummonedMinion.place(parameters: minion_params)
-    redirect_to root_url
+    redirect_to "/games/#{minion_params['summoned_minion']['game_id']}"
   end
 
   # move a minion
   # Parameters: {"authenticity_token"=>"[FILTERED]", "summoned_minion"=>{"owner_id"=>"56", "x_position"=>"3", "y_position"=>"2"}, "commit"=>"submit", "id"=>"18"}
   def update
-    p params
-    p minion_params
     SummonedMinion.move(parameters: minion_params)
-    redirect_to root_url
+    redirect_to "/games/#{BoardField.find(minion_params['id'].to_i).game_id}"
+
   end
 
   # Parameters: {"authenticity_token"=>"[FILTERED]", "minion_type"=>"skeleton archer", "target_id"=>"18", "minion_target"=>"skeleton", "commit"=>"submit", "id"=>"17"}
@@ -24,7 +23,7 @@ class SummonedMinionsController < ApplicationController
     p params
     p minion_params
     SummonedMinion.attack(parameters: minion_params)
-    redirect_to root_url
+    redirect_to "/games/#{BoardField.find(minion_params['id'].to_i).game_id}"
   end
 
   def grab

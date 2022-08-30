@@ -4,8 +4,13 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
-  root 'games#start'
-  get '/reset', to: 'games#reset'
+  # root 'games#start'
+  root 'mains#index'
+  get '/game/:id', to: 'games#start'
+  get '/reset/:id', to: 'games#reset'
+  get '/login', to: 'logins#login'
+  post '/login', to: 'logins#create'
+  post '/logout', to: 'sessions#destroy'
   resources :summoned_minions do
     post :update_attack, on: :member
     get :grab, on: :member # function for grabbing record via JS

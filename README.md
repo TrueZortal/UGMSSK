@@ -6,17 +6,17 @@ Web-Alpha 0.0.3
 ## Doing => Changes planned for the next version
 committed marked by ✅
 ---
+- event log should only report based on game_id and order by update date ✅
+- add support for multiple combats/landing page ✅
+- add user accounts/authentication system and user based rendering ✅
 
+- address full page refreshes, make sure only required elements are refreshed
 
 ## Core function to-do list => missing/expected core/basic functionalities or required improvements
 - move everything to model <--- update_drag from controller BoardField to model
 - Review loop in game which assigns valid targets/movement fields
-- event log should only report based on game_id and order by update date
-- address full page refreshes, make sure only required elements are refreshed
 - add tests, loads of tests
-- add support for multiple combats/landing page
 - add collision detection between units to prevent "hopping" over
-- add user accounts/authentication system and user based rendering
 - implement summoning zones
 - improve mobile browser display
 - move the game to websocket with turbo(?)
