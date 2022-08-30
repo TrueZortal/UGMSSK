@@ -2,7 +2,6 @@
  margin-left: 20%;
  margin-right: 20%;
  height: 20px;
- /* border: 2px solid rgba(0, 0, 0, 0.55); */
  display: flex;
  align-content: center;
  justify-content: center;
@@ -16,11 +15,11 @@
   font-style: oblique;
   font-size: 12px;
   border: 1px solid rgb(0, 0, 0);
-  background-color:rgba(109, 44, 44, 0.172);
+  background-color:rgba(29, 29, 29, 0.697);
   color: aliceblue;
   transition-duration: 0.4s;
 }
 
 .menubutton:hover {
-  background-color: rgb(109, 44, 44); /* Green */
+  background-color: rgb(109, 44, 44);
 }

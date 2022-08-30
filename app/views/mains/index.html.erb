@@ -1,7 +1,10 @@
+<div class = "flash">
 <% flash.each do |name, msg| -%>
   <%= content_tag :div, msg, class: name %>
 <% end %>
-<% Game.all.to_a.each do |game|%>
-<h1 class = "game_link"><%= link_to "Game number #{game.id} - Current players #{game.player_ids.size}", "/games/#{game.id}" %></p>
-<% end %>
-<p>test</p>
+</div>
+<div class = "game_list">
+  <% Game.all.to_a.each do |game|%>
+    <h1 class = "game_link"><%= link_to "Game number #{game.id} - Current players #{game.player_ids.size}", "/games/#{game.id}" %></p>
+  <% end %>
+</div>

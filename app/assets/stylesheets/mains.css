@@ -1,0 +1,12 @@
+.game_list {
+  display:grid;
+}
+
+.game_list .game_link {
+  margin: auto;
+  font-variant-caps: small-caps;
+  width: auto;
+  font-weight: bold;
+  font-style: oblique;
+  font-size: 24px;
+}
