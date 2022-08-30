@@ -1,7 +1,3 @@
-*, *:before, *:after {
-  box-sizing: border-box;
-}
-
 body {
   background-color: darkgreen;
 }
@@ -9,15 +5,14 @@ body {
 
   .gameplayrow .statusbox {
     background-color: darkgreen;
-    width: 250px;
+    width: 15%;
     /* flex: 20%; */
   }
 
   .gameplayrow {
-    margin-top: 50px;
     display: flex;
     justify-content: center;
-    align-content: center;
+    align-content: top;
   }
 
   .box_with_board_log_and_player {

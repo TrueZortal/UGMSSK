@@ -1,5 +1,4 @@
 <body>
-
 <section class ="gameplayrow">
   <section class ="statusbox">
       <div data-controller="menu">
@@ -8,7 +7,6 @@
         <% @current_player['available_actions'].each do |option| %>
           <button class = "floatybutton" data-action="click->menu#<%="#{option}"%>"><%="#{option}"%></button>
         <% end %><%= button_to "pass", pass_pvp_player_path(@current_player), method: :get, class: "floatybutton"  %> <%= button_to "concede", concede_pvp_player_path(@current_player), method: :get, class: "floatybutton", style: "width: auto;"%>
-      <div class = "horizontal_padding"></div>
       <div data-controller="menu" id = "summon" class="summon">
         <div class = "summon_wrapper">
           <%= form_with model: SummonedMinion.new do |form| %>
@@ -77,9 +75,6 @@
     </table>
   </div>
     </section>
-  <section class = "innerpadding"></section>
-
-    <section class="padding"></section>
   </section>
   <section>
 

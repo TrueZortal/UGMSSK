@@ -23,6 +23,8 @@ class GamesController < ApplicationController
     end
   end
 
+  def create; end
+
   def reset
     game_id = game_params['id'].to_i
     BoardState.where(game_id: game_id).destroy_all
@@ -36,7 +38,7 @@ class GamesController < ApplicationController
     redirect_to root_url
   end
 
-  def start_game; end
+
 
   private
 

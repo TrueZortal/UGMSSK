@@ -1,0 +1,9 @@
+<section class = "banner">
+
+  <div class = "loginstatus_box">
+  <% if @current_user%>
+      <p class = "loginstatus">logged in as <%= @current_user.name %></p>
+      <%= button_to "log out", logout_path, class:"logout_button"%>
+    <% end %>
+  </div>
+</section>

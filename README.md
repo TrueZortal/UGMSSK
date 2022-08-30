@@ -1,28 +1,25 @@
 # Ultimate Giga Master Super Summoner King
 
 ## Current Version
-Web-Alpha 0.0.3
+Web-Alpha 0.0.4
 
 ## Doing => Changes planned for the next version
 committed marked by ✅
 ---
-- event log should only report based on game_id and order by update date ✅
-- add support for multiple combats/landing page ✅
-- add user accounts/authentication system and user based rendering ✅
-
 - address full page refreshes, make sure only required elements are refreshed
+- Review loop in game which assigns valid targets/movement fields
+- implement summoning zones
+- enable logged in players joining game(s)
+- exit out after victor is decided
 
 ## Core function to-do list => missing/expected core/basic functionalities or required improvements
 - move everything to model <--- update_drag from controller BoardField to model
-- Review loop in game which assigns valid targets/movement fields
 - add tests, loads of tests
 - add collision detection between units to prevent "hopping" over
-- implement summoning zones
 - improve mobile browser display
 - move the game to websocket with turbo(?)
 - enable saving combat log, match history
 - replay system (via testing implementation of simulating movements)
-
 
 
 ## Friendly reminders from past self taht are somewhat relevant
@@ -56,6 +53,11 @@ committed marked by ✅
  - View gets rendered twice after drag/drop with only them visible(?)
 
  Version/Release Log:
+
+v0.0.4 => -
+- event log should only report based on game_id and order by update date ✅
+- add support for multiple combats/landing page ✅
+- add user accounts/authentication system and user based rendering ✅
 
 v0.0.3:
 - add strong params to all controllers ✅
