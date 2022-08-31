@@ -2,6 +2,7 @@
 <section class ="gameplayrow">
   <section class ="statusbox">
       <div data-controller="menu">
+        <%if @current_player%>
         <h1>Current player:</h1>
         <p><%= @current_player.name%> - available actions:</p>
         <% @current_player['available_actions'].each do |option| %>
@@ -24,7 +25,10 @@
           <% end %>
           </div>
         </div>
-    </div>
+      </div>
+      <% else %>
+      <p class="name_text"> waiting for players </p>
+      <% end %>
     </section>
 
     <section class = "box_with_board_log_and_player">
@@ -56,6 +60,7 @@
         </table>
       </div>
       <section class = "innerpadding"></section>
+      <%if @current_player%>
       <div class = "combatlog">
         <% EventLog.where(game_id: @game.id).order("created_at DESC").each do |line|%>
           <div data-controller= "combatlog" class = "message"><%=line['event']%></div>
@@ -64,6 +69,7 @@
     </div>
     <div class = "players_in_game_display">
     <table class = "playerlist">
+
             <% PvpPlayers.where(game_id: @game.id).sort { |a,b| a.id <=> b.id }.each do |player| %>
             <td class = "player_column">
               <p class="name_text" style= "--color: <%= player.color%>;"><%= "#{player.name} MANA:#{player.mana}/#{player.max_mana}" %></p>
@@ -72,6 +78,7 @@
               <%end%>
             </td>
             <% end %>
+        <% end %>
     </table>
   </div>
     </section>

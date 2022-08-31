@@ -23,10 +23,14 @@ class TurnTracker < ApplicationRecord
     check_win_conditions(game_id: game_id)
     PvpPlayers.check_and_set_available_player_actions(game_id: game_id)
     TurnTracker.find_by(game_id: game_id, player_id: player_id, complete: false).update(complete: true)
+
   end
 
   def self.check_win_conditions(game_id: nil)
     players = Game.find(game_id).player_ids
     EventLog.winner(player_db_record: PvpPlayers.find(players[0])) if players.size == 1
+    if players.size == 1
+      Game.find(game_id).update(underway: false)
+    end
   end
 end

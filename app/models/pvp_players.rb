@@ -40,6 +40,7 @@ class PvpPlayers < ApplicationRecord
     end
     EventLog.has_conceded(player_db_record: PvpPlayers.find(player_id))
     players = Game.find(game_id).player_ids - [player_id]
+    User.find_by(uuid: PvpPlayers.find(player_id).uuid).update(game_id: '')
     Game.find(game_id).update(player_ids: players)
     TurnTracker.end_turn(game_id: PvpPlayers.find(player_id).game_id, player_id: player_id)
   end

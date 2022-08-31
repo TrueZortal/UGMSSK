@@ -5,6 +5,11 @@ class Game < ApplicationRecord
     game = Game.find(game_id)
     game.player_ids << player_id
     game.save
+    PvpPlayers.check_and_set_available_player_actions(game_id: game_id)
+  end
+
+  def self.wait_for_start(game_id: nil)
+    Game.find(game_id)
   end
 
   def self.set_current_player(game_id: nil, player_id: nil)
@@ -31,20 +36,14 @@ class Game < ApplicationRecord
     game.save
   end
 
-  def self.start_new_on_existing_id(game_id: nil)
+  def self.restart_new_on_existing_id(game_id: nil)
     game = Game.find(game_id)
-    p game
     game.update(
       player_ids: [],
       current_turn: 0,
       current_player_id: nil
     )
-    p game
     game.save
-    p game
-    2.times do
-      PvpPlayers.add_player(game.id)
-    end
     BoardState.create_board(game_id: game.id, size_of_board_edge: 8)
     PvpPlayers.check_and_set_available_player_actions(game_id: game.id)
     game

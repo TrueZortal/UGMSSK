@@ -3,14 +3,22 @@
 ## Current Version
 Web-Alpha 0.0.4
 
+## Active to-do:
+ - Add ability to start game when enough players via navigation bar
+ - Add ability to leave joined game via navigation bar
+ - revise the reaction/logic after the game is finished
+
 ## Doing => Changes planned for the next version
 committed marked by ✅
 ---
+- style improvements ✅
+- exit out after victor is decided (In progress)
+- enable logged in players joining game(s) (In progress)
+  - Users can now join games, join button doesn't appear to players already in game, added game_id field to users to prevent joining multiple sessions, added uuid to PvpPlayer to be able to relate between the two tables reliably.
+
 - address full page refreshes, make sure only required elements are refreshed
 - Review loop in game which assigns valid targets/movement fields
 - implement summoning zones
-- enable logged in players joining game(s)
-- exit out after victor is decided
 
 ## Core function to-do list => missing/expected core/basic functionalities or required improvements
 - move everything to model <--- update_drag from controller BoardField to model

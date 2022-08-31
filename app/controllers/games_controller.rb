@@ -9,13 +9,17 @@ class GamesController < ApplicationController
     end
 
     game_id = game_params['id'].to_i
-    @game = if Game.exists?(id: game_id) && !PvpPlayers.where(game_id: game_id).empty?
+    @game = if Game.exists?(id: game_id) && !PvpPlayers.where(game_id: game_id).empty? || Game.find(game_id).current_turn == 0 && Game.find(game_id).underway
               Game.continue(game_id: game_id)
+            elsif Game.exists?(id: game_id) && !PvpPlayers.where(game_id: game_id).empty? || Game.find(game_id).current_turn == 0 && !Game.find(game_id).underway
+              Game.wait_for_start_or_to_finish(game_id: game_id)
             else
-              Game.start_new_on_existing_id(game_id: game_id)
+              Game.restart_new_on_existing_id(game_id: game_id)
             end
 
-    @current_player = TurnTracker.pull_current_player_id(game_id: game_id)
+    if !PvpPlayers.where(game_id: game_id).empty?
+      @current_player = TurnTracker.pull_current_player_id(game_id: game_id)
+    end
 
     respond_to do |format|
       format.html
@@ -33,7 +37,7 @@ class GamesController < ApplicationController
     SummonedMinion.where(game_id: game_id).destroy_all
     EventLog.where(game_id: game_id).destroy_all
     TurnTracker.where(game_id: game_id).destroy_all
-    # Game.find(game_id).destroy
+    Game.restart_new_on_existing_id(game_id: game_id)
 
     redirect_to root_url
   end

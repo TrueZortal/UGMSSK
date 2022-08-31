@@ -4,7 +4,22 @@
 <% end %>
 </div>
 <div class = "game_list">
+
   <% Game.all.to_a.each do |game|%>
+    <%if game.player_ids.size > 0 && game.player_ids.include?(PvpPlayers.find_by(uuid: @current_user.uuid).id)%>
+    <h1 class = "game_link"><%= link_to "Game number #{game.id} - REJOIN THE GAME", "/games/#{game.id}" %></p>
+    <% else %>
     <h1 class = "game_link"><%= link_to "Game number #{game.id} - Current players #{game.player_ids.size}", "/games/#{game.id}" %></p>
+    <% end %>
+    <%if game.player_ids.size < 4 && !User.exists?(uuid: @current_user.uuid, game_id: game.id) %>
+    <%= form_with url: '/pvp_players', method: "post"  do |form| %>
+            <%= form.label :game_id, "Join game" %>
+            <%= form.hidden_field :game_id, value: "#{game.id}"%>
+            <%= form.hidden_field :name, value: "#{@current_user.name}"%>
+            <%= form.hidden_field :uuid, value: "#{@current_user.uuid}"%>
+            <%= form.color_field :color %>
+            <%= form.submit "submit"%>
+      <% end %>
+    <% end %>
   <% end %>
 </div>
