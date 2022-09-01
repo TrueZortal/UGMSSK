@@ -7,6 +7,7 @@ class SummonedMinionsController < ApplicationController
     p params
     p minion_params
     SummonedMinion.place(parameters: minion_params)
+
     redirect_to "/games/#{minion_params['summoned_minion']['game_id']}"
   end
 

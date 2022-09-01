@@ -1,3 +1,4 @@
+  <%= turbo_frame_tag "board_turbo_frame" do %>
       <div>
         <table  class = "board">
             <% BoardState.arrayify_for_rendering(game_id: @game.id).each_with_index do |line, index|%>
@@ -26,3 +27,4 @@
             <% end %>
         </table>
       </div>
+    <% end %>

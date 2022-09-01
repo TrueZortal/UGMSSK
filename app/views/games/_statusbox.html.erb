@@ -22,13 +22,13 @@
             <%= form.submit "submit"%>
           <% end %>
         <% elsif PvpPlayers.exists?(uuid: @current_user.uuid) && @game.player_ids.include?(PvpPlayers.find_by(uuid: @current_user.uuid).id)%>
-          <p class="name_text"> Opponent moving, wait for your turn </p>
+          <p class="name_text"> Opponent moving, please wait for your turn </p>
         <% else %>
           <p class="name_text"> Match is underway, spectating </p>
         <% end %>
       <% elsif @game.current_turn > 0 %>
-        <p class="name_text"> Game has finished, Reset Board to restart </p>
+        <p class="name_text"> Game has finished, please Reset Board to restart </p>
       <% else %>
-        <p class="name_text"> waiting for players </p>
+        <p class="name_text"> waiting for players, please wait </p>
       <% end %>
     </section>

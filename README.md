@@ -7,6 +7,12 @@ Web-Alpha 0.0.5
 
 
 ## Active to-do:
+- button are moving on refresh✅
+- Full page refresh is very disruptive
+- First player has a double turn sometimes
+- summon requires double click
+- Opponent moving PLEASE wait for your turn✅
+- Summoning on same field crashes server and results in adding minion to list (not actually to board)✅ (caused by usage of uninitiated flashing in event logging)
 
 ## Doing => Changes planned for the next version
 committed marked by ✅

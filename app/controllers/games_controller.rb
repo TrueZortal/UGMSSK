@@ -23,6 +23,7 @@ class GamesController < ApplicationController
     end
 
     respond_to do |format|
+      # format.turbo_stream
       format.html
       format.json
     end
@@ -52,6 +53,6 @@ class GamesController < ApplicationController
   private
 
   def game_params
-    params.permit(:id)
+    params.permit(:id, :format)
   end
 end

@@ -4,7 +4,7 @@ body {
 
   .gameplayrow .statusbox {
     background-color: darkgreen;
-    min-width: 20%;
+    width: 20%;
     /* flex: 20%; */
   }
 

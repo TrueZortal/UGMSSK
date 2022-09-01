@@ -3,12 +3,17 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   // static targets = [ "hideable" ]
 
-
+initialize(){
+  var summon = document.getElementById("summon")
+  this.element.addEventListener('onMouseover', this.summon.bind(this))
+  console.log(this.element + "got initialized")
+}
 
   summon() {
     var summon = document.getElementById("summon")
     // var move = document.getElementById("move")
     // var attack = document.getElementById("attack")
+    console.log(this.element + "got clicked")
 
     // move.style.display = "none"
     // attack.style.display = "none"
