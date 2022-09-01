@@ -3,9 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   // static targets = [ "hideable" ]
 
-  connect() {
-    // setTimeout(function(){ location.reload(); }, 10000);
-  }
+
 
   summon() {
     var summon = document.getElementById("summon")

@@ -1,0 +1,34 @@
+<section class ="statusbox">
+        <%if @current_player && @game.player_ids.size > 1%>
+          <div data-controller="menu">
+          <h1>Current player:</h1><p><%= @current_player.name%></p>
+         <%if @current_user.uuid == @current_player.uuid%>
+          <% @current_player['available_actions'].each do |option| %>
+            <button class = "floatybutton" data-action="click->menu#<%="#{option}"%>"><%="#{option}"%></button>
+          <% end %><%= button_to "pass", pass_pvp_player_path(@current_player), method: :get, class: "floatybutton"  %> <%= button_to "concede", concede_pvp_player_path(@current_player), method: :get, class: "floatybutton", style: "width: auto;"%>
+          <div data-controller="menu" id = "summon" class="summon">
+          <div class = "summon_wrapper">
+          <%= form_with model: SummonedMinion.new do |form| %>
+            <%= form. hidden_field :game_id, value: "#{@current_player.game_id}"%>
+            <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
+            <%= form.hidden_field :owner, value: "#{@current_player.name}" %>
+            <% MinionStat.all.each do |minion|%>
+              <%= form.radio_button :minion_type, "#{minion['minion_type']}" %>
+              <%= form.label :minion_type, "#{minion['minion_type']}" %>
+            <% end %>
+            <%= form.label :x_position, "Position X,Y" %>
+            <%= form.number_field :x_position, in: 0..7, step: 1 %>
+            <%= form.number_field :y_position, in: 0..7, step: 1 %>
+            <%= form.submit "submit"%>
+          <% end %>
+        <% elsif PvpPlayers.exists?(uuid: @current_user.uuid) && @game.player_ids.include?(PvpPlayers.find_by(uuid: @current_user.uuid).id)%>
+          <p class="name_text"> Opponent moving, wait for your turn </p>
+        <% else %>
+          <p class="name_text"> Match is underway, spectating </p>
+        <% end %>
+      <% elsif @game.current_turn > 0 %>
+        <p class="name_text"> Game has finished, Reset Board to restart </p>
+      <% else %>
+        <p class="name_text"> waiting for players </p>
+      <% end %>
+    </section>

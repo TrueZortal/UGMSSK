@@ -23,8 +23,19 @@ class PvpPlayers < ApplicationRecord
     colors.sample
   end
 
-  def self.remove_player(game_id)
-    PvpPlayers.where(game_id: game_id).last.destroy if PvpPlayers.where(game_id: game_id).size > 2
+  def self.remove_player(player_id: nil)
+    player = PvpPlayers.find(player_id)
+    user = User.find_by(uuid: player.uuid)
+    game_id = player.game_id
+    players = Game.find(game_id).player_ids - [player_id]
+    Game.find(game_id).update(player_ids: players)
+    SummonedMinion.where(owner_id: player_id).each do |minion|
+      SummonedMinion.get_abandoned(minion_id: minion.id)
+    end
+    TurnTracker.where(player_id: player_id).destroy_all
+    user.game_id = ''
+    user.save
+    player.destroy
   end
 
   def self.pass(player_id: nil)
@@ -35,14 +46,12 @@ class PvpPlayers < ApplicationRecord
 
   def self.concede(player_id: nil)
     game_id = Game.find(PvpPlayers.find(player_id).game_id).id
-    SummonedMinion.where(owner_id: player_id).each do |minion|
-      SummonedMinion.get_abandoned(minion_id: minion.id)
-    end
+    # players = Game.find(game_id).player_ids - [player_id]
+    # User.find_by(uuid: PvpPlayers.find(player_id).uuid).update(game_id: '')
+    # Game.find(game_id).update(player_ids: players)
     EventLog.has_conceded(player_db_record: PvpPlayers.find(player_id))
-    players = Game.find(game_id).player_ids - [player_id]
-    User.find_by(uuid: PvpPlayers.find(player_id).uuid).update(game_id: '')
-    Game.find(game_id).update(player_ids: players)
-    TurnTracker.end_turn(game_id: PvpPlayers.find(player_id).game_id, player_id: player_id)
+    remove_player(player_id: player_id)
+    TurnTracker.end_turn(game_id: game_id, player_id: player_id)
   end
 
   def self.check_and_set_available_player_actions(game_id: nil)

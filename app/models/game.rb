@@ -8,7 +8,13 @@ class Game < ApplicationRecord
     PvpPlayers.check_and_set_available_player_actions(game_id: game_id)
   end
 
-  def self.wait_for_start(game_id: nil)
+  def self.start_game(game_id: nil)
+    Game.find(game_id).update(
+      underway: true
+    )
+  end
+
+  def self.wait_for_start_or_to_finish(game_id: nil)
     Game.find(game_id)
   end
 
@@ -41,7 +47,8 @@ class Game < ApplicationRecord
     game.update(
       player_ids: [],
       current_turn: 0,
-      current_player_id: nil
+      current_player_id: nil,
+      underway: false
     )
     game.save
     BoardState.create_board(game_id: game.id, size_of_board_edge: 8)

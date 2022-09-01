@@ -1,6 +1,18 @@
 <div class = "navigation_menu">
     <%if @game%>
     <%= button_to "Return", root_path, method: :get, class:"menubutton" %>
-    <%= button_to "Reset Board", "/reset/#{@game.id}", method: :get, class:"menubutton" %>
+      <%if !@game.underway%>
+        <%= button_to "Reset Board", "/reset/#{@game.id}", method: :get, class:"menubutton" %>
+      <%end%>
+      <% if !@game.underway && User.exists?(uuid: @current_user.uuid, game_id: @game.id) && @game.player_ids.size > 1%>
+        <%= button_to "Leave", leave_pvp_player_path("#{PvpPlayers.find_by(uuid: @current_user.uuid).id}"), method: :get, class:"menubutton" %>
+        <%= button_to "Start Game", "/start/#{@game.id}", method: :get, class:"menubutton" %>
+      <%elsif !@game.underway && User.exists?(uuid: @current_user.uuid, game_id: @game.id)%>
+        <%= button_to "Leave", leave_pvp_player_path("#{PvpPlayers.find_by(uuid: @current_user.uuid).id}"), method: :get, class:"menubutton" %>
+      <% elsif @game.underway && User.exists?(uuid: @current_user.uuid, game_id: @game.id) %>
+        <%# <%= button_to "Concede", concede_pvp_player_path("#{PvpPlayers.find_by(uuid: @current_user.uuid).id}"), method: :get, class:"menubutton" %>
+      <% else %>
+        <%# <%= button_to "Leave", root_path, method: :get, class:"menubutton" %>
+      <% end %>
     <% end %>
   </div>

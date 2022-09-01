@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root 'games#start'
   root 'mains#index'
-  get '/game/:id', to: 'games#start'
+  get '/game/:id', to: 'games#show'
+  get '/start/:id', to: 'games#start'
   get '/reset/:id', to: 'games#reset'
   get '/login', to: 'logins#login'
   post '/login', to: 'logins#create'
@@ -18,6 +19,7 @@ Rails.application.routes.draw do
   resources :pvp_players do
     get :pass, on: :member
     get :concede, on: :member
+    get :leave, on: :member
   end
   resources :board_fields do
     post :update_drag, on: :member

@@ -2,11 +2,15 @@ body {
   background-color: darkgreen;
 }
 
-
   .gameplayrow .statusbox {
     background-color: darkgreen;
-    width: 15%;
+    min-width: 20%;
     /* flex: 20%; */
+  }
+
+  .player_menu {
+    background-color: darkgreen;
+    /* min-width: 15%; */
   }
 
   .gameplayrow {

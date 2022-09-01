@@ -13,13 +13,15 @@ class PvpPlayersController < ActionController::Base
     redirect_to "/games/#{PvpPlayers.find(player_params['id'].to_i).game_id}"
   end
 
-  def player_params
-    params.permit(:id)
+  def leave
+    PvpPlayers.remove_player(player_id: player_params['id'].to_i)
+
+    redirect_to root_path
   end
 
   def create
-    p params
-    game_id = params['game_id']
+    p player_params
+    game_id = player_params['game_id']
 
     player = PvpPlayers.new(
       name: params['name'],
@@ -38,6 +40,11 @@ class PvpPlayersController < ActionController::Base
 
     redirect_to "/games/#{game_id}"
   end
+
+  def player_params
+    params.permit(:id, :uuid, :color, :name, :game_id)
+  end
+
 end
 #<ActionController::Parameters {"game_id"=>"4", "name"=>"TestUser", "color"=>"#ae1e1e", "commit"=>"submit", "controller"=>"pvp_players", "action"=>"create"} permitted: false>
 

@@ -1,0 +1,28 @@
+      <div>
+        <table  class = "board">
+            <% BoardState.arrayify_for_rendering(game_id: @game.id).each_with_index do |line, index|%>
+              <tr>
+                <% line.each do |field| %>
+                    <td>
+                      <h1 class="field"
+                      id=<%= field.id%>
+                      <% if @game.underway && @current_user.uuid == @current_player.uuid %>
+                        data-controller="field"
+                        data-action="dragstart->field#onDragStart dragover->field#onDragOver dragenter->field#onDragEnter drop->field#onDrop dragend->field#onDragEnd"
+                      <% end %>
+                      occupant_id="<%= field.occupant_id %>"
+                      field_id="<%= field.id%>"
+                      style="--position: <%= field.offset%>; --color: <%= field.occupied && !field.obstacle ? PvpPlayers.find(SummonedMinion.find(field.occupant_id).owner_id).color : 'rgba(255, 0, 0, 0)' %>;">
+                      <span class="tooltiptext"><%= "[#{field.x_position},#{field.y_position}]"%></span>
+                      <% if field.occupant_id != nil %>
+                        <div class="minion" data-controller="minion" data-action="click->minion#getId"  >
+                        <%= image_tag MinionStat.find_by(minion_type: field.occupant_type).icon, class: "minion_image",  data: { occupant_id: "#{field.occupant_id}", field_id: "#{field.id}" ,x_position: "#{field.x_position}", y_position: "#{field.y_position}"}%>
+                        </div>
+                      <% end %>
+                      </h1>
+                    </td>
+                <% end %>
+              </tr>
+            <% end %>
+        </table>
+      </div>

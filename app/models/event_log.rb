@@ -40,7 +40,7 @@ class EventLog < ApplicationRecord
   end
 
   def self.winner(player_db_record: nil)
-    event = "#{player_db_record.name} has emerged victorious!!!"
+    event = "#{player_db_record.name} has emerged victorious!!! Reset Board to restart!"
     save_event(event, game_id: player_db_record.game_id)
   end
 
