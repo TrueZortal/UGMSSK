@@ -11,7 +11,7 @@
     <% else %>
     <h1 class = "game_link"><%= link_to "Game number #{game.id} - Current players #{game.player_ids.size}/4 || #{User.where(game_id: game.id).map(&:name)}", "/games/#{game.id}" %></p>
     <% end %>
-    <%if game.player_ids.size <= 4 && !User.exists?(uuid: @current_user.uuid, game_id: game.id) && !game.underway && @current_user.game_id == nil %>
+    <%if game.player_ids.size <= 4 && @current_user && !User.exists?(uuid: @current_user.uuid, game_id: game.id) && !game.underway && @current_user.game_id == nil %>
     <%= form_with url: '/pvp_players', method: "post"  do |form| %>
             <%= form.label :game_id, "Join game" %>
             <%= form.hidden_field :game_id, value: "#{game.id}"%>

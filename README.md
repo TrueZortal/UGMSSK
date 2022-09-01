@@ -1,28 +1,22 @@
 # Ultimate Giga Master Super Summoner King
 
 ## Current Version
-Web-Alpha 0.0.4
+Web-Alpha 0.0.5
 
 ## Ready features of next version
-Web-Alpha 0.0.5
-- style improvements ✅
-- enable logged in players joining game(s) ✅
+
 
 ## Active to-do:
 
 ## Doing => Changes planned for the next version
 committed marked by ✅
 ---
-- Added ability to start game when enough players via navigation bar✅
-- Add ability to leave joined game before it starts via navigation bar✅
-- revise the reaction/logic after the game is finished✅
-- Style improvements✅
-- Move most elements to partial renders (Board, Combat log, Status, Players)✅
-
-
+- initiate games with board existing not requiring a reset
 - address full page refreshes, make sure only required elements are refreshed
 - Review loop in game which assigns valid targets/movement fields
 - implement summoning zones
+
+
 
 ## Core function to-do list => missing/expected core/basic functionalities or required improvements
 - move everything to model <--- update_drag from controller BoardField to model
@@ -65,6 +59,16 @@ committed marked by ✅
  - View gets rendered twice after drag/drop with only them visible(?)
 
  Version/Release Log:
+
+v0.0.5 => -
+- style improvements ✅
+- enable logged in players joining game(s) ✅
+- Added ability to start game when enough players via navigation bar✅
+- Add ability to leave joined game before it starts via navigation bar✅
+- revise the reaction/logic after the game is finished✅
+- Style improvements✅
+- Added 10s refresh timer for play✅
+- Move most elements to partial renders (Board, Combat log, Status, Players)✅
 
 v0.0.4 => -
 - event log should only report based on game_id and order by update date ✅
