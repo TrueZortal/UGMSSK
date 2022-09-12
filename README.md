@@ -1,5 +1,7 @@
 # Ultimate Giga Master Super Summoner King
 
+https://zortalowa-gra.herokuapp.com/
+
 ## Current Version
 Web-Alpha 0.0.5
 
