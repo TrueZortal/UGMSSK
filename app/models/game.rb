@@ -58,7 +58,6 @@ class Game < ApplicationRecord
 
   def self.continue(game_id: nil)
     Game.find(game_id)
-    # Game.find(game_id)
   end
 
   # takes: game_id

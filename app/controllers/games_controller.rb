@@ -15,7 +15,6 @@ class GamesController < ApplicationController
               Game.wait_for_start_or_to_finish(game_id: game_id)
             else
               reset
-              # Game.restart_new_on_existing_id(game_id: game_id)
             end
 
     if !PvpPlayers.where(game_id: game_id).empty?
@@ -23,7 +22,6 @@ class GamesController < ApplicationController
     end
 
     respond_to do |format|
-      # format.turbo_stream
       format.html
       format.json
     end

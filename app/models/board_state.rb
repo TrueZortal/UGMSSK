@@ -174,16 +174,3 @@ class BoardState < ApplicationRecord
   end
 end
 
-# create_table "board_fields", force: :cascade do |t|
-#   t.integer "game_id"
-#   t.integer "x_position", null: false
-#   t.integer "y_position", null: false
-#   t.string "status"
-#   t.string "occupant_type"
-#   t.integer "occupant_id", null: true
-#   t.string "terrain", null: false
-#   t.boolean "obstacle", null: false
-#   t.string "offset", null: false
-#   t.datetime "created_at", null: false
-#   t.datetime "updated_at", null: false
-# end

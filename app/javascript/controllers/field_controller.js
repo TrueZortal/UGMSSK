@@ -11,14 +11,9 @@ export default class extends Controller {
   }
 
   onDrag(event) {
-    // event.preventDefault()
-    console.log("Field on drag fired")
   }
 
   onDragStart(event){
-    // event.preventDefault()
-    // event.dataTransfer.dropEffect = "move"
-    // event.dataTransfer.effectAllowed = "move"
     console.log("Field drag started")
 
     let occupant_id = event.target.getAttribute('data-occupant-id')
@@ -29,7 +24,6 @@ export default class extends Controller {
     }
     console.log(id)
     event.dataTransfer.setData('text/plain', JSON.stringify(id))
-    // async query of fields from database with highlight function
     let minion = fetch('/summoned_minions/'+occupant_id+'/grab/')
     .then((response) => response.json())
     .then((minion) => {
@@ -56,7 +50,6 @@ export default class extends Controller {
 
   onDragEnd(event) {
     event.preventDefault()
-    // console.log(event)
     const allFields = document.querySelectorAll('.field')
     allFields.forEach((element) => {
       if (element.style.backgroundColor === "chartreuse") {
@@ -69,18 +62,14 @@ export default class extends Controller {
 
   onDragOver(event) {
     event.preventDefault()
-    // console.log(event.target)
-    // console.log("Field on drag over fired")
   }
 
   onDragEnter(event) {
     event.preventDefault()
-    // console.log("Field drag was entered")
   }
 
   onDragLeave(event) {
     event.preventDefault()
-    // console.log("Field drag event was left")
   }
 
   onDrop(event) {
@@ -104,7 +93,6 @@ export default class extends Controller {
         body: JSON.stringify({
           "from_field_id": fromFieldData['field_id'],
           "to_field_id": id
-          // ,'malicious_parametr': "blabla haxxorhuehue"
         })
       })
       .then((a) => {

@@ -4,8 +4,6 @@ class BoardFieldsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def update_drag
-    # p headers
-    # p params
     from_field_id = board_field_params['from_field_id'].to_i
     to_field_id = board_field_params['to_field_id'].to_i
     from_field = BoardField.find(from_field_id)
@@ -28,8 +26,6 @@ class BoardFieldsController < ApplicationController
     end
 
     redirect_to game_path(BoardField.find(from_field_id).game_id, format: :html )
-    # redirect_to "/games/#{PvpPlayers.find(player_params['id'].to_i).game_id}"
-    # redirect_to game_path(BoardField.find(from_field_id).game_id), :format => 'html'
   end
 
   private
@@ -44,7 +40,3 @@ class BoardFieldsController < ApplicationController
   end
 end
 
-# move
-# Parameters: {"authenticity_token"=>"[FILTERED]", "summoned_minion"=>{"owner_id"=>"56", "x_position"=>"3", "y_position"=>"2"}, "commit"=>"submit", "id"=>"18"}
-# attack
-# Parameters: {"authenticity_token"=>"[FILTERED]", "minion_type"=>"skeleton archer", "target_id"=>"18", "minion_target"=>"skeleton", "commit"=>"submit", "id"=>"17"}

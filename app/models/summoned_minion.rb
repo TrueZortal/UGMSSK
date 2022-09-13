@@ -1,12 +1,5 @@
 # frozen_string_literal: true
 
-# implement below errors:
-# class InvalidMovementError < StandardError
-# end
-
-# class OutOfRangeError < StandardError
-# end
-
 class InvalidTargetError < StandardError
 end
 
@@ -23,7 +16,6 @@ class WrongPlayerError < StandardError
 end
 
 class SummonedMinion < ApplicationRecord
-  # <ActionController::Parameters {"authenticity_token"=>"_TWhDYYJ3_K1rFu4RJcILakDJynGWV0QXoymLpzklG-0vZ0PYoEgB9gOhzC-v9XK9bxN6TFXs6YGx57x5kmIyg", "minion_type"=>"skeleton archer", "target_id"=>"38", "minion_target"=>"skeleton", "commit"=>"submit", "controller"=>"summoned_minions", "action"=>"update_attack", "id"=>"39"} permitted: false>
   def self.attack(parameters: nil)
     minion = SummonedMinion.find parameters['id']
     target = SummonedMinion.find parameters['target_id']
@@ -94,8 +86,6 @@ class SummonedMinion < ApplicationRecord
     end
   end
 
-  # <SummonedMinion id: 16, owner_id: 29, owner: "Player1", minion_type: "skeleton archer", health: 2, x_position: 2, y_position: 3, created_at: "2022-08-24 21:24:46.169036000 +0000", updated_at: "2022-08-24 21:26:08.392501000 +0000", can_attack: false>
-  # <ActionController::Parameters {"owner_id"=>"29", "x_position"=>"3", "y_position"=>"3"} permitted: false>
   def self.move(parameters: nil)
     minion_params = parameters['summoned_minion']
     minion = SummonedMinion.find parameters['id']
@@ -130,9 +120,6 @@ class SummonedMinion < ApplicationRecord
       )
       TurnTracker.end_turn(game_id: game_id, player_id: minion.owner_id)
     end
-    # rescue StandardError => e
-    #   EventLog.error(e)
-    # end
   end
 
   def self.get_abandoned(minion_id: nil)

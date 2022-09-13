@@ -2,17 +2,34 @@
 
 https://zortalowa-gra.herokuapp.com/
 
+## Basic rules ##
+Players: 2-4
+Once 2 players have joined one of two available games the option to start the game will become available in the navigation bar.
+
+The goal of the game is to kill all of enemy minions and bring your opponents mana down to 0 in the process.
+
+Please utilize the "summon" button when its your turn to summon minions using the radio buttons and relevant fields. Minions can be summoned anywhere on the board, using opposite corners via gentlemans agreement is suggested temporarily until summoning zones are implemented.
+
+Once summoned the minions can be moved using drag and drop over the board, the status of all your minions will be visible under the board and in the battle log to the right of the board.
+
+In order to finish the game one player has to remain at which point the option to reset, generate a new board and re-enable joining will be available.
+
+Once loaded the game will refresh every 15 seconds to "synchronise" between all users connected, it's not a bug, it's a feature (Websockets coming to the necromancer simulator near you soon(tm)), to avoid frustration I highly recommend summoning your minions quickly or right after the refresh.
+
+Should a game be occupied by idle users /reset/<gameid> can be utilized to force reset (Game tiemout coming to the necromancer simulator near you soon(tm))
+
 ## Current Version
-Web-Alpha 0.0.5
+Web-Alpha 0.0.6
 
 ## Ready features of next version
-- button are moving on refresh✅
-- Opponent moving PLEASE wait for your turn✅
-- Summoning on same field crashes server and results in adding minion to list (not actually to board)✅ (caused by usage of uninitiated flashing in event logging)
-
 
 ## Active to-do:
-- Full page refresh is very disruptive
+- Utilize received feedback:
+  - re-write game model to be instance based to remove repeated find(id) calls for game
+  - refactor the code in the current iteration (service objects~ etc.)
+- implement sessions verification against database
+- Full page refresh is very disruptive (websocket implementation delayed but in the pipeline)
+Queued bug fixes:
 - First player has a double turn sometimes
 - summon requires double click
 
@@ -67,6 +84,13 @@ committed marked by ✅
  - View gets rendered twice after drag/drop with only them visible(?)
 
  Version/Release Log:
+
+v0.0.6 => -
+- cleaned the code base to remove stray comments ✅
+- added basic rule set to the readme.md and a link within the game ✅
+- button are moving on refresh✅
+- Opponent moving PLEASE wait for your turn✅
+- Summoning on same field crashes server and results in adding minion to list (not actually to board)✅ (caused by usage of uninitiated flashing in event logging)
 
 v0.0.5 => -
 - style improvements ✅

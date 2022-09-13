@@ -1,14 +1,11 @@
 # frozen_string_literal: true
 
 class PvpPlayers < ApplicationRecord
-  # validates :board, presence: true
   def self.add_player(game_id)
-    # if PvpPlayers.where(game_id: game_id).size < 4
     added_player = PvpPlayers.new(name: "Player#{PvpPlayers.all.size + 1}", mana: 10, max_mana: 10,
                                   summoning_zone: '', game_id: game_id, color: pick_color)
     added_player.save
     Game.add_player(game_id: game_id, player_id: added_player.id)
-    # end
   end
 
   def self.pick_color
@@ -46,17 +43,14 @@ class PvpPlayers < ApplicationRecord
 
   def self.concede(player_id: nil)
     game_id = Game.find(PvpPlayers.find(player_id).game_id).id
-    # players = Game.find(game_id).player_ids - [player_id]
-    # User.find_by(uuid: PvpPlayers.find(player_id).uuid).update(game_id: '')
-    # Game.find(game_id).update(player_ids: players)
-    EventLog.has_conceded(player_db_record: PvpPlayers.find(player_id))
+    find(player_id)
     remove_player(player_id: player_id)
     TurnTracker.end_turn(game_id: game_id, player_id: player_id)
   end
 
   def self.check_and_set_available_player_actions(game_id: nil)
     Game.find(game_id).player_ids.each do |player_id|
-      # there are minions who can attack and there is mana
+        # there are minions who can attack and there is mana
       if !minions?(player_id: player_id) && minions_who_can_attack?(player_id: player_id) && mana?(player_id: player_id)
         PvpPlayers.find(player_id).update(available_actions: %w[summon])
         # there are minions who can attack and there isn't mana

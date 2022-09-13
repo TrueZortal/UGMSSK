@@ -1,5 +1,20 @@
+
+
 .game_list {
   display:grid;
+}
+
+:any-link {
+  color: aliceblue;
+}
+
+.game_list .repo_link {
+  margin: auto;
+  font-variant-caps: small-caps;
+  width: auto;
+  font-weight: bold;
+  font-style: oblique;
+  font-size: 24px;
 }
 
 .game_list .game_link {
@@ -10,3 +25,4 @@
   font-style: oblique;
   font-size: 24px;
 }
+

@@ -11,7 +11,6 @@ class LoginsController < ApplicationController
   end
 
   def create
-    p user_params['name']
     @user = User.new(name: user_params[:name], uuid: SecureRandom.uuid)
     if @user.save
       session[:current_user_uuid] = @user.uuid

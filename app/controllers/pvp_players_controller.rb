@@ -2,13 +2,11 @@
 
 class PvpPlayersController < ActionController::Base
   def pass
-    # p params
     PvpPlayers.pass(player_id: player_params[:id].to_i)
     redirect_to "/games/#{PvpPlayers.find(player_params['id'].to_i).game_id}"
   end
 
   def concede
-    # p params
     PvpPlayers.concede(player_id: player_params[:id].to_i)
     redirect_to "/games/#{PvpPlayers.find(player_params['id'].to_i).game_id}"
   end
@@ -46,16 +44,3 @@ class PvpPlayersController < ActionController::Base
   end
 
 end
-#<ActionController::Parameters {"game_id"=>"4", "name"=>"TestUser", "color"=>"#ae1e1e", "commit"=>"submit", "controller"=>"pvp_players", "action"=>"create"} permitted: false>
-
-# create_table "pvp_players", force: :cascade do |t|
-#   t.integer "game_id"
-#   t.string "name", null: false
-#   t.integer "mana", null: false
-#   t.integer "max_mana", null: false
-#   t.string "summoning_zone", null: false
-#   t.datetime "created_at", null: false
-#   t.datetime "updated_at", null: false
-#   t.text "available_actions", default: [], array: true
-#   t.string "color"
-# end

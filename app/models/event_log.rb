@@ -56,7 +56,5 @@ class EventLog < ApplicationRecord
 
   def self.error(error_msg)
     event = "#{error_msg} has occured"
-    # flash[:notice] = event
-    # save_event(event)
   end
 end
