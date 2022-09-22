@@ -16,7 +16,7 @@ In order to finish the game one player has to remain at which point the option t
 
 Once loaded the game will refresh every 15 seconds to "synchronise" between all users connected, it's not a bug, it's a feature (Websockets coming to the necromancer simulator near you soon(tm)), to avoid frustration I highly recommend summoning your minions quickly or right after the refresh.
 
-Should a game be occupied by idle users /reset/<gameid> can be utilized to force reset (Game tiemout coming to the necromancer simulator near you soon(tm))
+Should a game be occupied by idle users /reset/*game-number* can be utilized to force reset (Game tiemout coming to the necromancer simulator near you soon(tm))
 
 ## Current Version
 Web-Alpha 0.0.6

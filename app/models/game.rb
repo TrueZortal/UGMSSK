@@ -1,11 +1,28 @@
 # frozen_string_literal: true
 
 class Game < ApplicationRecord
+  attr_reader :record_id
+
+  def initialize(attributes = nil, &block)
+    @record_id =  attributes.delete(:game_id) if attributes
+    @game = Game.find(@record_id)
+
+    super
+  end
+
   def self.add_player(game_id: nil, player_id: nil)
     game = Game.find(game_id)
     game.player_ids << player_id
     game.save
     PvpPlayers.check_and_set_available_player_actions(game_id: game_id)
+  end
+
+  def exists_and_is_underway
+    @game.underway
+  end
+
+  def exists_but_is_waiting_to_start_or_to_finish
+    !PvpPlayers.where(game_id: @id).empty? || @game.current_turn == 0 && @game.underway
   end
 
   def self.start_game(game_id: nil)
@@ -14,8 +31,8 @@ class Game < ApplicationRecord
     )
   end
 
-  def self.wait_for_start_or_to_finish(game_id: nil)
-    Game.find(game_id)
+  def wait_for_start_or_to_finish
+    @game
   end
 
   def self.set_current_player(game_id: nil, player_id: nil)
@@ -52,12 +69,12 @@ class Game < ApplicationRecord
     )
     game.save
     BoardState.create_board(game_id: game.id, size_of_board_edge: 8)
-    PvpPlayers.check_and_set_available_player_actions(game_id: game.id)
+    PvpPlayers.check_and_set_available_player_actions(game_id: game_id)
     game
   end
 
-  def self.continue(game_id: nil)
-    Game.find(game_id)
+  def continue
+    @game
   end
 
   # takes: game_id

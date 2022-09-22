@@ -8,16 +8,17 @@ class GamesController < ApplicationController
       redirect_to root_path
     end
 
-    game_id = game_params['id'].to_i
-    @game = if Game.exists?(id: game_id) && Game.find(game_id).underway
-              Game.continue(game_id: game_id)
-            elsif Game.exists?(id: game_id) && !PvpPlayers.where(game_id: game_id).empty? || Game.find(game_id).current_turn == 0 && !Game.find(game_id).underway
-              Game.wait_for_start_or_to_finish(game_id: game_id)
+    @potential_game = Game.new(game_id: game_params['id'].to_i)
+
+    @game = if @potential_game.exists_and_is_underway
+              @potential_game.continue
+            elsif @potential_game.exists_but_is_waiting_to_start_or_to_finish
+              @potential_game.wait_for_start_or_to_finish
             else
               reset
             end
 
-    if !PvpPlayers.where(game_id: game_id).empty?
+    if !PvpPlayers.where(game_id: @potential_game.id).empty?
       @current_player = TurnTracker.pull_current_player_id(game_id: game_id)
     end
 
