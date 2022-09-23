@@ -23,6 +23,7 @@ Web-Alpha 0.0.6
 
 ## Ready features of next version:
  - Re written Game controller for readability, implemented a number of wrapper methods in Game model to improve readability ✅
+ - Moved update_drag function from BoardField controller to SummonedMinion model, deleted Board_fields_controller✅
 
 ## Active to-do:
 - Utilize received feedback:
@@ -44,7 +45,6 @@ committed marked by ✅
 
 
 ## Core function to-do list => missing/expected core/basic functionalities or required improvements
-- move everything to model <--- update_drag from controller BoardField to model
 - add tests, loads of tests
 - add collision detection between units to prevent "hopping" over
 - improve mobile browser display

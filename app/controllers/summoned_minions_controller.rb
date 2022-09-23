@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class SummonedMinionsController < ApplicationController
+  skip_before_action :verify_authenticity_token
   # summon a minion
   # params: summoned minion -> owner_id, owner, minion_type, x_position, y_position
   def create
@@ -13,6 +14,16 @@ class SummonedMinionsController < ApplicationController
     render json: minion
   end
 
+  def update_drag
+    from_field_id = minion_params['from_field_id'].to_i
+    to_field_id = minion_params['to_field_id'].to_i
+    from_field = BoardField.find(from_field_id)
+    to_field = BoardField.find(to_field_id)
+    SummonedMinion.update_drag(from_field,to_field)
+
+    redirect_to game_path(BoardField.find(from_field_id).game_id, format: :html )
+  end
+
   private
 
   def minion_params
@@ -22,6 +33,9 @@ class SummonedMinionsController < ApplicationController
       :commit,
       :x_position,
       :y_position,
+      :from_field_id,
+      :to_field_id,
+      :board_field => {},
       :summoned_minion => {}
     )
   end

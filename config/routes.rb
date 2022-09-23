@@ -14,15 +14,13 @@ Rails.application.routes.draw do
   post '/logout', to: 'sessions#destroy'
   resources :summoned_minions do
     post :update_attack, on: :member
+    post :update_drag, on: :member
     get :grab, on: :member # function for grabbing record via JS
   end
   resources :pvp_players do
     get :pass, on: :member
     get :concede, on: :member
     get :leave, on: :member
-  end
-  resources :board_fields do
-    post :update_drag, on: :member
   end
   resources :board_states
   resources :games

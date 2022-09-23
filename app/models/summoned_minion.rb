@@ -16,6 +16,26 @@ class WrongPlayerError < StandardError
 end
 
 class SummonedMinion < ApplicationRecord
+
+  def self.update_drag(from_field = nil, to_field = nil)
+    if to_field.occupied && !to_field.obstacle
+      pseudo_params = {
+        'id' => from_field.occupant_id,
+        'target_id' => to_field.occupant_id
+      }
+      attack(parameters: pseudo_params)
+    else
+      pseudo_params = {
+        'id' => from_field.occupant_id,
+        'summoned_minion' => {
+          'x_position' => to_field.x_position,
+          'y_position' => to_field.y_position
+        }
+      }
+      move(parameters: pseudo_params)
+    end
+  end
+
   def self.attack(parameters: nil)
     minion = SummonedMinion.find parameters['id']
     target = SummonedMinion.find parameters['target_id']

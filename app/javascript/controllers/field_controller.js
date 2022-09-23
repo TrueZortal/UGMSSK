@@ -84,7 +84,7 @@ export default class extends Controller {
     if (fromFieldData['field_id'] === id) {
       // same field, no action
     } else {
-      fetch("/board_fields/"+ id +"/update_drag/", {
+      fetch("/summoned_minions/"+ id +"/update_drag/", {
         method: "POST",
         headers: {
           'Accept': 'application/json',
