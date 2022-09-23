@@ -18,7 +18,6 @@ class PvpPlayersController < ActionController::Base
   end
 
   def create
-    p player_params
     game_id = player_params['game_id']
 
     player = PvpPlayers.new(

@@ -9,13 +9,17 @@ class TurnTracker < ApplicationRecord
     if Game.find(game_id).underway
       if current_turn_complete_or_doesnt_exist?(game_id)
         Game.move_game_to_next_turn(game_id: game_id)
-        game = Game.find(game_id)
-        game.player_ids.shuffle.each do |player|
-          player_turn = TurnTracker.new(game_id: game_id, turn_number: game.current_turn, player_id: player)
-          player_turn.save
-        end
+        create_turns_for_all_players_in_game(game_id: game_id)
       end
       PvpPlayers.find(TurnTracker.where(game_id: game_id, complete: false).first.player_id)
+    end
+  end
+
+  def self.create_turns_for_all_players_in_game(game_id: nil)
+    game = Game.find(game_id)
+    game.player_ids.shuffle.each do |player|
+      player_turn = TurnTracker.new(game_id: game_id, turn_number: game.current_turn, player_id: player)
+      player_turn.save
     end
   end
 
