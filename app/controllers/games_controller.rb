@@ -8,18 +8,17 @@ class GamesController < ApplicationController
       redirect_to root_path
     end
 
-    @potential_game = Game.new(game_id: game_params['id'].to_i)
+    @game_instance = Game.new(game_id: game_params['id'].to_i)
 
-    @game = if @potential_game.exists_and_is_underway
-              @potential_game.continue
-            elsif @potential_game.exists_but_is_waiting_to_start_or_to_finish
-              @potential_game.wait_for_start_or_to_finish
+    @game = if @game_instance.exists_and_is_underway
+              @game_instance.continue
+            elsif @game_instance.exists_but_is_waiting_to_start_or_to_finish
+              @game_instance.wait_for_start_or_to_finish
             else
               reset
             end
 
-    if @potential_game.has_players
-      # this potentially should move to Game::pull_current_player
+    if @game_instance.has_players
       @current_player = TurnTracker.pull_current_player_id(game_id: @game.id)
     end
 

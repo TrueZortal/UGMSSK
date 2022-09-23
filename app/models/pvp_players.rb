@@ -26,7 +26,8 @@ class PvpPlayers < ApplicationRecord
     game_id = player.game_id
     players = Game.find(game_id).player_ids - [player_id]
     Game.find(game_id).update(player_ids: players)
-    SummonedMinion.where(owner_id: player_id).each do |minion|
+    player_minions = FinderManager::FindMinionsByOwner.call(player_id)
+    player_minions.each do |minion|
       SummonedMinion.get_abandoned(minion_id: minion.id)
     end
     TurnTracker.where(player_id: player_id).destroy_all
@@ -73,7 +74,7 @@ class PvpPlayers < ApplicationRecord
   end
 
   def self.minions?(player_id: nil)
-    SummonedMinion.where('owner_id = ?', player_id).empty?
+    FinderManager::FindMinionsByOwner.call(player_id).empty?
   end
 
   def self.minions_who_can_attack?(player_id: nil)

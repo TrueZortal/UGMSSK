@@ -33,6 +33,8 @@ class TurnTracker < ApplicationRecord
     end
   end
 
+  private
+
   def self.check_win_conditions(game_id: nil)
     game = Game.find(game_id)
     players = Game.find(game_id).player_ids
