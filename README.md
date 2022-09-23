@@ -25,6 +25,8 @@ Web-Alpha 0.0.6
  - Re written Game controller for readability, implemented a number of wrapper methods in Game model to improve readability ✅
  - Moved update_drag function from BoardField controller to SummonedMinion model, deleted Board_fields_controller✅
  - Implemented service object template under FinderManager::FindMinionsByOwner✅
+ - Implemented additional service objects under:
+  - JanitorManager::ClearFieldByOccupantID - clears BoardField entry
 
 ## Active to-do:
 - implement sessions verification against database

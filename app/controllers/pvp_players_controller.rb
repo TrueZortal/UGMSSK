@@ -7,8 +7,9 @@ class PvpPlayersController < ActionController::Base
   end
 
   def concede
+    game_id = FinderManager::FindGameIdByPlayerId.call(player_params[:id].to_i)
     PvpPlayers.concede(player_id: player_params[:id].to_i)
-    redirect_to "/games/#{PvpPlayers.find(player_params['id'].to_i).game_id}"
+    redirect_to "/games/#{game_id}"
   end
 
   def leave

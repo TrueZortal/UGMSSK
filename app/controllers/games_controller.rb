@@ -15,6 +15,7 @@ class GamesController < ApplicationController
             elsif @game_instance.exists_but_is_waiting_to_start_or_to_finish
               @game_instance.wait_for_start_or_to_finish
             else
+              sleep 30
               reset
             end
 
