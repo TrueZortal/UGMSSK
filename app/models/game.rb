@@ -22,7 +22,11 @@ class Game < ApplicationRecord
   end
 
   def exists_but_is_waiting_to_start_or_to_finish
-    !PvpPlayers.where(game_id: @id).empty? || @game.current_turn == 0 && @game.underway
+    !has_players || @game.current_turn == 0 && !@game.underway
+  end
+
+  def has_players
+    !PvpPlayers.where(game_id: @record_id).empty?
   end
 
   def self.start_game(game_id: nil)
@@ -61,6 +65,15 @@ class Game < ApplicationRecord
 
   def self.restart_new_on_existing_id(game_id: nil)
     game = Game.find(game_id)
+    BoardState.where(game_id: game_id).destroy_all
+    BoardField.where(game_id: game_id).destroy_all
+    PvpPlayers.where(game_id: game_id).destroy_all
+    SummonedMinion.where(game_id: game_id).destroy_all
+    EventLog.where(game_id: game_id).destroy_all
+    TurnTracker.where(game_id: game_id).destroy_all
+    User.where(game_id: game_id).each do |user|
+      user.update(game_id: '')
+    end
     game.update(
       player_ids: [],
       current_turn: 0,

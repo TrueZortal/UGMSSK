@@ -18,8 +18,9 @@ class GamesController < ApplicationController
               reset
             end
 
-    if !PvpPlayers.where(game_id: @potential_game.id).empty?
-      @current_player = TurnTracker.pull_current_player_id(game_id: game_id)
+    if @potential_game.has_players
+      # this potentially should move to Game::pull_current_player
+      @current_player = TurnTracker.pull_current_player_id(game_id: @game.id)
     end
 
     respond_to do |format|
@@ -36,16 +37,8 @@ class GamesController < ApplicationController
 
   def reset
     game_id = game_params['id'].to_i
-    BoardState.where(game_id: game_id).destroy_all
-    BoardField.where(game_id: game_id).destroy_all
-    PvpPlayers.where(game_id: game_id).destroy_all
-    SummonedMinion.where(game_id: game_id).destroy_all
-    EventLog.where(game_id: game_id).destroy_all
-    TurnTracker.where(game_id: game_id).destroy_all
     Game.restart_new_on_existing_id(game_id: game_id)
-    User.where(game_id: game_id).each do |user|
-      user.update(game_id: '')
-    end
+
     redirect_to root_url
   end
 
