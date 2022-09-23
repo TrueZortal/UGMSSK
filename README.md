@@ -24,10 +24,9 @@ Web-Alpha 0.0.6
 ## Ready features of next version:
  - Re written Game controller for readability, implemented a number of wrapper methods in Game model to improve readability ✅
  - Moved update_drag function from BoardField controller to SummonedMinion model, deleted Board_fields_controller✅
+ - Implemented service object template under FinderManager::FindMinionsByOwner✅
 
 ## Active to-do:
-- Utilize received feedback:
-  - refactor the code in the current iteration (service objects~ etc.)
 - implement sessions verification against database
 - Full page refresh is very disruptive (websocket implementation delayed but in the pipeline)
 Queued bug fixes:

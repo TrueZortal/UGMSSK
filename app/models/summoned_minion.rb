@@ -144,11 +144,7 @@ class SummonedMinion < ApplicationRecord
 
   def self.get_abandoned(minion_id: nil)
     EventLog.got_abandoned(unit_db_record: SummonedMinion.find(minion_id))
-    BoardField.find_by(occupant_id: minion_id).update(
-      occupant_id: nil,
-      occupant_type: '',
-      occupied: false
-    )
+    JanitorManager::ClearFieldByOccupantID.call(minion_id)
     SummonedMinion.find(minion_id).delete
   end
 end
