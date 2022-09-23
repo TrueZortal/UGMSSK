@@ -21,11 +21,11 @@ Should a game be occupied by idle users /reset/*game-number* can be utilized to 
 ## Current Version
 Web-Alpha 0.0.6
 
-## Ready features of next version
+## Ready features of next version:
+ - Re written Game controller for readability, implemented a number of wrapper methods in Game model to improve readability ✅
 
 ## Active to-do:
 - Utilize received feedback:
-  - re-write game model to be instance based to remove repeated find(id) calls for game
   - refactor the code in the current iteration (service objects~ etc.)
 - implement sessions verification against database
 - Full page refresh is very disruptive (websocket implementation delayed but in the pipeline)
