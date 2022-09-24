@@ -26,7 +26,9 @@ Web-Alpha 0.0.6
  - Moved update_drag function from BoardField controller to SummonedMinion model, deleted Board_fields_controller✅
  - Implemented service object template under FinderManager::FindMinionsByOwner✅
  - Implemented additional service objects under:
-  - JanitorManager::ClearFieldByOccupantID - clears BoardField entry
+  - JanitorManager::ClearFieldByOccupantID - clears BoardField entry✅
+  - FinderManager::FindGameIdByPlayerId - finds gameID from player ID✅
+- resolved a bug where conceding will have caused an immediate reset by adding an additional branch to main gameplay loop✅
 
 ## Active to-do:
 - implement sessions verification against database
