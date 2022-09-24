@@ -12,10 +12,11 @@ class GamesController < ApplicationController
 
     @game = if @game_instance.exists_and_is_underway
               @game_instance.continue
-            elsif @game_instance.exists_but_is_waiting_to_start_or_to_finish
+            elsif @game_instance.exists_but_is_waiting_to_start
+              @game_instance.wait_for_start_or_to_finish
+            elsif @game_instance.exists_but_is_waiting_to_finish
               @game_instance.wait_for_start_or_to_finish
             else
-              sleep 30
               reset
             end
 

@@ -21,8 +21,12 @@ class Game < ApplicationRecord
     @game.underway
   end
 
-  def exists_but_is_waiting_to_start_or_to_finish
+  def exists_but_is_waiting_to_start
     !has_players || @game.current_turn == 0 && !@game.underway
+  end
+
+  def exists_but_is_waiting_to_finish
+    has_players && !@game.underway && @game.current_turn != 0
   end
 
   def has_players
