@@ -1,25 +1,11 @@
 # frozen_string_literal: true
 
 class TurnTracker < ApplicationRecord
-  def self.current_turn_complete_or_doesnt_exist?(game_id)
-    TurnTracker.where(game_id: game_id, complete: false).to_a.empty?
-  end
 
   def self.pull_current_player_id(game_id: nil)
     if Game.find(game_id).underway
-      if current_turn_complete_or_doesnt_exist?(game_id)
-        Game.move_game_to_next_turn(game_id: game_id)
-        create_turns_for_all_players_in_game(game_id: game_id)
-      end
+      check_if_current_turn_exists_and_create_new_if_it_doesnt(game_id: game_id)
       PvpPlayers.find(TurnTracker.where(game_id: game_id, complete: false).first.player_id)
-    end
-  end
-
-  def self.create_turns_for_all_players_in_game(game_id: nil)
-    game = Game.find(game_id)
-    game.player_ids.shuffle.each do |player|
-      player_turn = TurnTracker.new(game_id: game_id, turn_number: game.current_turn, player_id: player)
-      player_turn.save
     end
   end
 
@@ -34,6 +20,25 @@ class TurnTracker < ApplicationRecord
   end
 
   private
+
+  def self.current_turn_complete_or_doesnt_exist?(game_id)
+    TurnTracker.where(game_id: game_id, complete: false).to_a.empty?
+  end
+
+  def self.check_if_current_turn_exists_and_create_new_if_it_doesnt(game_id: nil)
+    if current_turn_complete_or_doesnt_exist?(game_id)
+      Game.move_game_to_next_turn(game_id: game_id)
+      create_turns_for_all_players_in_game(game_id: game_id)
+    end
+  end
+
+  def self.create_turns_for_all_players_in_game(game_id: nil)
+    game = Game.find(game_id)
+    game.player_ids.shuffle.each do |player|
+      player_turn = TurnTracker.new(game_id: game_id, turn_number: game.current_turn, player_id: player)
+      player_turn.save
+    end
+  end
 
   def self.check_win_conditions(game_id: nil)
     game = Game.find(game_id)
