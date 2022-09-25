@@ -8,6 +8,24 @@ class BoardState < ApplicationRecord
     make_dijkstra_information(game_id)
   end
 
+  # takes: game_id
+  # returns: array of lines for rendering
+  def self.arrayify_for_rendering(game_id: nil)
+    rendering_array = []
+    board_fields = BoardField.where(game_id: game_id)
+    size_of_board_edge = Math.sqrt(board_fields.size).to_i
+    size_of_board_edge.times do |x|
+      temp_array = []
+      size_of_board_edge.times do |y|
+        temp_array << board_fields.find_by(x_position: x, y_position: y)
+      end
+      rendering_array << temp_array
+    end
+    rendering_array
+  end
+
+private
+
   # takes game_id
   # generates a routing hash for use in djikstra pathfinding
   def self.make_dijkstra_information(game_id)
@@ -75,21 +93,6 @@ class BoardState < ApplicationRecord
     end
   end
 
-  # takes: game_id
-  # returns: array of lines for rendering
-  def self.arrayify_for_rendering(game_id: nil)
-    rendering_array = []
-    board_fields = BoardField.where(game_id: game_id)
-    size_of_board_edge = Math.sqrt(board_fields.size).to_i
-    size_of_board_edge.times do |x|
-      temp_array = []
-      size_of_board_edge.times do |y|
-        temp_array << board_fields.find_by(x_position: x, y_position: y)
-      end
-      rendering_array << temp_array
-    end
-    rendering_array
-  end
 
   # takes: String terrain type
   # returns: Boolean of obstacle

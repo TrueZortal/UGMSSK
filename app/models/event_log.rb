@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class EventLog < ApplicationRecord
-  def self.save_event(event, game_id: nil)
-    db_event = EventLog.new(game_id: game_id, event: event)
-    db_event.save
-  end
 
   def self.place(unit_db_record, mana_after_placing)
     remaining_mana = "they have #{mana_after_placing} mana remaining."
@@ -56,5 +52,12 @@ class EventLog < ApplicationRecord
 
   def self.error(error_msg)
     event = "#{error_msg} has occured"
+  end
+
+  private
+
+  def self.save_event(event, game_id: nil)
+    db_event = EventLog.new(game_id: game_id, event: event)
+    db_event.save
   end
 end
