@@ -2,12 +2,9 @@
 
 class GamesController < ApplicationController
   def show
-    if session[:current_user_uuid]
-      @current_user = User.find_by(uuid: session[:current_user_uuid] )
-    else
+    if @current_user.uuid = nil
       redirect_to root_path
     end
-
     @game_instance = Game.new(game_id: game_params['id'].to_i)
 
     @game = if @game_instance.exists_and_is_underway

@@ -28,14 +28,16 @@ Web-Alpha 0.0.6
  - Implemented additional service objects under:
   - JanitorManager::ClearFieldByOccupantID - clears BoardField entry✅
   - FinderManager::FindGameIdByPlayerId - finds gameID from player ID✅
+  - JanitorManager::DeleteSessionsByUserUuid - deletes session based on user uuid✅
 - resolved a bug where conceding will have caused an immediate reset by adding an additional branch to main gameplay loop✅
 - summon no longer requires double click - changes to the menu controller ✅
-- implement sessions verification against database✅ - sessions are now stored in a database and users authenticated against it
+- implement sessions verification against database✅ - sessions are now stored in a database and users authenticated against it, improvements to login persistence to follow
+- added rspec, started implementing tests for functions✅
+- First player has a double turn sometimes✅ - resolved
 
 ## Active to-do:
 - Full page refresh is very disruptive (websocket implementation delayed but in the pipeline)
 Queued bug fixes:
-- First player has a double turn sometimes
 
 ## Doing => Changes planned for the next version
 committed marked by ✅
@@ -46,7 +48,6 @@ committed marked by ✅
 - implement summoning zones
 
 ## Core function to-do list => missing/expected core/basic functionalities or required improvements
-- add tests, loads of tests
 - add collision detection between units to prevent "hopping" over
 - improve mobile browser display
 - move the game to websocket with turbo(?)

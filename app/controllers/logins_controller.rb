@@ -1,13 +1,8 @@
 class LoginsController < ApplicationController
   def login
-    if session[:current_user_uuid] && Session.exists?(token: session[:token])
-      @current_user = User.find_by(uuid: session[:current_user_uuid] )
+    if logged_in?
       redirect_to root_path
     end
-  end
-
-  def new
-    @user = User.new
   end
 
   def create
@@ -20,7 +15,7 @@ class LoginsController < ApplicationController
       flash[:notice] = "Successfully logged in as #{@user.name}!"
       redirect_to root_path
     else
-      redirect_to controller: 'logins', action: 'login'
+      redirect_to login_path
     end
   end
 
