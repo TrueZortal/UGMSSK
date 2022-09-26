@@ -29,13 +29,13 @@ Web-Alpha 0.0.6
   - JanitorManager::ClearFieldByOccupantID - clears BoardField entry✅
   - FinderManager::FindGameIdByPlayerId - finds gameID from player ID✅
 - resolved a bug where conceding will have caused an immediate reset by adding an additional branch to main gameplay loop✅
+- summon no longer requires double click - changes to the menu controller ✅
 
 ## Active to-do:
 - implement sessions verification against database
 - Full page refresh is very disruptive (websocket implementation delayed but in the pipeline)
 Queued bug fixes:
 - First player has a double turn sometimes
-- summon requires double click
 
 ## Doing => Changes planned for the next version
 committed marked by ✅

@@ -17,7 +17,7 @@ class LoginsController < ApplicationController
       session[:token] = SecureRandom.urlsafe_base64
       sesh = Session.new(user_id: @user.uuid, token: session[:token])
       p sesh
-      sesh.save
+      p sesh.save
       flash[:notice] = "Successfully logged in as #{@user.name}!"
       redirect_to root_path
     else
