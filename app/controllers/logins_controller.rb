@@ -1,6 +1,6 @@
 class LoginsController < ApplicationController
   def login
-    if session[:current_user_uuid]
+    if session[:current_user_uuid] && Session.exists?(token: session[:token])
       @current_user = User.find_by(uuid: session[:current_user_uuid] )
       redirect_to root_path
     end
@@ -15,9 +15,8 @@ class LoginsController < ApplicationController
     if @user.save
       session[:current_user_uuid] = @user.uuid
       session[:token] = SecureRandom.urlsafe_base64
-      sesh = Session.new(user_id: @user.uuid, token: session[:token])
-      p sesh
-      p sesh.save
+      sesh = Session.new(user_id: @user.id, token: session[:token])
+      sesh.save
       flash[:notice] = "Successfully logged in as #{@user.name}!"
       redirect_to root_path
     else

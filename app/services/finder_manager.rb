@@ -35,4 +35,6 @@ module FinderManager
       PvpPlayers.find(@pvp_player_id).game_id
     end
   end
+
+
 end

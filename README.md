@@ -30,9 +30,9 @@ Web-Alpha 0.0.6
   - FinderManager::FindGameIdByPlayerId - finds gameID from player ID✅
 - resolved a bug where conceding will have caused an immediate reset by adding an additional branch to main gameplay loop✅
 - summon no longer requires double click - changes to the menu controller ✅
+- implement sessions verification against database✅ - sessions are now stored in a database and users authenticated against it
 
 ## Active to-do:
-- implement sessions verification against database
 - Full page refresh is very disruptive (websocket implementation delayed but in the pipeline)
 Queued bug fixes:
 - First player has a double turn sometimes
@@ -44,8 +44,6 @@ committed marked by ✅
 - address full page refreshes, make sure only required elements are refreshed
 - Review loop in game which assigns valid targets/movement fields
 - implement summoning zones
-
-
 
 ## Core function to-do list => missing/expected core/basic functionalities or required improvements
 - add tests, loads of tests

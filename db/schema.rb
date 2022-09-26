@@ -90,13 +90,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_31_202654) do
     t.text "uuid", null: false
   end
 
-  create_table "sessions", force: :cascade do |t|
-    t.bigint "user_id"
-    t.text "token", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_sessions_on_user_id", unique: true
-  end
 
   create_table "summoned_minions", force: :cascade do |t|
     t.integer "owner_id"
@@ -120,6 +113,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_31_202654) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "player_id"
+  end
+
+  create_table "sessions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.text "token", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sessions_on_user_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|
