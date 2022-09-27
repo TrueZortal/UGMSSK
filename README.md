@@ -19,23 +19,10 @@ Once loaded the game will refresh every 15 seconds to "synchronise" between all 
 Should a game be occupied by idle users /reset/*game-number* can be utilized to force reset (Game tiemout coming to the necromancer simulator near you soon(tm))
 
 ## Current Version
-Web-Alpha 0.0.6
+Web-Alpha 0.0.7
 
 ## Ready features of next version:
- - Re written Game controller for readability, implemented a number of wrapper methods ✅
- - Moved update_drag function from BoardField controller to SummonedMinion model, deleted Board_fields_controller✅
- - Implemented service object template under FinderManager::FindMinionsByOwner✅
- - Implemented additional service objects under:
-  - JanitorManager::ClearFieldByOccupantID - clears BoardField entry✅
-  - FinderManager::FindGameIdByPlayerId - finds gameID from player ID✅
-  - JanitorManager::DeleteSessionsByUserUuid - deletes session based on user uuid✅
-- resolved a bug where conceding will have caused an immediate reset by adding an additional branch to main gameplay loop✅
-- summon no longer requires double click - changes to the menu controller ✅
-- implement sessions verification against database✅ - sessions are now stored in a database and users authenticated against it
-- added rspec, started implementing tests for functions✅
-- First player has a double turn sometimes✅ - resolved
-- Cleared up drag and drop javascript controller removing unneccessary bindings✅
-- Login now required to proceed into the app, employed helper methods for restricting access✅
+
 
 
 ## Active to-do:
@@ -89,6 +76,22 @@ committed marked by ✅
  - View gets rendered twice after drag/drop with only them visible(?)
 
  Version/Release Log:
+
+v0.0.7 => -
+ - Re written Game controller for readability, implemented a number of wrapper methods ✅
+ - Moved update_drag function from BoardField controller to SummonedMinion model, deleted Board_fields_controller✅
+ - Implemented service object template under FinderManager::FindMinionsByOwner✅
+ - Implemented additional service objects under:
+  - JanitorManager::ClearFieldByOccupantID - clears BoardField entry✅
+  - FinderManager::FindGameIdByPlayerId - finds gameID from player ID✅
+  - JanitorManager::DeleteSessionsByUserUuid - deletes session based on user uuid✅
+- resolved a bug where conceding will have caused an immediate reset by adding an additional branch to main gameplay loop✅
+- summon no longer requires double click - changes to the menu controller ✅
+- implement sessions verification against database✅ - sessions are now stored in a database and users authenticated against it
+- added rspec, started implementing tests for functions✅
+- First player has a double turn sometimes✅ - resolved
+- Cleared up drag and drop javascript controller removing unneccessary bindings✅
+- Login now required to proceed into the app, employed helper methods for restricting access✅
 
 v0.0.6 => -
 - cleaned the code base to remove stray comments ✅
