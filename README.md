@@ -31,9 +31,12 @@ Web-Alpha 0.0.6
   - JanitorManager::DeleteSessionsByUserUuid - deletes session based on user uuid✅
 - resolved a bug where conceding will have caused an immediate reset by adding an additional branch to main gameplay loop✅
 - summon no longer requires double click - changes to the menu controller ✅
-- implement sessions verification against database✅ - sessions are now stored in a database and users authenticated against it, improvements to login persistence to follow
+- implement sessions verification against database✅ - sessions are now stored in a database and users authenticated against it
 - added rspec, started implementing tests for functions✅
 - First player has a double turn sometimes✅ - resolved
+- Cleared up drag and drop javascript controller removing unneccessary bindings✅
+- Login now required to proceed into the app, employed helper methods for restricting access✅
+
 
 ## Active to-do:
 - Full page refresh is very disruptive (websocket implementation delayed but in the pipeline)

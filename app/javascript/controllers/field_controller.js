@@ -2,14 +2,6 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
 
-  initialize() {
-    this.element.addEventListener('onDragStart', this.onDragStart.bind(this))
-    this.element.addEventListener('onDragEnd', this.onDragEnd.bind(this))
-    this.element.addEventListener('onDragOver', this.onDragOver.bind(this))
-    this.element.addEventListener('onDragEnter', this.onDragEnter.bind(this))
-    this.element.addEventListener('onDrop', this.onDrop.bind(this))
-  }
-
   onDrag(event) {
   }
 

@@ -1,5 +1,5 @@
 class MainsController < ApplicationController
-  def index
-      redirect_to login_path unless logged_in?
-  end
+  before_action :restrict_access
+
+  def index; end
 end

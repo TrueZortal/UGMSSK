@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class GamesController < ApplicationController
+  before_action :restrict_access
+
   def show
-    if @current_user.uuid = nil
-      redirect_to root_path
-    end
+
     @game_instance = Game.new(game_id: game_params['id'].to_i)
 
     @game = if @game_instance.exists_and_is_underway
