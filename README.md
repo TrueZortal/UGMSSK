@@ -22,7 +22,7 @@ Should a game be occupied by idle users /reset/*game-number* can be utilized to 
 Web-Alpha 0.0.6
 
 ## Ready features of next version:
- - Re written Game controller for readability, implemented a number of wrapper methods in Game model to improve readability ✅
+ - Re written Game controller for readability, implemented a number of wrapper methods ✅
  - Moved update_drag function from BoardField controller to SummonedMinion model, deleted Board_fields_controller✅
  - Implemented service object template under FinderManager::FindMinionsByOwner✅
  - Implemented additional service objects under:
