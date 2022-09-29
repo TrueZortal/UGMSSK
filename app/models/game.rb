@@ -118,7 +118,7 @@ class Game < ApplicationRecord
     BoardField.where(game_id: game_id).each do |inner_field|
       shortest_path = Pathfinding.find_shortest_path_for_movement_array(field, inner_field, game_id: game_id)
       minion = SummonedMinion.find(field.occupant_id)
-      if shortest_path <= MinionStat.find_by(minion_type: minion.minion_type).speed && !inner_field.obstacle && !inner_field.occupied #&& check_if_line_of_movement_exists_between_two_fields(field,inner_field)
+      if shortest_path <= SummonedMinionManager::FindMinionSpeedFromMinionRecord.call(minion) && !inner_field.obstacle && !inner_field.occupied
         minion.valid_moves << inner_field.id
         minion.save
       end
@@ -128,7 +128,7 @@ class Game < ApplicationRecord
   def self.validate_targets(field, another_field)
     field.occupant_id != another_field.occupant_id && SummonedMinion.find(field.occupant_id).owner_id != SummonedMinion.find(another_field.occupant_id).owner_id && Calculations.distance(
       field, another_field
-    ) <= MinionStat.find_by(minion_type: field.occupant_type).range && check_if_line_of_sight_exists_between_two_fields(field,
+    ) <= SummonedMinionManager::FindMinionRangeFromMinionType.call(field.occupant_type) && check_if_line_of_sight_exists_between_two_fields(field,
                                                                                                               another_field)
   end
 
@@ -153,21 +153,6 @@ class Game < ApplicationRecord
       test_array = []
       route.each do |coordinate|
         test_array << BoardField.find_by(x_position: coordinate[0], y_position: coordinate[1]).obstacle
-      end
-      the_answer << test_array.any?(true)
-    end
-    the_answer.any?(false)
-  end
-
-  def self.check_if_line_of_movement_exists_between_two_fields(field, another_field)
-    routes = []
-    routes << get_route_between(field, another_field)
-    routes << get_route_between(another_field, field)
-    the_answer = []
-    routes.each do |route|
-      test_array = []
-      route.each do |coordinate|
-        test_array << (BoardField.find_by(x_position: coordinate[0], y_position: coordinate[1]).obstacle || BoardField.find_by(x_position: coordinate[0], y_position: coordinate[1]).occupied)
       end
       the_answer << test_array.any?(true)
     end

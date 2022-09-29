@@ -36,5 +36,4 @@ module FinderManager
     end
   end
 
-
 end

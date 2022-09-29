@@ -5,7 +5,7 @@
             <td class = "player_column">
               <p class="name_text" style= "--color: <%= player.color%>;"><%= "#{player.name} MANA:#{player.mana}/#{player.max_mana}" %></p>
               <% FinderManager::FindMinionsByOwner.call(player.id).each do |minion|%>
-              <li class="smallcenteredtext"><%="#{minion.minion_type}, @[#{minion.x_position},#{minion.y_position}] Health: #{minion.health}/#{MinionStat.find_by(minion_type: minion.minion_type).health}"%></li>
+              <li class="smallcenteredtext"><%="#{minion.minion_type}, @[#{minion.x_position},#{minion.y_position}] Health: #{minion.health}/#{SummonedMinionManager::FindMinionHealthFromMinionRecord.call(minion)}"%></li>
               <%end%>
             </td>
             <% end %>

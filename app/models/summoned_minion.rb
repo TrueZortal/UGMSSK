@@ -40,19 +40,20 @@ class SummonedMinion < ApplicationRecord
   def self.place(parameters: nil)
     minion_params = parameters['summoned_minion']
     minion_type = minion_params['minion_type']
+    summoned_minion_stats = MinionStat.find_by(minion_type: minion_type)
     minion_to_summon = SummonedMinion.new(
       owner: minion_params['owner'],
       owner_id: minion_params['owner_id'],
       game_id: minion_params['game_id'],
       minion_type: minion_params['minion_type'],
-      health: MinionStat.find_by(minion_type: minion_type).health,
+      health: summoned_minion_stats.health,
       x_position: minion_params['x_position'],
       y_position: minion_params['y_position']
     )
     minion_to_summon.save
     owner = PvpPlayers.find(minion_to_summon.owner_id)
     mana_before = owner.mana
-    mana_after = mana_before - MinionStat.find_by(minion_type: minion_to_summon.minion_type).mana_cost
+    mana_after = mana_before - summoned_minion_stats.mana_cost
     target_field_record = BoardField.find_by(game_id: owner.game_id, x_position: minion_to_summon.x_position,
       y_position: minion_to_summon.y_position)
 
@@ -94,7 +95,7 @@ class SummonedMinion < ApplicationRecord
         raise WrongPlayerError if minion.owner_id != TurnTracker.pull_current_player_id(game_id: owner.game_id).id
         raise InvalidTargetError unless minion.available_targets.include?(target.id)
 
-        damage = MinionStat.find_by(minion_type: minion.minion_type).attack - MinionStat.find_by(minion_type: target.minion_type).defense
+        damage = SummonedMinionManager::CalculateDamage.call(minion, target)
         damage = 1 if damage.negative?
 
         health_after_damage = target.health - damage
@@ -124,7 +125,7 @@ class SummonedMinion < ApplicationRecord
 
     raise WrongPlayerError if minion.owner_id != TurnTracker.pull_current_player_id(game_id: game_id).id
 
-    speed = MinionStat.find_by(minion_type: minion.minion_type).speed
+    speed = SummonedMinionManager::FindMinionSpeedFromMinionRecord.call(minion)
     from_field = BoardField.find_by(game_id: game_id, x_position: minion.x_position, y_position: minion.y_position)
     to_field = BoardField.find_by(game_id: game_id, x_position: minion_params['x_position'].to_i,
                                   y_position: minion_params['y_position'].to_i)

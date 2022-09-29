@@ -22,11 +22,17 @@ Should a game be occupied by idle users /reset/*game-number* can be utilized to 
 Web-Alpha 0.0.7
 
 ## Ready features of next version:
-
+- Implemented additional service manager in SummonedMinionManager with services:
+  - SummonedMinionManager::FindMinionSpeedFromMinionRecord✅
+  - SummonedMinionManager::FindMinionHealthFromMinionRecord✅
+  - SummonedMinionManager::FindMinionManaFromMinionRecord✅
+  - SummonedMinionManager::FindMinionRangeFromMinionType✅
+  - SummonedMinionManager::CalculateDamage✅
 
 
 ## Active to-do:
-- Full page refresh is very disruptive (websocket implementation delayed but in the pipeline)
+- implement summoning zones
+- Full page refresh is very disruptive (websocket implementation delayed )
 Queued bug fixes:
 
 ## Doing => Changes planned for the next version
@@ -35,7 +41,6 @@ committed marked by ✅
 - initiate games with board existing not requiring a reset
 - address full page refreshes, make sure only required elements are refreshed
 - Review loop in game which assigns valid targets/movement fields
-- implement summoning zones
 
 ## Core function to-do list => missing/expected core/basic functionalities or required improvements
 - add collision detection between units to prevent "hopping" over
