@@ -14,6 +14,7 @@ class Game < ApplicationRecord
     game = Game.find(game_id)
     game.player_ids << player_id
     game.save
+    SummoningZoneManager::GrabAvailableSummoningZoneFromAGame.call(game_id, player_id)
     PvpPlayers.check_and_set_available_player_actions(game_id: game_id)
   end
 

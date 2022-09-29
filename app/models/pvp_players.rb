@@ -26,6 +26,7 @@ class PvpPlayers < ApplicationRecord
     game_id = player.game_id
     players = Game.find(game_id).player_ids - [player_id]
     Game.find(game_id).update(player_ids: players)
+    SummoningZoneManager::ReturnSummoningZoneWhenLeavingOrRemoved.call(game_id, player_id)
     player_minions = FinderManager::FindMinionsByOwner.call(player_id)
     player_minions.each do |minion|
       SummonedMinion.get_abandoned(minion_id: minion.id)

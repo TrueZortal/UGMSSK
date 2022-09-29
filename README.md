@@ -31,7 +31,15 @@ Web-Alpha 0.0.7
 
 
 ## Active to-do:
-- implement summoning zones
+- implement summoning zones[in progress]:
+  - BoardStates have summoning zones assigned on creation
+  - Players pull summoning zones using a ServiceObjects SummoningZoneManager::GrabAvailableSummoningZoneFromAGame, SummoningZoneManager::ReturnSummoningZoneWhenLeavingOrRemoved
+  - zones are returned to the pool when player leaves or is removed
+   NEXT STEPS:
+    - Assign values to zone names
+    - introduce checking against zone to summon correctly
+    - display player zones in relevant views
+
 - Full page refresh is very disruptive (websocket implementation delayed )
 Queued bug fixes:
 
