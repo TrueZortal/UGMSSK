@@ -9,16 +9,21 @@
           <div data-controller="menu" id = "summon" class="summon">
           <div class = "summon_wrapper">
           <%= form_with model: SummonedMinion.new do |form| %>
-            <%= form. hidden_field :game_id, value: "#{@current_player.game_id}"%>
+            <%= form.hidden_field :game_id, value: "#{@current_player.game_id}"%>
             <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
             <%= form.hidden_field :owner, value: "#{@current_player.name}" %>
+            <p>Summon:</p>
             <% MinionStat.all.each do |minion|%>
               <%= form.radio_button :minion_type, "#{minion['minion_type']}" %>
               <%= form.label :minion_type, "#{minion['minion_type']}" %>
             <% end %>
-            <%= form.label :x_position, "Position X,Y" %>
-            <%= form.number_field :x_position, in: 0..7, step: 1 %>
-            <%= form.number_field :y_position, in: 0..7, step: 1 %>
+            <p>on field:</p>
+            <%p @current_player%>
+            <%p SummoningZoneManager::TranslateZoneFromTextToArray.call(@current_player.summoning_zone)%>
+            <%SummoningZoneManager::TranslateZoneFromTextToArray.call(@current_player.summoning_zone).each do |coords| %>
+              <%= form.radio_button :position, "#{coords}" %>
+              <%= form.label :position, "#{coords}" %>
+            <% end %>
             <%= form.submit "submit"%>
           <% end %>
         <% elsif PvpPlayers.exists?(uuid: @current_user.uuid) && @game.player_ids.include?(PvpPlayers.find_by(uuid: @current_user.uuid).id)%>

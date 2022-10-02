@@ -172,6 +172,7 @@ body {
     text-align: center;
     font-size: 1.1rem;
     font-weight: bold;
+    margin-top: auto;
     background-color:var(--color);
     border: 1px solid black;
   }

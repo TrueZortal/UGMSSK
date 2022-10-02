@@ -3,6 +3,10 @@
       <button><%= option%></button>
       <% end %>
 
+<%= form.label :x_position, "Position X,Y" %>
+            <%= form.number_field :x_position, in: 0..7, step: 1 %>
+            <%= form.number_field :y_position, in: 0..7, step: 1 %>
+
 #testing code block
 <p><%=%></p>
 #kill server

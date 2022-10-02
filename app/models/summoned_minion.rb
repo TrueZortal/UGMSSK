@@ -39,6 +39,7 @@ class SummonedMinion < ApplicationRecord
 
   def self.place(parameters: nil)
     minion_params = parameters['summoned_minion']
+    minion_position = SummonedMinionManager::TransformPositionIntoXYHash.call(minion_params['position'])
     minion_type = minion_params['minion_type']
     summoned_minion_stats = MinionStat.find_by(minion_type: minion_type)
     minion_to_summon = SummonedMinion.new(
@@ -47,8 +48,8 @@ class SummonedMinion < ApplicationRecord
       game_id: minion_params['game_id'],
       minion_type: minion_params['minion_type'],
       health: summoned_minion_stats.health,
-      x_position: minion_params['x_position'],
-      y_position: minion_params['y_position']
+      x_position: minion_position[:x_position],
+      y_position: minion_position[:y_position]
     )
     minion_to_summon.save
     owner = PvpPlayers.find(minion_to_summon.owner_id)

@@ -60,4 +60,20 @@ module SummonedMinionManager
       MinionStat.find_by(minion_type: @minion.minion_type).attack - MinionStat.find_by(minion_type: @target.minion_type).defense
     end
   end
+
+  class TransformPositionIntoXYHash < ApplicationService
+    attr_reader :position
+
+    def initialize(position)
+      @position = position
+    end
+
+    def call
+      pos_array = position.split(/,/).map { |pos| pos[/\d/].to_i }
+      {
+        x_position: pos_array[0],
+        y_position: pos_array[1]
+      }
+    end
+  end
 end

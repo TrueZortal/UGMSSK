@@ -30,9 +30,7 @@ module SummoningZoneManager
     end
 
     def call
-      p @game_id
       board_record = BoardState.find_by(game_id: @game_id)
-      p board_record
       zone_to_return = PvpPlayers.find(@player_id).summoning_zone
       available_zones = board_record.summoning_zones
       available_zones << zone_to_return
@@ -40,6 +38,24 @@ module SummoningZoneManager
       board_record.update(
         summoning_zones: available_zones
       )
+    end
+  end
+
+  class TranslateZoneFromTextToArray < ApplicationService
+    attr_reader :zone_string
+
+    def initialize(zone_string)
+      @zone_string = zone_string
+    end
+
+    def call
+      zone_dictionary = {
+        "top left": [[0,0],[0,1],[1,0],[1,1]],
+        "top right": [[0,6],[0,7],[1,6],[1,7]],
+        "bottom left": [[6,0],[6,1],[7,0],[7,1]],
+        "bottom right": [[6,6],[6,7],[7,6],[7,7]],
+      }
+       zone_dictionary[@zone_string.to_sym]
     end
   end
 end

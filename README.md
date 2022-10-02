@@ -28,17 +28,18 @@ Web-Alpha 0.0.7
   - SummonedMinionManager::FindMinionManaFromMinionRecord✅
   - SummonedMinionManager::FindMinionRangeFromMinionType✅
   - SummonedMinionManager::CalculateDamage✅
+  - SummonedMinionManager::TransformPositionIntoXYHash✅ - added to accept position arrays and convert to the x/y format✅
+  - implement summoning zones:
+    - BoardStates have summoning zones assigned on creation✅
+    - Implemented summoned zone service manager SummoningZoneManager with services:
+      - SummoningZoneManager::GrabAvailableSummoningZoneFromAGame - pulls zone from board✅
+      - SummoningZoneManager::ReturnSummoningZoneWhenLeavingOrRemoved - returns zone to board✅
+      - SummoningZoneManager::TranslateZoneFromTextToArray - converts zone name to array of values✅
+    - zones are visible in the player list✅
+    - players can only summon to the fields in their zone✅
 
 
 ## Active to-do:
-- implement summoning zones[in progress]:
-  - BoardStates have summoning zones assigned on creation
-  - Players pull summoning zones using a ServiceObjects SummoningZoneManager::GrabAvailableSummoningZoneFromAGame, SummoningZoneManager::ReturnSummoningZoneWhenLeavingOrRemoved
-  - zones are returned to the pool when player leaves or is removed
-   NEXT STEPS:
-    - Assign values to zone names
-    - introduce checking against zone to summon correctly
-    - display player zones in relevant views
 
 - Full page refresh is very disruptive (websocket implementation delayed )
 Queued bug fixes:
