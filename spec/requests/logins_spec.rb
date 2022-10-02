@@ -16,6 +16,9 @@ RSpec.describe "Logins", type: :request do
   end
 
   describe "GET /login" do
-    pending "test if users that have a valid session are logged in successfully when coming in"
+    context 'when pathing to the site with an existing session' do
+      subject { get('/login') }
+      it { is_expected.to match(200) }
+    end
   end
 end

@@ -40,21 +40,20 @@ Web-Alpha 0.0.7
 
 
 ## Active to-do:
-
-- Full page refresh is very disruptive (websocket implementation delayed )
+- Write public interface tests for all models
+- Write tests for all controllers
 Queued bug fixes:
 
 ## Doing => Changes planned for the next version
 committed marked by ✅
 ---
 - initiate games with board existing not requiring a reset
-- address full page refreshes, make sure only required elements are refreshed
+- address full page refreshes, make sure only required elements are refreshed( websocket implementation )
 - Review loop in game which assigns valid targets/movement fields
 
 ## Core function to-do list => missing/expected core/basic functionalities or required improvements
 - add collision detection between units to prevent "hopping" over
 - improve mobile browser display
-- move the game to websocket with turbo(?)
 - enable saving combat log, match history
 - replay system (via testing implementation of simulating movements)
 
@@ -74,7 +73,6 @@ committed marked by ✅
 - implement "spellbook" interface where minions/spells are dragged out onto the board
 - floating damage text
 - revise how database is accessed (?)
-- order tokens/models on fiverr and graphics
 - implement a mana meter
 - add minion health bars/numbers
 - add minion hovers with full stats
