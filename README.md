@@ -43,6 +43,21 @@ Web-Alpha 0.0.7
 - Write public interface tests for all models
 - Write tests for all controllers
 Queued bug fixes:
+- board_record is nil ( when joining a game for the first time, joins correctly on the second go)
+    def call
+      board_record = BoardState.find_by(game_id: @game_id)
+      available_zones = board_record.summoning_zones < -
+      pulled_zone = available_zones.shuffle.shift
+      available_zones.delete(pulled_zone)
+      board_record.update(
+
+Rails.root: /home/zortal/Ruby/SummonerGameProject
+
+Application Trace | Framework Trace | Full Trace
+app/services/Summoning_zone_manager.rb:12:in `call'
+app/services/application_service.rb:3:in `call'
+app/models/game.rb:17:in `add_player'
+app/controllers/pvp_players_controller.rb:35:in `create'
 
 ## Doing => Changes planned for the next version
 committed marked by ✅
