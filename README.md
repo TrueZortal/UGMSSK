@@ -37,11 +37,12 @@ Web-Alpha 0.0.7
       - SummoningZoneManager::TranslateZoneFromTextToArray - converts zone name to array of values✅
     - zones are visible in the player list✅
     - players can only summon to the fields in their zone✅
+    - Write tests for all controllers
+      - Added logins controller tests✅
 
 
 ## Active to-do:
 - Write public interface tests for all models
-- Write tests for all controllers
 Queued bug fixes:
 - board_record is nil ( when joining a game for the first time, joins correctly on the second go)
     def call

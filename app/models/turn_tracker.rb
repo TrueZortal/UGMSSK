@@ -5,7 +5,7 @@ class TurnTracker < ApplicationRecord
   def self.pull_current_player_id(game_id: nil)
     if Game.find(game_id).underway
       check_if_current_turn_exists_and_create_new_if_it_doesnt(game_id: game_id)
-      PvpPlayers.find(TurnTracker.where(game_id: game_id, complete: false).first.player_id)
+      current_player = PvpPlayers.find(TurnTracker.where(game_id: game_id, complete: false).first.player_id)
     end
   end
 

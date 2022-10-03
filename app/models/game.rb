@@ -4,7 +4,7 @@ class Game < ApplicationRecord
   attr_reader :record_id
 
   def initialize(attributes = nil, &block)
-    @record_id =  attributes.delete(:game_id) if attributes
+    @record_id = attributes.delete(:game_id) if attributes
     @game = Game.find(@record_id)
 
     super
