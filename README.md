@@ -39,10 +39,12 @@ Web-Alpha 0.0.7
     - players can only summon to the fields in their zone✅
     - Write tests for all controllers
       - Added logins controller tests✅
+      - In progress -> testing update drag request method, issues instantiating a Game due to moving of model to instance based
 
 
 ## Active to-do:
 - Write public interface tests for all models
+
 Queued bug fixes:
 - board_record is nil ( when joining a game for the first time, joins correctly on the second go)
     def call
