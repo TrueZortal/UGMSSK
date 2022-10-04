@@ -93,7 +93,7 @@ class SummonedMinion < ApplicationRecord
       attack_field = BoardField.find_by(occupant_id: target.id)
       owner = PvpPlayers.find(minion.owner_id)
       begin
-        raise WrongPlayerError if minion.owner_id != TurnTracker.pull_current_player_id(game_id: owner.game_id).id
+        raise WrongPlayerError if minion.owner_id != Game.find(owner.game_id).current_player_id
         raise InvalidTargetError unless minion.available_targets.include?(target.id)
 
         damage = SummonedMinionManager::CalculateDamage.call(minion, target)

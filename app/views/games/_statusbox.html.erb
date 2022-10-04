@@ -18,8 +18,6 @@
               <%= form.label :minion_type, "#{minion['minion_type']}" %>
             <% end %>
             <p>on field:</p>
-            <%p @current_player%>
-            <%p SummoningZoneManager::TranslateZoneFromTextToArray.call(@current_player.summoning_zone)%>
             <%SummoningZoneManager::TranslateZoneFromTextToArray.call(@current_player.summoning_zone).each do |coords| %>
               <%= form.radio_button :position, "#{coords}" %>
               <%= form.label :position, "#{coords}" %>

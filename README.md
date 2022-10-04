@@ -27,6 +27,7 @@ Web-Alpha 0.0.7
   - SummonedMinionManager::FindMinionHealthFromMinionRecord✅
   - SummonedMinionManager::FindMinionManaFromMinionRecord✅
   - SummonedMinionManager::FindMinionRangeFromMinionType✅
+  - SummonedMinionManager::FindMinionStatsFromMinionID✅
   - SummonedMinionManager::CalculateDamage✅
   - SummonedMinionManager::TransformPositionIntoXYHash✅ - added to accept position arrays and convert to the x/y format✅
   - implement summoning zones:
@@ -41,34 +42,21 @@ Web-Alpha 0.0.7
       - Added logins controller tests✅
       - First test implemented for update drag✅
   - Wrapper methods for Game model have been separated out into ExistingGame wrapper class✅
+  - Previous changes resolved the bug where first time joining a game resulted in a failure✅
+  - Changed current player tracking to be accessible from Game✅
+  - Review loop in game which assigns valid targets/movement fields - [in progress] - basic movement load down 60% -> further optimizations available
 
 
 ## Active to-do:
 - Write public interface tests for all models
 
 Queued bug fixes:
-- board_record is nil ( when joining a game for the first time, joins correctly on the second go)
-    def call
-      board_record = BoardState.find_by(game_id: @game_id)
-      available_zones = board_record.summoning_zones < -
-      pulled_zone = available_zones.shuffle.shift
-      available_zones.delete(pulled_zone)
-      board_record.update(
-
-Rails.root: /home/zortal/Ruby/SummonerGameProject
-
-Application Trace | Framework Trace | Full Trace
-app/services/Summoning_zone_manager.rb:12:in `call'
-app/services/application_service.rb:3:in `call'
-app/models/game.rb:17:in `add_player'
-app/controllers/pvp_players_controller.rb:35:in `create'
 
 ## Doing => Changes planned for the next version
 committed marked by ✅
 ---
 - initiate games with board existing not requiring a reset
 - address full page refreshes, make sure only required elements are refreshed( websocket implementation )
-- Review loop in game which assigns valid targets/movement fields
 
 ## Core function to-do list => missing/expected core/basic functionalities or required improvements
 - add collision detection between units to prevent "hopping" over

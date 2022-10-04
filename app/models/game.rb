@@ -68,37 +68,36 @@ class Game < ApplicationRecord
   def self.check_and_update_minions_who_can_attack(game_id: nil)
     clear_targets_and_can_attack_clauses_for_all_minion_occupied_fields(game_id: game_id)
     occupied_fields = BoardField.where(game_id: game_id, occupied: true, obstacle: false)
+    pathfinding_data = JSON.parse(BoardState.find_by(game_id: game_id).pathfinding_data, { symbolize_nammes: true })
     occupied_fields.each do |field|
-      populate_possible_moves(game_id: game_id, field: field)
+      minion_stats = SummonedMinionManager::FindMinionStatsFromMinionID.call(field.occupant_id)
+      populate_possible_moves(game_id: game_id, field: field, minion_stats: minion_stats, pathfinding_data: pathfinding_data)
       occupied_fields.each do |another_field|
+        next unless another_field.occupied && validate_targets(field, another_field, minion_stats)
 
-
-        if validate_targets(field, another_field)
-          minion = SummonedMinion.find(field.occupant_id)
-          minion.update(can_attack: true)
-          minion.available_targets << another_field.occupant_id
-          minion.save
-        end
+        minion = SummonedMinion.find(field.occupant_id)
+        minion.update(can_attack: true)
+        minion.available_targets << another_field.occupant_id
+        minion.save
       end
     end
   end
 
-  def self.populate_possible_moves(game_id: nil, field: nil)
+  def self.populate_possible_moves(game_id: nil, field: nil, minion_stats: nil, pathfinding_data: nil)
     BoardField.where(game_id: game_id).each do |inner_field|
-      shortest_path = Pathfinding.find_shortest_path_for_movement_array(field, inner_field, game_id: game_id)
+      next unless Calculations.distance(field, inner_field) <= minion_stats.speed
+
+      shortest_path = Pathfinding.find_shortest_path_for_movement_array(field, inner_field, game_id: game_id, pathfinding_data: pathfinding_data)
       minion = SummonedMinion.find(field.occupant_id)
-      if shortest_path <= SummonedMinionManager::FindMinionSpeedFromMinionRecord.call(minion) && !inner_field.obstacle && !inner_field.occupied
+      if shortest_path <= minion_stats.speed && !inner_field.obstacle && !inner_field.occupied
         minion.valid_moves << inner_field.id
         minion.save
       end
     end
   end
 
-  def self.validate_targets(field, another_field)
-    field.occupant_id != another_field.occupant_id && SummonedMinion.find(field.occupant_id).owner_id != SummonedMinion.find(another_field.occupant_id).owner_id && Calculations.distance(
-      field, another_field
-    ) <= SummonedMinionManager::FindMinionRangeFromMinionType.call(field.occupant_type) && check_if_line_of_sight_exists_between_two_fields(field,
-                                                                                                              another_field)
+  def self.validate_targets(field, another_field, minion_stats)
+    Calculations.distance(field, another_field) <= minion_stats.range && field.occupant_id != another_field.occupant_id && SummonedMinion.find(field.occupant_id).owner_id != SummonedMinion.find(another_field.occupant_id).owner_id &&  check_if_line_of_sight_exists_between_two_fields(field,another_field)
   end
 
   def self.clear_targets_and_can_attack_clauses_for_all_minion_occupied_fields(game_id: nil)

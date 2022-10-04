@@ -48,6 +48,19 @@ module SummonedMinionManager
     end
   end
 
+  class FindMinionStatsFromMinionID < ApplicationService
+    attr_reader :minion_id
+
+    def initialize(minion_id)
+      @minion_id = minion_id
+    end
+
+    def call
+      minion_type = SummonedMinion.find(@minion_id).minion_type
+      MinionStat.find_by(minion_type: minion_type)
+    end
+  end
+
   class CalculateDamage < ApplicationService
     attr_reader :target, :minion
 
