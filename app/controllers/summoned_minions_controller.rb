@@ -15,7 +15,6 @@ class SummonedMinionsController < ApplicationController
   end
 
   def update_drag
-    puts params
     from_field_id = minion_params['from_field_id'].to_i
     to_field_id = minion_params['to_field_id'].to_i
     from_field = BoardField.find(from_field_id)

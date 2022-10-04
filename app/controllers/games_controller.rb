@@ -5,7 +5,7 @@ class GamesController < ApplicationController
 
   def show
 
-    @game_instance = Game.new(game_id: game_params['id'].to_i)
+    @game_instance = ExistingGame.new(game_id: game_params['id'].to_i)
 
     @game = if @game_instance.exists_and_is_underway
               @game_instance.continue

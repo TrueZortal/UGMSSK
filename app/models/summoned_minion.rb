@@ -121,8 +121,8 @@ class SummonedMinion < ApplicationRecord
     def self.move(parameters: nil)
       minion_params = parameters['summoned_minion']
       minion = SummonedMinion.find parameters['id']
-    owner = PvpPlayers.find(minion.owner_id)
-    game_id = owner.game_id
+      owner = PvpPlayers.find(minion.owner_id)
+      game_id = owner.game_id
 
     raise WrongPlayerError if minion.owner_id != TurnTracker.pull_current_player_id(game_id: game_id).id
 

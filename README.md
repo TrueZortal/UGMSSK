@@ -39,7 +39,8 @@ Web-Alpha 0.0.7
     - players can only summon to the fields in their zone✅
     - Write tests for all controllers
       - Added logins controller tests✅
-      - In progress -> testing update drag request method, issues instantiating a Game due to moving of model to instance based
+      - First test implemented for update drag✅
+  - Wrapper methods for Game model have been separated out into ExistingGame wrapper class✅
 
 
 ## Active to-do:
