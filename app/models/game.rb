@@ -84,16 +84,18 @@ class Game < ApplicationRecord
   end
 
   def self.populate_possible_moves(game_id: nil, field: nil, minion_stats: nil, pathfinding_data: nil)
+    minion = SummonedMinion.find(field.occupant_id)
+    valid_moves = []
     BoardField.where(game_id: game_id).each do |inner_field|
       next unless Calculations.distance(field, inner_field) <= minion_stats.speed
 
       shortest_path = Pathfinding.find_shortest_path_for_movement_array(field, inner_field, game_id: game_id, pathfinding_data: pathfinding_data)
-      minion = SummonedMinion.find(field.occupant_id)
       if shortest_path <= minion_stats.speed && !inner_field.obstacle && !inner_field.occupied
-        minion.valid_moves << inner_field.id
-        minion.save
+        valid_moves << inner_field.id
       end
     end
+    minion.update(valid_moves: valid_moves)
+    minion.save
   end
 
   def self.validate_targets(field, another_field, minion_stats)

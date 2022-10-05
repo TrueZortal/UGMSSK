@@ -41,10 +41,11 @@ Web-Alpha 0.0.7
     - Write tests for all controllers
       - Added logins controller tests✅
       - First test implemented for update drag✅
+      - Improved the update drag test with rspec style guides✅
   - Wrapper methods for Game model have been separated out into ExistingGame wrapper class✅
   - Previous changes resolved the bug where first time joining a game resulted in a failure✅
   - Changed current player tracking to be accessible from Game✅
-  - Review loop in game which assigns valid targets/movement fields - [in progress] - basic movement load down 60% -> further optimizations available
+  - Review loop in game which assigns valid targets/movement fields - optimised✅
 
 
 ## Active to-do:
