@@ -30,22 +30,24 @@ Web-Alpha 0.0.7
   - SummonedMinionManager::FindMinionStatsFromMinionID✅
   - SummonedMinionManager::CalculateDamage✅
   - SummonedMinionManager::TransformPositionIntoXYHash✅ - added to accept position arrays and convert to the x/y format✅
-  - implement summoning zones:
-    - BoardStates have summoning zones assigned on creation✅
-    - Implemented summoned zone service manager SummoningZoneManager with services:
-      - SummoningZoneManager::GrabAvailableSummoningZoneFromAGame - pulls zone from board✅
-      - SummoningZoneManager::ReturnSummoningZoneWhenLeavingOrRemoved - returns zone to board✅
-      - SummoningZoneManager::TranslateZoneFromTextToArray - converts zone name to array of values✅
-    - zones are visible in the player list✅
-    - players can only summon to the fields in their zone✅
-    - Write tests for all controllers
-      - Added logins controller tests✅
-      - First test implemented for update drag✅
-      - Improved the update drag test with rspec style guides✅
-  - Wrapper methods for Game model have been separated out into ExistingGame wrapper class✅
-  - Previous changes resolved the bug where first time joining a game resulted in a failure✅
-  - Changed current player tracking to be accessible from Game✅
-  - Review loop in game which assigns valid targets/movement fields - optimised✅
+- implement summoning zones:
+  - BoardStates have summoning zones assigned on creation✅
+  - Implemented summoned zone service manager SummoningZoneManager with services:
+    - SummoningZoneManager::GrabAvailableSummoningZoneFromAGame - pulls zone from board✅
+    - SummoningZoneManager::ReturnSummoningZoneWhenLeavingOrRemoved - returns zone to board✅
+    - SummoningZoneManager::TranslateZoneFromTextToArray - converts zone name to array of values✅
+  - zones are visible in the player list✅
+  - players can only summon to the fields in their zone✅
+- Write tests for all controllers
+  - Added logins controller tests✅
+  - First test implemented for update drag✅
+  - Improved the update drag test with rspec style guides✅
+  - Added additional update drag tests✅
+- Wrapper methods for Game model have been separated out into ExistingGame wrapper class✅
+- Previous changes resolved the bug where first time joining a game resulted in a failure✅
+- Changed current player tracking to be accessible from Game✅
+- Review loop in game which assigns valid targets/movement fields - optimised✅
+- Added FactoryBot and setup initial factories for testing ✅
 
 
 ## Active to-do:
@@ -73,14 +75,12 @@ committed marked by ✅
 ## Technical debt pit of shame and eternal suffering
 - revise attack/move SummonedMinion to work natively with drag/drop params passed from js
 - line of sight calculation is pretty bad for movement - revise dijkstra implementation(maybe, only affecting with speed 3+ though)
-- server side processing of move is approaching 1 second need to revise efficiency
 
 ## Things that'd be cool to have and will most likely be prioritised over the core to-do's because they are fun
 - implement "attack type" within minion class to enable different kinds of attacks e.g cleave, straight line, artillery, ranged, splash
 - implement "movement type" within minion class to enable different kinds of movement e.g flying/teleportation
 - implement "spellbook" interface where minions/spells are dragged out onto the board
 - floating damage text
-- revise how database is accessed (?)
 - implement a mana meter
 - add minion health bars/numbers
 - add minion hovers with full stats
