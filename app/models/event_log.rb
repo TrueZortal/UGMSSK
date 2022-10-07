@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class EventLog < ApplicationRecord
-
   def self.place(unit_db_record, mana_after_placing)
     remaining_mana = "they have #{mana_after_placing} mana remaining."
     event = "#{unit_db_record.owner} placed #{unit_db_record.minion_type} on [#{unit_db_record.x_position},#{unit_db_record.y_position}] for #{SummonedMinionManager::FindMinionManaFromMinionRecord.call(unit_db_record)} mana, #{remaining_mana}"
@@ -53,8 +52,6 @@ class EventLog < ApplicationRecord
   def self.error(error_msg)
     event = "#{error_msg} has occured"
   end
-
-  private
 
   def self.save_event(event, game_id: nil)
     db_event = EventLog.new(game_id: game_id, event: event)

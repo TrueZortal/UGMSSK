@@ -1,8 +1,8 @@
+# frozen_string_literal: true
+
 class LoginsController < ApplicationController
   def login
-    if logged_in?
-      redirect_to root_path
-    end
+    redirect_to root_path if logged_in?
   end
 
   def create

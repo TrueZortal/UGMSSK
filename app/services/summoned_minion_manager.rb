@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 module SummonedMinionManager
-  #Minion record finders
+  # Minion record finders
   class FindMinionSpeedFromMinionRecord < ApplicationService
     attr_reader :minion_record
 
@@ -56,7 +58,7 @@ module SummonedMinionManager
     end
 
     def call
-      minion_type = SummonedMinion.find(@minion_id).minion_type
+      minion_type = SummonedMinion.find(minion_id).minion_type
       MinionStat.find_by(minion_type: minion_type)
     end
   end
@@ -70,7 +72,23 @@ module SummonedMinionManager
     end
 
     def call
-      MinionStat.find_by(minion_type: @minion.minion_type).attack - MinionStat.find_by(minion_type: @target.minion_type).defense
+      MinionStat.find_by(minion_type: minion.minion_type).attack - MinionStat.find_by(minion_type: target.minion_type).defense
+    end
+  end
+
+  class UpdateMinionsPositionFromTargetField < ApplicationService
+    attr_reader :minion, :target_field
+
+    def initialize(minion, target_field)
+      @minion = minion
+      @target_field = target_field
+    end
+
+    def call
+      minion.update(
+        x_position: target_field.x_position,
+        y_position: target_field.y_position
+      )
     end
   end
 

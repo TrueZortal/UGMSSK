@@ -27,7 +27,7 @@ class PvpPlayersController < ActionController::Base
       color: params['color'],
       mana: 10,
       max_mana: 10,
-      summoning_zone:'',
+      summoning_zone: '',
       uuid: params['uuid'],
       game_id: game_id
     )
@@ -43,5 +43,4 @@ class PvpPlayersController < ActionController::Base
   def player_params
     params.permit(:id, :uuid, :color, :name, :game_id)
   end
-
 end

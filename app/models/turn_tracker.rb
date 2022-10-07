@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class TurnTracker < ApplicationRecord
-
   def self.pull_current_player_id(game_id: nil)
     if Game.find(game_id).underway
       check_if_current_turn_exists_and_create_new_if_it_doesnt(game_id: game_id)
@@ -22,8 +21,6 @@ class TurnTracker < ApplicationRecord
       TurnTracker.find_by(game_id: game_id, player_id: player_id, complete: false).update(complete: true)
     end
   end
-
-  private
 
   def self.current_turn_complete_or_doesnt_exist?(game_id)
     TurnTracker.where(game_id: game_id, complete: false).to_a.empty?
@@ -48,8 +45,6 @@ class TurnTracker < ApplicationRecord
     game = Game.find(game_id)
     players = Game.find(game_id).player_ids
     EventLog.winner(player_db_record: PvpPlayers.find(players[0])) if players.size == 1
-    if game.current_turn != 0 && players.size == 1
-      Game.find(game_id).update(underway: false)
-    end
+    Game.find(game_id).update(underway: false) if game.current_turn != 0 && players.size == 1
   end
 end

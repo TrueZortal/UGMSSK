@@ -16,13 +16,13 @@ class WrongPlayerError < StandardError
 end
 
 class SummonedMinion < ApplicationRecord
-
   def self.update_drag(from_field = nil, to_field = nil)
     if to_field.occupied && !to_field.obstacle
       pseudo_params = {
         'id' => from_field.occupant_id,
         'target_id' => to_field.occupant_id
       }
+      p "attack"
       attack(parameters: pseudo_params)
     else
       pseudo_params = {
@@ -32,10 +32,10 @@ class SummonedMinion < ApplicationRecord
           'y_position' => to_field.y_position
         }
       }
+      p "move"
       move(parameters: pseudo_params)
     end
   end
-
 
   def self.place(parameters: nil)
     minion_params = parameters['summoned_minion']
@@ -56,102 +56,76 @@ class SummonedMinion < ApplicationRecord
     mana_before = owner.mana
     mana_after = mana_before - summoned_minion_stats.mana_cost
     target_field_record = BoardField.find_by(game_id: owner.game_id, x_position: minion_to_summon.x_position,
-      y_position: minion_to_summon.y_position)
+                                             y_position: minion_to_summon.y_position)
 
-      begin
-        raise InvalidPlacementError if target_field_record.occupied
-        raise InsufficientManaError if mana_after.negative?
+    begin
+      raise InvalidPlacementError if target_field_record.occupied
+      raise InsufficientManaError if mana_after.negative?
 
-        if !target_field_record.occupied && !mana_after.negative?
-          owner.update(mana: mana_after)
-          EventLog.place(minion_to_summon, mana_after)
-          target_field_record.update(
-            occupant_id: minion_to_summon.id,
-            occupant_type: minion_to_summon.minion_type,
-            occupied: true
-          )
-          TurnTracker.end_turn(game_id: owner.game_id, player_id: minion_to_summon.owner_id)
-        end
-      rescue StandardError => e
-        EventLog.error(e)
-        SummonedMinion.find(minion_to_summon.id).destroy
+      if !target_field_record.occupied && !mana_after.negative?
+        owner.update(mana: mana_after)
+        EventLog.place(minion_to_summon, mana_after)
+        BoardFieldManager::UpdateFieldOccupant.call(target_field_record, minion_to_summon)
+        TurnTracker.end_turn(game_id: owner.game_id, player_id: minion_to_summon.owner_id)
       end
-    end
-
-
-    def self.get_abandoned(minion_id: nil)
-      EventLog.got_abandoned(unit_db_record: SummonedMinion.find(minion_id))
-      JanitorManager::ClearFieldByOccupantID.call(minion_id)
-      SummonedMinion.find(minion_id).delete
-    end
-
-    private
-
-    def self.attack(parameters: nil)
-      minion = SummonedMinion.find parameters['id']
-      target = SummonedMinion.find parameters['target_id']
-      attack_field = BoardField.find_by(occupant_id: target.id)
-      owner = PvpPlayers.find(minion.owner_id)
-      begin
-        raise WrongPlayerError if minion.owner_id != Game.find(owner.game_id).current_player_id
-        raise InvalidTargetError unless minion.available_targets.include?(target.id)
-
-        damage = SummonedMinionManager::CalculateDamage.call(minion, target)
-        damage = 1 if damage.negative?
-
-        health_after_damage = target.health - damage
-        if health_after_damage <= 0
-          EventLog.attack(minion, target, damage, health_after_damage)
-          SummonedMinion.delete(target.id)
-          attack_field.update(
-            occupant_id: nil,
-            occupant_type: '',
-            occupied: false
-          )
-        else
-          target.update(health: health_after_damage)
-          EventLog.attack(minion, target, damage, health_after_damage)
-        end
-        TurnTracker.end_turn(game_id: owner.game_id, player_id: minion.owner_id)
-      rescue StandardError => e
-        EventLog.error(e)
-      end
-    end
-
-    def self.move(parameters: nil)
-      minion_params = parameters['summoned_minion']
-      minion = SummonedMinion.find parameters['id']
-      owner = PvpPlayers.find(minion.owner_id)
-      game_id = owner.game_id
-
-    raise WrongPlayerError if minion.owner_id != TurnTracker.pull_current_player_id(game_id: game_id).id
-
-    speed = SummonedMinionManager::FindMinionSpeedFromMinionRecord.call(minion)
-    from_field = BoardField.find_by(game_id: game_id, x_position: minion.x_position, y_position: minion.y_position)
-    to_field = BoardField.find_by(game_id: game_id, x_position: minion_params['x_position'].to_i,
-                                  y_position: minion_params['y_position'].to_i)
-    shortest_path = Pathfinding.find_shortest_path(from_field, to_field, game_id: game_id)
-    raise InvalidMovementError if !minion.valid_moves.include?(to_field.id)
-
-    if shortest_path <= speed
-      from_field.update(
-        occupant_id: nil,
-        occupant_type: '',
-        occupied: false
-      )
-      to_field.update(
-        occupant_id: minion.id,
-        occupant_type: minion.minion_type,
-        occupied: true
-      )
-      EventLog.move(minion, from_field, to_field)
-
-      minion.update(
-        x_position: minion_params['x_position'],
-        y_position: minion_params['y_position']
-      )
-      TurnTracker.end_turn(game_id: game_id, player_id: minion.owner_id)
+    rescue StandardError => e
+      EventLog.error(e)
+      SummonedMinion.find(minion_to_summon.id).destroy
     end
   end
 
+  def self.get_abandoned(minion_id: nil)
+    EventLog.got_abandoned(unit_db_record: SummonedMinion.find(minion_id))
+    BoardFieldManager::ClearFieldByOccupantID.call(minion_id)
+    SummonedMinion.find(minion_id).delete
+  end
+
+  def self.attack(parameters: nil)
+    minion = SummonedMinion.find parameters['id']
+    target = SummonedMinion.find parameters['target_id']
+    attack_field = BoardField.find_by(occupant_id: target.id)
+    owner = PvpPlayers.find(minion.owner_id)
+    begin
+      raise WrongPlayerError if minion.owner_id != Game.find(owner.game_id).current_player_id
+      raise InvalidTargetError unless minion.available_targets.include?(target.id)
+
+      damage = SummonedMinionManager::CalculateDamage.call(minion, target)
+      damage = 1 if damage.negative?
+
+      health_after_damage = target.health - damage
+      if health_after_damage <= 0
+        EventLog.attack(minion, target, damage, health_after_damage)
+        BoardFieldManager::ClearFieldByOccupant.call(target)
+        SummonedMinion.delete(target.id)
+      else
+        target.update(health: health_after_damage)
+        EventLog.attack(minion, target, damage, health_after_damage)
+      end
+      TurnTracker.end_turn(game_id: owner.game_id, player_id: minion.owner_id)
+    rescue StandardError => e
+      EventLog.error(e)
+    end
+  end
+
+  def self.move(parameters: nil)
+    minion_params = parameters['summoned_minion']
+    minion = SummonedMinion.find parameters['id']
+    owner = PvpPlayers.find(minion.owner_id)
+    game_id = owner.game_id
+
+    raise WrongPlayerError if minion.owner_id != TurnTracker.pull_current_player_id(game_id: game_id).id
+
+    from_field = BoardField.find_by(game_id: game_id, x_position: minion.x_position, y_position: minion.y_position)
+    to_field = BoardField.find_by(game_id: game_id, x_position: minion_params['x_position'].to_i,
+                                  y_position: minion_params['y_position'].to_i)
+    raise InvalidMovementError unless minion.valid_moves.include?(to_field.id)
+
+    if minion.valid_moves.include?(to_field.id)
+      BoardFieldManager::ClearFieldByOccupant.call(minion)
+      BoardFieldManager::UpdateFieldOccupant.call(to_field, minion)
+      EventLog.move(minion, from_field, to_field)
+      SummonedMinionManager::UpdateMinionsPositionFromTargetField.call(minion, to_field)
+      TurnTracker.end_turn(game_id: game_id, player_id: minion.owner_id)
+    end
+  end
 end

@@ -8,7 +8,7 @@ Once 2 players have joined one of two available games the option to start the ga
 
 The goal of the game is to kill all of enemy minions and bring your opponents mana down to 0 in the process.
 
-Please utilize the "summon" button when its your turn to summon minions using the radio buttons and relevant fields. Minions can be summoned anywhere on the board, using opposite corners via gentlemans agreement is suggested temporarily until summoning zones are implemented.
+Please utilize the "summon" button when its your turn to summon minions using the radio buttons and relevant fields. Minions can be summoned within your specified summoning zone.
 
 Once summoned the minions can be moved using drag and drop over the board, the status of all your minions will be visible under the board and in the battle log to the right of the board.
 
@@ -22,6 +22,23 @@ Should a game be occupied by idle users /reset/*game-number* can be utilized to 
 Web-Alpha 0.0.7
 
 ## Ready features of next version:
+
+QUALITY OF LIFE/FEATURES:
+- implement summoning zones:
+  - BoardStates have summoning zones assigned on creation✅
+  - zones are visible in the player list✅
+  - players can only summon to the fields in their zone✅
+TESTS:
+  - Added logins controller tests✅
+  - Added update drag tests:
+    - Correct move✅
+    - Moving another players minion results in error✅
+    - Invalid move results in error✅
+ARCHITECTURE/CODE:
+- Implemented summoned zone service manager SummoningZoneManager with services:
+  - SummoningZoneManager::GrabAvailableSummoningZoneFromAGame - pulls zone from board✅
+  - SummoningZoneManager::ReturnSummoningZoneWhenLeavingOrRemoved - returns zone to board✅
+  - SummoningZoneManager::TranslateZoneFromTextToArray - converts zone name to array of values✅
 - Implemented additional service manager in SummonedMinionManager with services:
   - SummonedMinionManager::FindMinionSpeedFromMinionRecord✅
   - SummonedMinionManager::FindMinionHealthFromMinionRecord✅
@@ -30,36 +47,31 @@ Web-Alpha 0.0.7
   - SummonedMinionManager::FindMinionStatsFromMinionID✅
   - SummonedMinionManager::CalculateDamage✅
   - SummonedMinionManager::TransformPositionIntoXYHash✅ - added to accept position arrays and convert to the x/y format✅
-- implement summoning zones:
-  - BoardStates have summoning zones assigned on creation✅
-  - Implemented summoned zone service manager SummoningZoneManager with services:
-    - SummoningZoneManager::GrabAvailableSummoningZoneFromAGame - pulls zone from board✅
-    - SummoningZoneManager::ReturnSummoningZoneWhenLeavingOrRemoved - returns zone to board✅
-    - SummoningZoneManager::TranslateZoneFromTextToArray - converts zone name to array of values✅
-  - zones are visible in the player list✅
-  - players can only summon to the fields in their zone✅
-- Write tests for all controllers
-  - Added logins controller tests✅
-  - First test implemented for update drag✅
-  - Improved the update drag test with rspec style guides✅
-  - Added additional update drag tests✅
 - Wrapper methods for Game model have been separated out into ExistingGame wrapper class✅
-- Previous changes resolved the bug where first time joining a game resulted in a failure✅
 - Changed current player tracking to be accessible from Game✅
 - Review loop in game which assigns valid targets/movement fields - optimised✅
+- Correct/valid moves are now calculated and assigned between turns and not re-checked during update drag✅
 - Added FactoryBot and setup initial factories for testing ✅
+BUGFIXES:
+- resolved the bug where first time joining a game resulted in a failure✅
 
+## latest-commit
+- Added additional conditions to the update drag tests, style improvements
+- Removed large duplication and unneccessary database calls in Pathfinding logic, correct moves are now calculated and assigned between turns and not re-checked during update drag
+- Improved the SummonedMinion model, partial rewrite, added service objects
+- Implemented BoardFieldManager with services:
+ - ClearFieldByOccupant (previously JanitorManager::ClearFieldByOccupantID)
+ - BoardFieldManager::UpdateFieldOccupant
 
 ## Active to-do:
-- Write public interface tests for all models
+- Write public interface tests for all models/requests
+- address full page refreshes, make sure only required elements are refreshed( websocket implementation )
 
 Queued bug fixes:
 
 ## Doing => Changes planned for the next version
-committed marked by ✅
 ---
 - initiate games with board existing not requiring a reset
-- address full page refreshes, make sure only required elements are refreshed( websocket implementation )
 
 ## Core function to-do list => missing/expected core/basic functionalities or required improvements
 - add collision detection between units to prevent "hopping" over

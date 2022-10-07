@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class ExistingGame
   attr_reader :record_id
 
-  def initialize(attributes = nil, &block)
+  def initialize(attributes = nil)
     @record_id = attributes.delete(:game_id) if attributes
     @game = Game.find(@record_id)
   end
@@ -11,7 +13,7 @@ class ExistingGame
   end
 
   def exists_but_is_waiting_to_start
-    !has_players || @game.current_turn == 0 && !@game.underway
+    !has_players || @game.current_turn.zero? && !@game.underway
   end
 
   def exists_but_is_waiting_to_finish
@@ -29,5 +31,4 @@ class ExistingGame
   def continue
     @game
   end
-
 end

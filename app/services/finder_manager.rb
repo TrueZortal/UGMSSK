@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FinderManager
   class FindMinionsByOwner < ApplicationService
     attr_reader :owner_id
@@ -7,9 +9,8 @@ module FinderManager
     end
 
     def call
-      SummonedMinion.where('owner_id = ?', @owner_id)
+      SummonedMinion.where('owner_id = ?', owner_id)
     end
-
   end
 
   class FindBoardFieldByOccupantId < ApplicationService
@@ -20,7 +21,7 @@ module FinderManager
     end
 
     def call
-      BoardField.find_by(occupant_id: @occupant_id)
+      BoardField.find_by(occupant_id: occupant_id)
     end
   end
 
@@ -32,8 +33,7 @@ module FinderManager
     end
 
     def call
-      PvpPlayers.find(@pvp_player_id).game_id
+      PvpPlayers.find(pvp_player_id).game_id
     end
   end
-
 end

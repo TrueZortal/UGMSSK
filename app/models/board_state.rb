@@ -2,7 +2,7 @@
 
 class BoardState < ApplicationRecord
   def self.create_board(game_id: nil, size_of_board_edge: 4)
-    board = BoardState.new(game_id: game_id, summoning_zones:['top left', 'top right', 'bottom left', 'bottom right'])
+    board = BoardState.new(game_id: game_id, summoning_zones: ['top left', 'top right', 'bottom left', 'bottom right'])
     board.save
     generate_board_fields(size_of_board_edge, game_id)
     make_dijkstra_information(game_id)
@@ -23,8 +23,6 @@ class BoardState < ApplicationRecord
     end
     rendering_array
   end
-
-private
 
   # takes game_id
   # generates a routing hash for use in djikstra pathfinding
@@ -92,7 +90,6 @@ private
       end
     end
   end
-
 
   # takes: String terrain type
   # returns: Boolean of obstacle
@@ -176,4 +173,3 @@ private
     temp_array
   end
 end
-

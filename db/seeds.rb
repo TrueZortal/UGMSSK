@@ -22,8 +22,8 @@ p "Created #{MinionStat.count} basic biii...Minions"
 Game.destroy_all
 
 Game.create!([{
-    current_turn: 0
-},
-{
-  current_turn: 0
-}])
+               current_turn: 0
+             },
+              {
+                current_turn: 0
+              }])

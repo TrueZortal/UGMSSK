@@ -62,7 +62,6 @@ class Game < ApplicationRecord
     game
   end
 
-
   # takes: game_id
   # returns array of fields in range
   def self.check_and_update_minions_who_can_attack(game_id: nil)
@@ -71,7 +70,8 @@ class Game < ApplicationRecord
     pathfinding_data = JSON.parse(BoardState.find_by(game_id: game_id).pathfinding_data, { symbolize_nammes: true })
     occupied_fields.each do |field|
       minion_stats = SummonedMinionManager::FindMinionStatsFromMinionID.call(field.occupant_id)
-      populate_possible_moves(game_id: game_id, field: field, minion_stats: minion_stats, pathfinding_data: pathfinding_data)
+      populate_possible_moves(game_id: game_id, field: field, minion_stats: minion_stats,
+                              pathfinding_data: pathfinding_data)
       occupied_fields.each do |another_field|
         next unless another_field.occupied && validate_targets(field, another_field, minion_stats)
 
@@ -89,7 +89,8 @@ class Game < ApplicationRecord
     BoardField.where(game_id: game_id).each do |inner_field|
       next unless Calculations.distance(field, inner_field) <= minion_stats.speed
 
-      shortest_path = Pathfinding.find_shortest_path_for_movement_array(field, inner_field, game_id: game_id, pathfinding_data: pathfinding_data)
+      shortest_path = Pathfinding.find_shortest_path(field, inner_field, game_id: game_id,
+                                                                         pathfinding_data: pathfinding_data)
       if shortest_path <= minion_stats.speed && !inner_field.obstacle && !inner_field.occupied
         valid_moves << inner_field.id
       end
@@ -99,7 +100,10 @@ class Game < ApplicationRecord
   end
 
   def self.validate_targets(field, another_field, minion_stats)
-    Calculations.distance(field, another_field) <= minion_stats.range && field.occupant_id != another_field.occupant_id && SummonedMinion.find(field.occupant_id).owner_id != SummonedMinion.find(another_field.occupant_id).owner_id &&  check_if_line_of_sight_exists_between_two_fields(field,another_field)
+    Calculations.distance(field,
+                          another_field) <= minion_stats.range && field.occupant_id != another_field.occupant_id && SummonedMinion.find(field.occupant_id).owner_id != SummonedMinion.find(another_field.occupant_id).owner_id && check_if_line_of_sight_exists_between_two_fields(
+                            field, another_field
+                          )
   end
 
   def self.clear_targets_and_can_attack_clauses_for_all_minion_occupied_fields(game_id: nil)

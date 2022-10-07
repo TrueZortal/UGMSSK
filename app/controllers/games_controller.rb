@@ -4,7 +4,6 @@ class GamesController < ApplicationController
   before_action :restrict_access
 
   def show
-
     @game_instance = ExistingGame.new(game_id: game_params['id'].to_i)
 
     @game = if @game_instance.exists_and_is_underway
@@ -17,9 +16,7 @@ class GamesController < ApplicationController
               reset
             end
 
-    if @game_instance.has_players
-      @current_player = TurnTracker.pull_current_player_id(game_id: @game.id)
-    end
+    @current_player = TurnTracker.pull_current_player_id(game_id: @game.id) if @game_instance.has_players
 
     respond_to do |format|
       format.html
@@ -28,7 +25,7 @@ class GamesController < ApplicationController
   end
 
   def start
-    Game.start_game(game_id:game_params['id'].to_i)
+    Game.start_game(game_id: game_params['id'].to_i)
 
     redirect_to "/games/#{game_params['id']}"
   end

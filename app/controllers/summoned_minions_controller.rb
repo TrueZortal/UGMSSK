@@ -19,9 +19,9 @@ class SummonedMinionsController < ApplicationController
     to_field_id = minion_params['to_field_id'].to_i
     from_field = BoardField.find(from_field_id)
     to_field = BoardField.find(to_field_id)
-    SummonedMinion.update_drag(from_field,to_field)
+    SummonedMinion.update_drag(from_field, to_field)
 
-    redirect_to game_path(BoardField.find(from_field_id).game_id, format: :html )
+    redirect_to game_path(BoardField.find(from_field_id).game_id, format: :html)
   end
 
   private
@@ -35,8 +35,8 @@ class SummonedMinionsController < ApplicationController
       :y_position,
       :from_field_id,
       :to_field_id,
-      :board_field => {},
-      :summoned_minion => {}
+      board_field: {},
+      summoned_minion: {}
     )
   end
 end
