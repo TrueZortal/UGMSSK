@@ -34,6 +34,8 @@ TESTS:
     - Correct move✅
     - Moving another players minion results in error✅
     - Invalid move results in error✅
+    - Attack results in damage taken✅
+  - Style improvements
 ARCHITECTURE/CODE:
 - Implemented summoned zone service manager SummoningZoneManager with services:
   - SummoningZoneManager::GrabAvailableSummoningZoneFromAGame - pulls zone from board✅
@@ -47,21 +49,21 @@ ARCHITECTURE/CODE:
   - SummonedMinionManager::FindMinionStatsFromMinionID✅
   - SummonedMinionManager::CalculateDamage✅
   - SummonedMinionManager::TransformPositionIntoXYHash✅ - added to accept position arrays and convert to the x/y format✅
+- Implemented BoardFieldManager with services:
+ - ClearFieldByOccupant (previously JanitorManager::ClearFieldByOccupantID)✅
+ - BoardFieldManager::UpdateFieldOccupant✅
 - Wrapper methods for Game model have been separated out into ExistingGame wrapper class✅
 - Changed current player tracking to be accessible from Game✅
 - Review loop in game which assigns valid targets/movement fields - optimised✅
 - Correct/valid moves are now calculated and assigned between turns and not re-checked during update drag✅
 - Added FactoryBot and setup initial factories for testing ✅
+- Removed large duplication and unneccessary database calls in Pathfinding logic, correct moves are now calculated and assigned between turns and not re-checked during update drag✅
+- Improved the SummonedMinion model, partial rewrite, added service objects✅
 BUGFIXES:
 - resolved the bug where first time joining a game resulted in a failure✅
 
 ## latest-commit
-- Added additional conditions to the update drag tests, style improvements
-- Removed large duplication and unneccessary database calls in Pathfinding logic, correct moves are now calculated and assigned between turns and not re-checked during update drag
-- Improved the SummonedMinion model, partial rewrite, added service objects
-- Implemented BoardFieldManager with services:
- - ClearFieldByOccupant (previously JanitorManager::ClearFieldByOccupantID)
- - BoardFieldManager::UpdateFieldOccupant
+- Added additional tests to summoned_minion request tests✅
 
 ## Active to-do:
 - Write public interface tests for all models/requests

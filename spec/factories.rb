@@ -35,7 +35,7 @@ FactoryBot.define do
     can_attack { false }
     health { 5 }
     valid_moves { [0] }
-    available_targets{ [0] }
+    available_targets { [0] }
 
     transient do
       owner_id { 666 }

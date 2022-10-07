@@ -22,7 +22,6 @@ class SummonedMinion < ApplicationRecord
         'id' => from_field.occupant_id,
         'target_id' => to_field.occupant_id
       }
-      p "attack"
       attack(parameters: pseudo_params)
     else
       pseudo_params = {
@@ -32,7 +31,6 @@ class SummonedMinion < ApplicationRecord
           'y_position' => to_field.y_position
         }
       }
-      p "move"
       move(parameters: pseudo_params)
     end
   end
@@ -83,7 +81,6 @@ class SummonedMinion < ApplicationRecord
   def self.attack(parameters: nil)
     minion = SummonedMinion.find parameters['id']
     target = SummonedMinion.find parameters['target_id']
-    attack_field = BoardField.find_by(occupant_id: target.id)
     owner = PvpPlayers.find(minion.owner_id)
     begin
       raise WrongPlayerError if minion.owner_id != Game.find(owner.game_id).current_player_id
@@ -113,7 +110,7 @@ class SummonedMinion < ApplicationRecord
     owner = PvpPlayers.find(minion.owner_id)
     game_id = owner.game_id
 
-    raise WrongPlayerError if minion.owner_id != TurnTracker.pull_current_player_id(game_id: game_id).id
+    raise WrongPlayerError if minion.owner_id != Game.find(owner.game_id).current_player_id
 
     from_field = BoardField.find_by(game_id: game_id, x_position: minion.x_position, y_position: minion.y_position)
     to_field = BoardField.find_by(game_id: game_id, x_position: minion_params['x_position'].to_i,

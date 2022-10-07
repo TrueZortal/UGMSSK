@@ -26,6 +26,8 @@ RSpec.describe 'SummonedMinions', type: :request do
         }
       end
       subject do
+        test_game.current_player_id = test_player.id
+        test_game.save
         MinionStat.create!([{
                              minion_type: 'skeleton archer', mana_cost: 2, health: 2, attack: 2, defense: 0, speed: 1, initiative: 3, range: 3, icon: '64x64SkellyArcher.png'
                            },
@@ -75,6 +77,8 @@ RSpec.describe 'SummonedMinions', type: :request do
         }
       end
       subject do
+        test_game.current_player_id = test_player.id
+        test_game.save
         MinionStat.create!([{
                              minion_type: 'skeleton archer', mana_cost: 2, health: 2, attack: 2, defense: 0, speed: 1, initiative: 3, range: 3, icon: '64x64SkellyArcher.png'
                            },
@@ -117,6 +121,8 @@ RSpec.describe 'SummonedMinions', type: :request do
         }
       end
       subject do
+        test_game.current_player_id = test_player.id
+        test_game.save
         MinionStat.create!([{
                              minion_type: 'skeleton archer', mana_cost: 2, health: 2, attack: 2, defense: 0, speed: 1, initiative: 3, range: 3, icon: '64x64SkellyArcher.png'
                            },
@@ -140,15 +146,20 @@ RSpec.describe 'SummonedMinions', type: :request do
       let(:test_player) { FactoryBot.create(:PvpPlayers, game_id: test_game.id) }
       let(:second_test_player) { FactoryBot.create(:PvpPlayers, game_id: test_game.id, name: 'test_test') }
       let(:target_minion) do
-        FactoryBot.create(:SummonedMinion, owner_id: second_test_player.id, owner: second_test_player.name, game_id: test_game.id)
+        FactoryBot.create(:SummonedMinion, owner_id: second_test_player.id, owner: second_test_player.name,
+                                           game_id: test_game.id)
       end
-      let(:target_field) { FactoryBot.create(:BoardField, game_id: test_game.id, x_position: 1, y_position: 1, occupied: true, occupant_id: target_minion.id, occupant_type: 'skeleton') }
+      let(:target_field) do
+        FactoryBot.create(:BoardField, game_id: test_game.id, x_position: 1, y_position: 1, occupied: true,
+                                       occupant_id: target_minion.id, occupant_type: 'skeleton')
+      end
       let(:test_minion) do
         FactoryBot.create(:SummonedMinion, owner_id: test_player.id, owner: test_player.name, game_id: test_game.id,
                                            can_attack: true, available_targets: [target_minion.id])
       end
       let(:test_field) do
-        FactoryBot.create(:BoardField, game_id: test_game.id, occupant_id: test_minion.id, occupant_type: 'skeleton')
+        FactoryBot.create(:BoardField, game_id: test_game.id,
+                                       occupant_id: test_minion.id, occupant_type: 'skeleton')
       end
 
       let(:test_params) do
@@ -160,6 +171,8 @@ RSpec.describe 'SummonedMinions', type: :request do
         }
       end
       subject do
+        test_game.current_player_id = test_player.id
+        test_game.save
         MinionStat.create!([{
                              minion_type: 'skeleton archer', mana_cost: 2, health: 2, attack: 2, defense: 0, speed: 1, initiative: 3, range: 3, icon: '64x64SkellyArcher.png'
                            },
@@ -172,7 +185,6 @@ RSpec.describe 'SummonedMinions', type: :request do
                             player_id: second_test_player.id)
         FactoryBot.create(:BoardState, game_id: test_game.id)
 
-        # p SummonedMinion.find(target_minion.id)
         post("/summoned_minions/#{test_field.id}/update_drag/", params: test_params)
       end
 
@@ -180,21 +192,21 @@ RSpec.describe 'SummonedMinions', type: :request do
 
       it ',the minion does not move' do
         expect { subject }.not_to change {
-                                [test_minion.reload.x_position, test_minion.reload.y_position]
-                              }
+                                    [test_minion.reload.x_position, test_minion.reload.y_position]
+                                  }
       end
 
       it ',the target receives damage' do
         expect { subject }.to change {
-                                target_minion.reload.health
+          target_minion.reload.health
         }.from(5).to(4)
       end
 
       it ',both fields stay unchanged' do
         expect { subject }.not_to change {
-                                [test_field.reload.occupant_id, target_field.reload.occupant_id, test_field.reload.occupied,
-                                 target_field.reload.occupied]
-                              }
+                                    [test_field.reload.occupant_id, target_field.reload.occupant_id, test_field.reload.occupied,
+                                     target_field.reload.occupied]
+                                  }
       end
     end
   end
