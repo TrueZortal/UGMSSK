@@ -63,7 +63,9 @@ BUGFIXES:
 - resolved the bug where first time joining a game resulted in a failure✅
 
 ## latest-commit
-- Added additional tests to summoned_minion request tests✅
+- Added summoned minion summoning tests
+- Added db seeding to rspec setup
+- Added DatabaseCleaner - active record to GEMFILE
 
 ## Active to-do:
 - Write public interface tests for all models/requests

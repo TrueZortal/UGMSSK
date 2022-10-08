@@ -17,8 +17,6 @@ MinionStat.create!([{
                       minion_type: 'skeleton', mana_cost: 1, health: 5, attack: 1, defense: 0, speed: 2, initiative: 3, range: 1.5, icon: '64x64Skelly.png'
                     }])
 
-p "Created #{MinionStat.count} basic biii...Minions"
-
 Game.destroy_all
 
 Game.create!([{
