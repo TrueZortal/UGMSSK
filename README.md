@@ -72,7 +72,7 @@ Queued bug fixes:
  - View gets rendered twice after drag/drop with only them visible(?)
 
 Version/Release Log:
-  v0.0.8 10.09.2022 => -
+  v0.0.8 => -
     QUALITY OF LIFE/FEATURES:
     - implement summoning zones:
       - BoardStates have summoning zones assigned on creation✅
