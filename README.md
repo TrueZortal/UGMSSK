@@ -73,63 +73,63 @@ Queued bug fixes:
 
 Version/Release Log:
   v0.0.8 => -
-    QUALITY OF LIFE/FEATURES:
-    - implement summoning zones:
-      - BoardStates have summoning zones assigned on creation✅
-      - zones are visible in the player list✅
-      - players can only summon to the fields in their zone✅
-    TESTS:
-      - Added rspec spec testing to the project✅
-      - Added FactoryBot and setup initial factories for testing ✅
-      - Added db seeding to the rspec setup✅
-      - Added DatabaseCleaner to testing environment✅
-      - Added logins controller tests✅
-      - Added SummonedMinion controller tests:
-        - Correct move✅
-        - Moving another players minion results in error✅
-        - Invalid move results in error✅
-        - Attack results in damage taken✅
-        - Minions can be correctly summoned✅
-      - Style improvements
-    ARCHITECTURE/CODE:
-    - Implemented summoned zone service manager SummoningZoneManager with services:
-      - SummoningZoneManager::GrabAvailableSummoningZoneFromAGame - pulls zone from board✅
-      - SummoningZoneManager::ReturnSummoningZoneWhenLeavingOrRemoved - returns zone to board✅
-      - SummoningZoneManager::TranslateZoneFromTextToArray - converts zone name to array of values✅
-    - Implemented additional service manager in SummonedMinionManager with services:
-      - SummonedMinionManager::FindMinionSpeedFromMinionRecord✅
-      - SummonedMinionManager::FindMinionHealthFromMinionRecord✅
-      - SummonedMinionManager::FindMinionManaFromMinionRecord✅
-      - SummonedMinionManager::FindMinionRangeFromMinionType✅
-      - SummonedMinionManager::FindMinionStatsFromMinionID✅
-      - SummonedMinionManager::CalculateDamage✅
-      - SummonedMinionManager::TransformPositionIntoXYHash✅ - added to accept position arrays and convert to the x/y format✅
-      - FindMinionsByOwner moved to SummonedMinionManager✅
-    - Implemented BoardFieldManager with services:
-    - BoardFieldManager::ClearFieldByOccupant (previously JanitorManager::ClearFieldByOccupantID)✅
-    - BoardFieldManager::UpdateFieldOccupant✅
-    - Implemented game service manager GameManager with services:
-      - GameManager::RestartGameWithAnExistingGameID ✅
-      - GameManager::SetCurrentPlayer ✅
-      - GameManager::RemovePlayer ✅
-      - GameManager::AddPlayer ✅
-    - Deprecated FinderManager:
-      - FindMinionsByOwner moved to SummonedMinionManager✅
-      - FindBoardFieldByOccupantId has been deprecated✅
-      - FindGameIdByPlayerId moved to GameManager✅
-    - Added new service objects:
-      - JanitorManager::RemoveGameFromUser✅
-    - Wrapper methods for Game model have been separated out into ExistingGame wrapper class✅
-    - Changed current player tracking to be accessible from Game✅
-    - Review loop in game which assigns valid targets/movement fields - optimised✅
-    - Correct/valid moves are now calculated and assigned between turns and not re-checked during update drag✅
-    - Removed large duplication and unneccessary database calls in Pathfinding logic, correct moves are now calculated and assigned between turns and not re-checked during update drag✅
-    - Improved the SummonedMinion model, partial rewrite, added service objects✅
-    - Untangled Game and TurnTracker models✅
-    - Untangled Game and PvpPlayer models✅
-    - Separated out interfaces for model classes✅
-    - large rewrites/refactoring of "legacy" code✅
-    BUGFIXES:
+  QUALITY OF LIFE/FEATURES:
+  - implement summoning zones:
+    - BoardStates have summoning zones assigned on creation✅
+    - zones are visible in the player list✅
+    - players can only summon to the fields in their zone✅
+  TESTS:
+    - Added rspec spec testing to the project✅
+    - Added FactoryBot and setup initial factories for testing ✅
+    - Added db seeding to the rspec setup✅
+    - Added DatabaseCleaner to testing environment✅
+    - Added logins controller tests✅
+    - Added SummonedMinion controller tests:
+      - Correct move✅
+      - Moving another players minion results in error✅
+      - Invalid move results in error✅
+      - Attack results in damage taken✅
+      - Minions can be correctly summoned✅
+    - Style improvements
+  ARCHITECTURE/CODE:
+  - Implemented summoned zone service manager SummoningZoneManager with services:
+    - SummoningZoneManager::GrabAvailableSummoningZoneFromAGame - pulls zone from board✅
+    - SummoningZoneManager::ReturnSummoningZoneWhenLeavingOrRemoved - returns zone to board✅
+    - SummoningZoneManager::TranslateZoneFromTextToArray - converts zone name to array of values✅
+  - Implemented additional service manager in SummonedMinionManager with services:
+    - SummonedMinionManager::FindMinionSpeedFromMinionRecord✅
+    - SummonedMinionManager::FindMinionHealthFromMinionRecord✅
+    - SummonedMinionManager::FindMinionManaFromMinionRecord✅
+    - SummonedMinionManager::FindMinionRangeFromMinionType✅
+    - SummonedMinionManager::FindMinionStatsFromMinionID✅
+    - SummonedMinionManager::CalculateDamage✅
+    - SummonedMinionManager::TransformPositionIntoXYHash✅ - added to accept position arrays and convert to the x/y format✅
+    - FindMinionsByOwner moved to SummonedMinionManager✅
+  - Implemented BoardFieldManager with services:
+  - BoardFieldManager::ClearFieldByOccupant (previously JanitorManager::ClearFieldByOccupantID)✅
+  - BoardFieldManager::UpdateFieldOccupant✅
+  - Implemented game service manager GameManager with services:
+    - GameManager::RestartGameWithAnExistingGameID ✅
+    - GameManager::SetCurrentPlayer ✅
+    - GameManager::RemovePlayer ✅
+    - GameManager::AddPlayer ✅
+  - Deprecated FinderManager:
+    - FindMinionsByOwner moved to SummonedMinionManager✅
+    - FindBoardFieldByOccupantId has been deprecated✅
+    - FindGameIdByPlayerId moved to GameManager✅
+  - Added new service objects:
+    - JanitorManager::RemoveGameFromUser✅
+  - Wrapper methods for Game model have been separated out into ExistingGame wrapper class✅
+  - Changed current player tracking to be accessible from Game✅
+  - Review loop in game which assigns valid targets/movement fields - optimised✅
+  - Correct/valid moves are now calculated and assigned between turns and not re-checked during update drag✅
+  - Removed large duplication and unneccessary database calls in Pathfinding logic, correct moves are now calculated and assigned between turns and not re-checked during update drag✅
+  - Improved the SummonedMinion model, partial rewrite, added service objects✅
+  - Untangled Game and TurnTracker models✅
+  - Untangled Game and PvpPlayer models✅
+  - Separated out interfaces for model classes✅
+  - large rewrites/refactoring of "legacy" code✅
+  BUGFIXES:
     - resolved the bug where first time joining a game resulted in a failure✅
 
   v0.0.7 => -
