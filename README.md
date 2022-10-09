@@ -81,18 +81,18 @@ Version/Release Log:
     - players can only summon to the fields in their zone✅
     - 
   TESTS:
-    - Added rspec spec testing to the project✅
-    - Added FactoryBot and setup initial factories for testing ✅
-    - Added db seeding to the rspec setup✅
-    - Added DatabaseCleaner to testing environment✅
-    - Added logins controller tests✅
-    - Added SummonedMinion controller tests:
-      - Correct move✅
-      - Moving another players minion results in error✅
-      - Invalid move results in error✅
-      - Attack results in damage taken✅
-      - Minions can be correctly summoned✅
-    - Style improvements
+   - Added rspec spec testing to the project✅
+   - Added FactoryBot and setup initial factories for testing ✅
+   - Added db seeding to the rspec setup✅
+   - Added DatabaseCleaner to testing environment✅
+   - Added logins controller tests✅
+   - Added SummonedMinion controller tests:
+     - Correct move✅
+     - Moving another players minion results in error✅
+     - Invalid move results in error✅
+     - Attack results in damage taken✅
+     - Minions can be correctly summoned✅
+   - Style improvements
     
   ARCHITECTURE/CODE:
   - Implemented summoned zone service manager SummoningZoneManager with services:
