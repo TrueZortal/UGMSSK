@@ -20,7 +20,7 @@ class SummonedMinionsController < ApplicationController
     to_field = BoardField.find(to_field_id)
     SummonedMinion.update_drag(from_field, to_field)
 
-    redirect_to game_path(BoardField.find(from_field_id).game_id, format: :html)
+    redirect_to controller: :board_fields, action: :update, format: :turbo_stream, params: minion_params
   end
 
   private

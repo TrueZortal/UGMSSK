@@ -18,6 +18,8 @@ SecureRandom.uuid
 
 PvpPlayers.find(SummonedMinion.find(field.occupant_id)).color
 
+
+
 #deprecated implementation of move and attack forms
 <div data-controller="menu" id = "move" class="move">
     <% SummonedMinion.where("owner_id = ?", @current_player.id).each do |minion|%>

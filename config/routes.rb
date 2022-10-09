@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root 'games#start'
   root 'mains#index'
   get '/game/:id', to: 'games#show'
   get '/start/:id', to: 'games#start'
@@ -12,10 +8,11 @@ Rails.application.routes.draw do
   get '/login', to: 'logins#login'
   post '/login', to: 'logins#create'
   post '/logout', to: 'sessions#destroy'
+  resources :board_fields
   resources :summoned_minions do
     post :update_attack, on: :member
     post :update_drag, on: :member
-    get :grab, on: :member # function for grabbing record via JS
+    get :grab, on: :member
   end
   resources :pvp_players do
     get :pass, on: :member

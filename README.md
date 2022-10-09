@@ -22,6 +22,7 @@ Should a game be occupied by idle users /reset/*game-number* can be utilized to 
 Web-Alpha 0.0.8
 
 ## Ready features of next version:
+- Cleared up <games_controller.rb>, added before_action to set game instance✅
 
 ## latest-commit
 
@@ -73,13 +74,13 @@ Queued bug fixes:
 
 Version/Release Log:
   v0.0.8 => -
-  
+
   QUALITY OF LIFE/FEATURES:
   - implement summoning zones:
     - BoardStates have summoning zones assigned on creation✅
     - zones are visible in the player list✅
     - players can only summon to the fields in their zone✅
-    - 
+    -
   TESTS:
    - Added rspec spec testing to the project✅
    - Added FactoryBot and setup initial factories for testing ✅
@@ -93,7 +94,7 @@ Version/Release Log:
      - Attack results in damage taken✅
      - Minions can be correctly summoned✅
    - Style improvements
-    
+
   ARCHITECTURE/CODE:
   - Implemented summoned zone service manager SummoningZoneManager with services:
     - SummoningZoneManager::GrabAvailableSummoningZoneFromAGame - pulls zone from board✅
@@ -132,7 +133,7 @@ Version/Release Log:
   - Untangled Game and PvpPlayer models✅
   - Separated out interfaces for model classes✅
   - large rewrites/refactoring of "legacy" code✅
-  
+
   BUGFIXES:
     - resolved the bug where first time joining a game resulted in a failure✅
 
