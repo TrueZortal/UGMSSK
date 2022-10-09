@@ -7,6 +7,7 @@ class GamesController < ApplicationController
     @game_instance = ExistingGame.new(game_id: game_params['id'].to_i)
 
     @game = if @game_instance.exists_and_is_underway
+              @current_player = TurnTracker.create_turn_or_pull_current_player_if_turn_exists(game_id: @game_instance.record_id)
               @game_instance.continue
             elsif @game_instance.exists_but_is_waiting_to_start
               @game_instance.wait_for_start_or_to_finish
@@ -15,8 +16,6 @@ class GamesController < ApplicationController
             else
               reset
             end
-
-    @current_player = TurnTracker.pull_current_player_id(game_id: @game.id) if @game_instance.has_players
 
     respond_to do |format|
       format.html
@@ -32,7 +31,7 @@ class GamesController < ApplicationController
 
   def reset
     game_id = game_params['id'].to_i
-    Game.restart_new_on_existing_id(game_id: game_id)
+    GameManager::RestartGameWithAnExistingGameID.call(game_id)
 
     redirect_to root_url
   end

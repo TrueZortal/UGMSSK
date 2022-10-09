@@ -13,4 +13,17 @@ module JanitorManager
       Session.where(user_id: id_of_a_user).delete_all
     end
   end
+
+  class RemoveGameFromUser < ApplicationService
+    attr_reader :user
+
+    def initialize(user_uuid)
+      @user = User.find_by(uuid: user_uuid)
+    end
+
+    def call
+      user.game_id = ''
+      user.save
+    end
+  end
 end

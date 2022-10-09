@@ -2,8 +2,7 @@
 
 class SummonedMinionsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  # summon a minion
-  # params: summoned minion -> owner_id, owner, minion_type, x_position, y_position
+
   def create
     SummonedMinion.place(parameters: minion_params)
     redirect_to "/games/#{minion_params['summoned_minion']['game_id']}"

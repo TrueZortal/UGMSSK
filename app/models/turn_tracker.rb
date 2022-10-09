@@ -1,50 +1,40 @@
 # frozen_string_literal: true
 
 class TurnTracker < ApplicationRecord
-  def self.pull_current_player_id(game_id: nil)
-    if Game.find(game_id).underway
-      check_if_current_turn_exists_and_create_new_if_it_doesnt(game_id: game_id)
-      # p game_id
-      # p TurnTracker.where(game_id: game_id, complete: false)
-      current_player = PvpPlayers.find(TurnTracker.where(game_id: game_id, complete: false).first.player_id)
-      Game.set_current_player(game_id: game_id, player_id: current_player.id)
-      current_player
-    end
+  def self.create_turn_or_pull_current_player_if_turn_exists(game_id: nil)
+    check_if_current_turn_exists_and_create_new_if_it_doesnt(game_id: game_id)
+    current_player = PvpPlayers.find(TurnTracker.where(game_id: game_id, complete: false).first.player_id)
+    GameManager::SetCurrentPlayer.call(game_id, current_player.id)
+    current_player
   end
 
   def self.end_turn(game_id: nil, player_id: nil)
-    Game.remove_players_who_lost(game_id: game_id)
-    Game.check_and_update_minions_who_can_attack(game_id: game_id)
-    check_win_conditions(game_id: game_id)
-    PvpPlayers.check_and_set_available_player_actions(game_id: game_id)
+    Game.end_turn(game_id: game_id)
     if TurnTracker.exists?(game_id: game_id, player_id: player_id, complete: false)
       TurnTracker.find_by(game_id: game_id, player_id: player_id, complete: false).update(complete: true)
     end
   end
 
-  def self.current_turn_complete_or_doesnt_exist?(game_id)
-    TurnTracker.where(game_id: game_id, complete: false).to_a.empty?
-  end
+  class << self
+    private
 
-  def self.check_if_current_turn_exists_and_create_new_if_it_doesnt(game_id: nil)
-    if current_turn_complete_or_doesnt_exist?(game_id)
-      Game.move_game_to_next_turn(game_id: game_id)
-      create_turns_for_all_players_in_game(game_id: game_id)
+    def check_if_current_turn_exists_and_create_new_if_it_doesnt(game_id: nil)
+      if current_turn_complete_or_doesnt_exist?(game_id)
+        GameManager::MoveToNextTurn.call(game_id)
+        create_turns_for_all_players_in_game(game_id: game_id)
+      end
     end
-  end
 
-  def self.create_turns_for_all_players_in_game(game_id: nil)
-    game = Game.find(game_id)
-    game.player_ids.shuffle.each do |player|
-      player_turn = TurnTracker.new(game_id: game_id, turn_number: game.current_turn, player_id: player)
-      player_turn.save
+    def current_turn_complete_or_doesnt_exist?(game_id)
+      TurnTracker.where(game_id: game_id, complete: false).to_a.empty?
     end
-  end
 
-  def self.check_win_conditions(game_id: nil)
-    game = Game.find(game_id)
-    players = Game.find(game_id).player_ids
-    EventLog.winner(player_db_record: PvpPlayers.find(players[0])) if players.size == 1
-    Game.find(game_id).update(underway: false) if game.current_turn != 0 && players.size == 1
+    def create_turns_for_all_players_in_game(game_id: nil)
+      game = Game.find(game_id)
+      game.player_ids.shuffle.each do |player|
+        player_turn = TurnTracker.new(game_id: game_id, turn_number: game.current_turn, player_id: player)
+        player_turn.save
+      end
+    end
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module SummoningZoneManager
-  class GrabAvailableSummoningZoneFromAGame < ApplicationService
+  class AssignAvailableSummoningZoneFromAGameToAPlayer < ApplicationService
     attr_reader :game_id, :player_id
 
     def initialize(game_id, player_id)

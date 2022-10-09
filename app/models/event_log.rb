@@ -53,8 +53,12 @@ class EventLog < ApplicationRecord
     event = "#{error_msg} has occured"
   end
 
-  def self.save_event(event, game_id: nil)
-    db_event = EventLog.new(game_id: game_id, event: event)
-    db_event.save
+  class << self
+    private
+
+    def save_event(event, game_id: nil)
+      db_event = EventLog.new(game_id: game_id, event: event)
+      db_event.save
+    end
   end
 end

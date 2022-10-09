@@ -72,7 +72,9 @@ module SummonedMinionManager
     end
 
     def call
-      MinionStat.find_by(minion_type: minion.minion_type).attack - MinionStat.find_by(minion_type: target.minion_type).defense
+      damage = MinionStat.find_by(minion_type: minion.minion_type).attack - MinionStat.find_by(minion_type: target.minion_type).defense
+      damage = 1 if damage.negative?
+      damage
     end
   end
 
@@ -105,6 +107,18 @@ module SummonedMinionManager
         x_position: pos_array[0],
         y_position: pos_array[1]
       }
+    end
+  end
+
+  class FindMinionsByOwner < ApplicationService
+    attr_reader :owner_id
+
+    def initialize(owner_id)
+      @owner_id = owner_id
+    end
+
+    def call
+      SummonedMinion.where('owner_id = ?', owner_id)
     end
   end
 end

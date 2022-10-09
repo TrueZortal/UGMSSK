@@ -73,9 +73,10 @@ class SummonedMinion < ApplicationRecord
   end
 
   def self.get_abandoned(minion_id: nil)
-    EventLog.got_abandoned(unit_db_record: SummonedMinion.find(minion_id))
-    BoardFieldManager::ClearFieldByOccupantID.call(minion_id)
-    SummonedMinion.find(minion_id).delete
+    minion = SummonedMinion.find(minion_id)
+    BoardFieldManager::ClearFieldByOccupant.call(minion)
+    EventLog.got_abandoned(unit_db_record: minion)
+    minion.delete
   end
 
   def self.attack(parameters: nil)
@@ -87,17 +88,15 @@ class SummonedMinion < ApplicationRecord
       raise InvalidTargetError unless minion.available_targets.include?(target.id)
 
       damage = SummonedMinionManager::CalculateDamage.call(minion, target)
-      damage = 1 if damage.negative?
 
       health_after_damage = target.health - damage
       if health_after_damage <= 0
-        EventLog.attack(minion, target, damage, health_after_damage)
         BoardFieldManager::ClearFieldByOccupant.call(target)
         SummonedMinion.delete(target.id)
       else
         target.update(health: health_after_damage)
-        EventLog.attack(minion, target, damage, health_after_damage)
       end
+      EventLog.attack(minion, target, damage, health_after_damage)
       TurnTracker.end_turn(game_id: owner.game_id, player_id: minion.owner_id)
     rescue StandardError => e
       EventLog.error(e)

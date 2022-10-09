@@ -2,19 +2,19 @@
 
 class PvpPlayersController < ActionController::Base
   def pass
-    game_id = FinderManager::FindGameIdByPlayerId.call(player_params[:id].to_i)
+    game_id = GameManager::FindGameIdByPlayerId.call(player_params[:id].to_i)
     PvpPlayers.pass(player_id: player_params[:id].to_i)
     redirect_to "/games/#{game_id}"
   end
 
   def concede
-    game_id = FinderManager::FindGameIdByPlayerId.call(player_params[:id].to_i)
+    game_id = GameManager::FindGameIdByPlayerId.call(player_params[:id].to_i)
     PvpPlayers.concede(player_id: player_params[:id].to_i)
     redirect_to "/games/#{game_id}"
   end
 
   def leave
-    PvpPlayers.remove_player(player_id: player_params['id'].to_i)
+    PvpPlayers.leave(player_id: player_params['id'].to_i)
 
     redirect_to root_path
   end
@@ -39,6 +39,8 @@ class PvpPlayersController < ActionController::Base
 
     redirect_to "/games/#{game_id}"
   end
+
+  private
 
   def player_params
     params.permit(:id, :uuid, :color, :name, :game_id)
