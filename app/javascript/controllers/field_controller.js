@@ -88,7 +88,7 @@ export default class extends Controller {
         })
       })
       .then((a) => {
-        setTimeout(function(){ location.reload(); }, 50);
+        // setTimeout(function(){ location.reload(); }, 50);
       })
     }
   }

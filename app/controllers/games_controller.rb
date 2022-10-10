@@ -4,6 +4,11 @@ class GamesController < ApplicationController
   before_action :restrict_access, :set_game_instance
 
   def show
+    # TODO: make it respond to json
+    # respond_to do |format|
+    #   format.html
+    #   format.json { render }
+    # end
   end
 
   def start

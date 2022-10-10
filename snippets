@@ -18,7 +18,8 @@ SecureRandom.uuid
 
 PvpPlayers.find(SummonedMinion.find(field.occupant_id)).color
 
-
+          <% if Game.find(@current_user.game_id).underway && @current_user.uuid == TurnTracker.create_turn_or_pull_current_player_if_turn_exists(game_id: @current_user.game_id).uuid %>
+          <% end %>
 
 #deprecated implementation of move and attack forms
 <div data-controller="menu" id = "move" class="move">

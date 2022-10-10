@@ -8,10 +8,12 @@ Rails.application.routes.draw do
   get '/login', to: 'logins#login'
   post '/login', to: 'logins#create'
   post '/logout', to: 'sessions#destroy'
-  resources :board_fields
+  resources :board_fields do
+    get :refresh_fields, on: :member
+  end
   resources :summoned_minions do
-    post :update_attack, on: :member
     post :update_drag, on: :member
+    post :update_attack, on: :member
     get :grab, on: :member
   end
   resources :pvp_players do

@@ -4,6 +4,20 @@ class BoardFieldsController < ApplicationController
     @field = BoardField.find(params['id'])
   end
 
+  def refresh_fields
+    p "apdejt hehe"
+    p params
+    @field = BoardField.find(params['id'])
+    p @field
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream { render "games/replace" }
+    end
+
+  end
+
+  # TODO: wypieprzyc
   def update
     p params
     @field = BoardField.find(params['id'])
