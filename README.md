@@ -23,10 +23,14 @@ Web-Alpha 0.0.8
 
 ## Ready features of next version:
 - Cleared up <games_controller.rb>, added before_action to set game instance✅
+- Fixed rendering querying database multiple times instead of using a results array to filter✅
 
 ## latest-commit
+- Fixed rendering querying database multiple times instead of using a results array to filter✅
+- Implementing turbo_stream/websockets => in progress
 
 ## Active to-do:
+- Implementing turbo_stream/websockets => in progress
 
 Queued bug fixes:
 

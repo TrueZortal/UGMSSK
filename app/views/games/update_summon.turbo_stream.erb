@@ -1,0 +1,3 @@
+<%= turbo_stream.replace :"board_field#{@field.id}" do%>
+<%= render partial: 'games/field', locals: { field: @field, game: @game, current_player: @current_player } %>
+<% end %>

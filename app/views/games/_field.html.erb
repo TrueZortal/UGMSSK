@@ -1,13 +1,11 @@
 
 <%= turbo_frame_tag "board_field#{field.id}" do %>
-<% p "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"%>
-    <% p field.id %>
-<% p "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"%>
-
       <div class="field"
         id=<%= field.id%>
-            data-controller="field"
-            data-action="dragstart->field#onDragStart dragover->field#onDragOver dragenter->field#onDragEnter drop->field#onDrop dragend->field#onDragEnd"
+        <% if @game.underway && @current_user.uuid == @current_player.uuid %>
+          data-controller="field"
+          data-action="dragstart->field#onDragStart dragover->field#onDragOver dragenter->field#onDragEnter drop->field#onDrop dragend->field#onDragEnd"
+        <% end %>
 
         occupant_id="<%= field.occupant_id %>"
         field_id="<%= field.id%>"

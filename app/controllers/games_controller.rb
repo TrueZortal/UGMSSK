@@ -4,7 +4,7 @@ class GamesController < ApplicationController
   before_action :restrict_access, :set_game_instance
 
   def show
-    # TODO: make it respond to json
+    # TODO: make it respond to json (this will be reduntant once turbo streams are setup properly)
     # respond_to do |format|
     #   format.html
     #   format.json { render }

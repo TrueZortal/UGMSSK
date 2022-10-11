@@ -4,8 +4,17 @@ class SummonedMinionsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create
+    position = SummonedMinionManager::TransformPositionIntoXYHash.call(minion_params['summoned_minion']['position'])
+    game_id = minion_params['summoned_minion']['game_id']
+    @field = BoardField.find_by(game_id: game_id,x_position: position[:x_position], y_position: position[:y_position])
+    @game = Game.find(game_id)
+    @current_player = TurnTracker.create_turn_or_pull_current_player_if_turn_exists(game_id: @game_instance.record_id)
+
     SummonedMinion.place(parameters: minion_params)
-    redirect_to "/games/#{minion_params['summoned_minion']['game_id']}"
+    respond_to do |format|
+      format.turbo_stream { render "games/update_summon" }
+      format.html { redirect_to "/games/#{minion_params['summoned_minion']['game_id']}" }
+    end
   end
 
   def grab

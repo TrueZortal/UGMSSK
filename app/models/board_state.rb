@@ -17,8 +17,7 @@ class BoardState < ApplicationRecord
     size_of_board_edge.times do |x|
       temp_array = []
       size_of_board_edge.times do |y|
-        # TODO: find_by ALWAYS asks database, work with the board_fields array to filter out the DB queries
-        temp_array << board_fields.find_by(x_position: x, y_position: y)
+        temp_array << board_fields.filter{ |field_object| field_object.x_position == x && field_object.y_position == y }.first
       end
       rendering_array << temp_array
     end

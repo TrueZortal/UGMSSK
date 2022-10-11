@@ -4,35 +4,27 @@ class BoardFieldsController < ApplicationController
     @field = BoardField.find(params['id'])
   end
 
+  # TODO: data-turbo-stream="true" <= needs to be passed as param for this to work with a GET
   def refresh_fields
-    p "apdejt hehe"
-    p params
     @field = BoardField.find(params['id'])
-    p @field
+    @from_field = BoardField.find(params['from_field_id'])
+    game_id = @field.game_id
+    @game = Game.find(game_id)
+    @current_player = TurnTracker.create_turn_or_pull_current_player_if_turn_exists(game_id: game_id)
 
     respond_to do |format|
       format.html
-      format.turbo_stream { render "games/replace" }
-    end
-
-  end
-
-  # TODO: wypieprzyc
-  def update
-    p params
-    @field = BoardField.find(params['id'])
-    if @field.update
-      respond_to do |format|
-        format.html { redirect_to quotes_path, notice: "Quote was successfully updated." }
-        format.turbo_stream
-      end
-    else
-      render :show, status: :unprocessable_entity
+      format.turbo_stream { render "games/update" }
     end
   end
 
   private
 
   def field_params
+    params.permit(
+      :id,
+      :from_field_id,
+      :to_field_id
+    )
   end
 end
