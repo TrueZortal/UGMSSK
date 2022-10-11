@@ -26,8 +26,7 @@ Web-Alpha 0.0.8
 - Fixed rendering querying database multiple times instead of using a results array to filter✅
 
 ## latest-commit
-- Fixed rendering querying database multiple times instead of using a results array to filter✅
-- Implementing turbo_stream/websockets => in progress
+- Implementing turbo_stream/websockets - websocket connection now gets initiated
 
 ## Active to-do:
 - Implementing turbo_stream/websockets => in progress

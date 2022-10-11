@@ -70,6 +70,7 @@ class SummonedMinion < ApplicationRecord
       EventLog.error(e)
       SummonedMinion.find(minion_to_summon.id).destroy
     end
+
   end
 
   def self.get_abandoned(minion_id: nil)

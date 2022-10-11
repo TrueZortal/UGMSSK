@@ -1,4 +1,4 @@
-
+<%= turbo_stream_from "fields"%>
 <%= turbo_frame_tag "board_field#{field.id}" do %>
       <div class="field"
         id=<%= field.id%>
@@ -18,3 +18,4 @@
         <% end %>
       </div>
     <% end %>
+

@@ -8,7 +8,7 @@ class SummonedMinionsController < ApplicationController
     game_id = minion_params['summoned_minion']['game_id']
     @field = BoardField.find_by(game_id: game_id,x_position: position[:x_position], y_position: position[:y_position])
     @game = Game.find(game_id)
-    @current_player = TurnTracker.create_turn_or_pull_current_player_if_turn_exists(game_id: @game_instance.record_id)
+    @current_player = TurnTracker.create_turn_or_pull_current_player_if_turn_exists(game_id: game_id)
 
     SummonedMinion.place(parameters: minion_params)
     respond_to do |format|
