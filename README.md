@@ -27,6 +27,7 @@ Web-Alpha 0.0.8
 
 ## latest-commit
 - Implementing turbo_stream/websockets - websocket connection now gets initiated
+- Added redis to project for broadcasting
 
 ## Active to-do:
 - Implementing turbo_stream/websockets => in progress

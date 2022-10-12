@@ -14,10 +14,11 @@ class BoardFieldsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.turbo_stream { broadcast_replace_to "fields",
-        partial: "games/update",
-        locals: { field: @field, game: @game, current_player: @current_player }
-       }
+      format.turbo_stream { render "games/update", locals: { field: @field, game: @game, current_player: @current_player } }
+      # { broadcast_replace_to "fields",
+      #   partial: "games/update",
+      #   locals: { field: @field, game: @game, current_player: @current_player }
+      #  }
     end
   end
 
