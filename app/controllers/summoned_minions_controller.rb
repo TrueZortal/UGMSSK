@@ -30,7 +30,17 @@ class SummonedMinionsController < ApplicationController
     SummonedMinion.update_drag(from_field, to_field)
 
     # redirect_to game_path(BoardField.find(from_field_id).game_id, format: :html)
-    redirect_to controller: :board_fields, action: :refresh_fields, format: :turbo_stream, params: minion_params
+    # @field = to_field
+    # @from_field = from_field
+    # game_id = to_field.game_id
+    # @game = Game.find(game_id)
+    # @current_player = TurnTracker.create_turn_or_pull_current_player_if_turn_exists(game_id: game_id)
+
+    # respond_to do |format|
+    #   format.turbo_stream
+    #   format.json
+    # end
+    # redirect_to controller: :board_fields, action: :refresh_fields, format: :turbo_stream, params: minion_params
   end
 
   private

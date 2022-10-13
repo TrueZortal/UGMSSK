@@ -1,5 +1,6 @@
 <body>
 <section class ="gameplayrow">
+    <%= turbo_stream_from 'board_fields'%>
     <%= render partial: "games/statusbox"%>
     <%= render partial: "games/boardcontainer"%>
 </body>

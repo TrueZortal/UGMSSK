@@ -18,6 +18,8 @@ SecureRandom.uuid
 
 PvpPlayers.find(SummonedMinion.find(field.occupant_id)).color
 
+<% if @game.underway && @current_user.uuid == @current_player.uuid %>
+    <% end %>
 
 
 #deprecated implementation of move and attack forms
