@@ -33,7 +33,7 @@ development:
   username: summonergameproject
 
   # The password associated with the postgres role (username).
-  password: 'zombiaki'
+  password: ENV['SUMMONERPW']
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
@@ -84,4 +84,4 @@ production:
   <<: *default
   database: SummonerGameProject_production
   username: SummonerGameProject
-  password: <%= ENV["SUMMONERGAMEPROJECT_DATABASE_PASSWORD"] %>
+  password: ENV['SUMMONERPW']
