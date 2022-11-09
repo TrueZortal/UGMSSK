@@ -26,7 +26,7 @@ Web-Alpha 0.0.8
 - Fixed rendering querying database multiple times instead of using a results array to filter✅
 
 ## latest-commit
-- security fix
+- View gets rendered twice after drag/drop with only them visible - Bug fixed✅
 
 ## Active to-do:
 - Implementing turbo_stream/websockets - websocket connection now gets initiated
@@ -75,7 +75,6 @@ Queued bug fixes:
 - add minions: zombie, mummy, vampire, ghost, lich, standardbearer, undead dragon, slime etc etc
 
 ## Bug List:
- - View gets rendered twice after drag/drop with only them visible(?)
 
 Version/Release Log:
   v0.0.8 => -
