@@ -22,6 +22,7 @@ class SummonedMinionsController < ApplicationController
     render json: minion
   end
 
+  #TODO: Verify between Action Cable and Websocket as ACTION CABLE broadcasts a working update but only to the/of the ORIGINATING FIELD
   def update_drag
     from_field_id = minion_params['from_field_id'].to_i
     to_field_id = minion_params['to_field_id'].to_i
@@ -29,7 +30,7 @@ class SummonedMinionsController < ApplicationController
     to_field = BoardField.find(to_field_id)
     SummonedMinion.update_drag(from_field, to_field)
 
-    # redirect_to game_path(BoardField.find(from_field_id).game_id, format: :html)
+    redirect_to game_path(BoardField.find(from_field_id).game_id, format: :html)
     # @field = to_field
     # @from_field = from_field
     # game_id = to_field.game_id
