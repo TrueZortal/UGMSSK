@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 module BoardFieldManager
+  # Removes occupant from field
   class ClearFieldByOccupant < ApplicationService
     attr_reader :occupant
 
     def initialize(occupant)
+      super
       @occupant = occupant
     end
 
@@ -17,10 +19,12 @@ module BoardFieldManager
     end
   end
 
+  # Adds occupant to field
   class UpdateFieldOccupant < ApplicationService
     attr_reader :field, :occupant
 
     def initialize(field, occupant)
+      super
       @field = field
       @occupant = occupant
     end

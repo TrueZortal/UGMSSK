@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 module GameManager
+  # Restarts an existing game
   class RestartGameWithAnExistingGameID < ApplicationService
     attr_reader :game_id
 
     def initialize(game_id)
+      super
       @game_id = game_id
     end
 
@@ -31,10 +33,12 @@ module GameManager
     end
   end
 
+  # Finds game by player id
   class FindGameIdByPlayerId < ApplicationService
     attr_reader :pvp_player_id
 
     def initialize(pvp_player_id)
+      super
       @pvp_player_id = pvp_player_id
     end
 
@@ -43,10 +47,12 @@ module GameManager
     end
   end
 
+  # Sets current player in game
   class SetCurrentPlayer < ApplicationService
     attr_reader :game, :player_id
 
     def initialize(game_id, player_id)
+      super
       @game = Game.find(game_id)
       @player_id = player_id
     end
@@ -57,6 +63,7 @@ module GameManager
     end
   end
 
+  # Removes player from game
   class RemovePlayer < ApplicationService
     attr_reader :game, :player
 
@@ -72,10 +79,12 @@ module GameManager
     end
   end
 
+  # Adds player to a game
   class AddPlayer < ApplicationService
     attr_reader :game, :player_id
 
     def initialize(game_id, player_id)
+      super
       @game = Game.find(game_id)
       @player_id = player_id
     end
@@ -86,10 +95,12 @@ module GameManager
     end
   end
 
+  # Advances the game to next turn
   class MoveToNextTurn < ApplicationService
     attr_reader :game
 
     def initialize(game_id)
+      super
       @game = Game.find(game_id)
     end
 

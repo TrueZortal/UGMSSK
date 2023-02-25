@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 module SummoningZoneManager
+  # Assigns an available summoning zone to a player
   class AssignAvailableSummoningZoneFromAGameToAPlayer < ApplicationService
     attr_reader :game_id, :player_id
 
     def initialize(game_id, player_id)
+      super
       @game_id = game_id
       @player_id = player_id
     end
@@ -23,10 +25,12 @@ module SummoningZoneManager
     end
   end
 
-  class ReturnSummoningZoneWhenLeavingOrRemoved < ApplicationService
+  # Returns a summoning zone to the available pool
+  class ReturnSummoningToTheAvailablePool < ApplicationService
     attr_reader :game_id, :player_id
 
     def initialize(game_id, player_id)
+      super
       @game_id = game_id
       @player_id = player_id
     end
@@ -43,10 +47,12 @@ module SummoningZoneManager
     end
   end
 
+  # Creates a zone array from text zone name
   class TranslateZoneFromTextToArray < ApplicationService
     attr_reader :zone_string
 
     def initialize(zone_string)
+      super
       @zone_string = zone_string
     end
 

@@ -24,10 +24,17 @@ Web-Alpha 0.0.8
 ## Ready features of next version:
 - Cleared up <games_controller.rb>, added before_action to set game instance✅
 - Fixed rendering querying database multiple times instead of using a results array to filter✅
+<<<<<<< HEAD
 - View gets rendered twice after drag/drop with only them visible - Bug fixed✅
 
 ## latest-commit
 - identified a potential issue blocking ACTION CABLE implementation added as TODO
+=======
+- View gets rendered twice after drag/drop with only themś visible - Bug fixed✅
+
+## latest-commit
+- Cleared up service managers, added top level comments✅
+>>>>>>> 6f84984 (v0.0.9 developement)
 
 ## Active to-do:
 - Implementing turbo_stream/websockets - websocket connection now gets initiated
@@ -35,6 +42,8 @@ Web-Alpha 0.0.8
 - Implementing turbo_stream/websockets => in progress
 
 Queued bug fixes:
+- Reset board button doesn't appear after the game finishes via full play out (likely missing)
+- Reset board button should either not kick the players or not be available with players in the lobby
 
 ## Doing => Changes planned for the next version
 ---
@@ -46,12 +55,13 @@ Queued bug fixes:
 
 ## Core function to-do list => missing/expected core/basic functionalities or required improvements
 - add collision detection between units to prevent "hopping" over
-- improve mobile browser display
+- Rewrite front-end using grid:
+  - above should fix: improve mobile browser display
 - enable saving combat log, match history
 - replay system (via testing implementation of simulating movements)
 
 
-## Friendly reminders from past self taht are somewhat relevant
+## Friendly reminders from past self that are somewhat relevant
 - keep current version as "local" where can be played from one browser
 
 

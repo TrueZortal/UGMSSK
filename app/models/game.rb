@@ -108,6 +108,7 @@ class Game < ApplicationRecord
       end
     end
 
+    #TODO: This likely requires a revision as it's the most resource intensive, when many minions occupy this is bound to get expensive quickly
     def check_and_update_minions(game_id: nil)
       clear_targets_and_can_attack_clauses_for_all_minion_occupied_fields(game_id: game_id)
       occupied_fields = BoardField.where(game_id: game_id, occupied: true, obstacle: false)

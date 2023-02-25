@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 module SummonedMinionManager
-  # Minion record finders
+  # Finds minion speed
   class FindMinionSpeedFromMinionRecord < ApplicationService
     attr_reader :minion_record
 
     def initialize(minion_record)
+      super
       @minion_record = minion_record
     end
 
@@ -14,10 +15,12 @@ module SummonedMinionManager
     end
   end
 
+  # Finds minion health
   class FindMinionHealthFromMinionRecord < ApplicationService
     attr_reader :minion_record
 
     def initialize(minion_record)
+      super
       @minion_record = minion_record
     end
 
@@ -26,10 +29,12 @@ module SummonedMinionManager
     end
   end
 
+  # Finds minion cost
   class FindMinionManaFromMinionRecord < ApplicationService
     attr_reader :minion_record
 
     def initialize(minion_record)
+      super
       @minion_record = minion_record
     end
 
@@ -38,10 +43,12 @@ module SummonedMinionManager
     end
   end
 
+  # Finds minion range
   class FindMinionRangeFromMinionType < ApplicationService
     attr_reader :minion_type
 
     def initialize(minion_type)
+      super
       @minion_type = minion_type
     end
 
@@ -50,10 +57,12 @@ module SummonedMinionManager
     end
   end
 
+  # Finds minion statistics
   class FindMinionStatsFromMinionID < ApplicationService
     attr_reader :minion_id
 
     def initialize(minion_id)
+      super
       @minion_id = minion_id
     end
 
@@ -63,10 +72,12 @@ module SummonedMinionManager
     end
   end
 
+  # Calculates damage
   class CalculateDamage < ApplicationService
     attr_reader :target, :minion
 
     def initialize(minion, target)
+      super
       @minion = minion
       @target = target
     end
@@ -78,10 +89,12 @@ module SummonedMinionManager
     end
   end
 
+  # Updates minion position
   class UpdateMinionsPositionFromTargetField < ApplicationService
     attr_reader :minion, :target_field
 
     def initialize(minion, target_field)
+      super
       @minion = minion
       @target_field = target_field
     end
@@ -94,10 +107,12 @@ module SummonedMinionManager
     end
   end
 
+  # Transforms a position into a hash
   class TransformPositionIntoXYHash < ApplicationService
     attr_reader :position
 
     def initialize(position)
+      super
       @position = position
     end
 
@@ -110,10 +125,12 @@ module SummonedMinionManager
     end
   end
 
+  # Finds all of a owners minions
   class FindMinionsByOwner < ApplicationService
     attr_reader :owner_id
 
     def initialize(owner_id)
+      super
       @owner_id = owner_id
     end
 

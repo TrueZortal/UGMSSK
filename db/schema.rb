@@ -12,7 +12,6 @@
 
 ActiveRecord::Schema[7.0].define(version: 2022_09_29_205737) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "hstore"
   enable_extension "plpgsql"
 
   create_table "board_fields", force: :cascade do |t|
@@ -53,15 +52,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_29_205737) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "underway", default: false
-  end
-
-  create_table "minion_in_games", force: :cascade do |t|
-    t.string "minion_type", null: false
-    t.string "owner", null: false
-    t.integer "x", null: false
-    t.integer "y", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "minion_stats", force: :cascade do |t|

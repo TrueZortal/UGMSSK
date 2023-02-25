@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 module JanitorManager
+  # Deletes the session by user uuid
   class DeleteSessionsByUserUuid < ApplicationService
     attr_reader :user_uuid
 
     def initialize(user_uuid)
+      super
       @user_uuid = user_uuid
     end
 
@@ -14,10 +16,12 @@ module JanitorManager
     end
   end
 
+  # Removes the game to user association
   class RemoveGameFromUser < ApplicationService
     attr_reader :user
 
     def initialize(user_uuid)
+      super
       @user = User.find_by(uuid: user_uuid)
     end
 
