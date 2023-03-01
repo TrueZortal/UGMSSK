@@ -25,9 +25,10 @@ Web-Alpha 0.0.8
 - Cleared up <games_controller.rb>, added before_action to set game instance✅
 - Fixed rendering querying database multiple times instead of using a results array to filter✅
 - View gets rendered twice after drag/drop with only themś visible - Bug fixed✅
+- Cleared up service managers, added top level comments✅
 
 ## latest-commit
-- Cleared up service managers, added top level comments✅
+- Working to restore tests to green :inprogress:
 
 ## Active to-do:
 - Implementing turbo_stream/websockets - websocket connection now gets initiated

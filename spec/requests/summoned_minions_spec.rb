@@ -21,6 +21,9 @@ RSpec.describe 'SummonedMinions', type: :request do
         }
       end
       subject do
+        test_game.current_player_id = test_player.id
+        test_game.save
+        TurnTracker.create!(game_id: test_game.id, turn_number: test_game.current_turn, player_id: test_player.id)
         post('/summoned_minions/', params: test_params)
       end
       it { is_expected.to match(302) }
@@ -52,6 +55,10 @@ RSpec.describe 'SummonedMinions', type: :request do
         }
       end
       subject do
+        test_game.current_player_id = test_player.id
+        test_game.save
+        TurnTracker.create!(game_id: test_game.id, turn_number: test_game.current_turn, player_id: test_player.id)
+
         post('/summoned_minions/', params: test_params)
       end
       it { is_expected.to match(302) }

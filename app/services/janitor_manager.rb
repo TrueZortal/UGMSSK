@@ -6,7 +6,7 @@ module JanitorManager
     attr_reader :user_uuid
 
     def initialize(user_uuid)
-      super
+      super()
       @user_uuid = user_uuid
     end
 
@@ -21,7 +21,7 @@ module JanitorManager
     attr_reader :user
 
     def initialize(user_uuid)
-      super
+      super()
       @user = User.find_by(uuid: user_uuid)
     end
 

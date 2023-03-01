@@ -6,7 +6,7 @@ module SummoningZoneManager
     attr_reader :game_id, :player_id
 
     def initialize(game_id, player_id)
-      super
+      super()
       @game_id = game_id
       @player_id = player_id
     end
@@ -30,7 +30,7 @@ module SummoningZoneManager
     attr_reader :game_id, :player_id
 
     def initialize(game_id, player_id)
-      super
+      super()
       @game_id = game_id
       @player_id = player_id
     end
@@ -52,7 +52,7 @@ module SummoningZoneManager
     attr_reader :zone_string
 
     def initialize(zone_string)
-      super
+      super()
       @zone_string = zone_string
     end
 

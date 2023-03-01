@@ -6,7 +6,7 @@ module BoardFieldManager
     attr_reader :occupant
 
     def initialize(occupant)
-      super
+      super()
       @occupant = occupant
     end
 
@@ -24,7 +24,7 @@ module BoardFieldManager
     attr_reader :field, :occupant
 
     def initialize(field, occupant)
-      super
+      super()
       @field = field
       @occupant = occupant
     end

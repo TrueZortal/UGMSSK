@@ -6,7 +6,7 @@ module GameManager
     attr_reader :game_id
 
     def initialize(game_id)
-      super
+      super()
       @game_id = game_id
     end
 
@@ -38,7 +38,7 @@ module GameManager
     attr_reader :pvp_player_id
 
     def initialize(pvp_player_id)
-      super
+      super()
       @pvp_player_id = pvp_player_id
     end
 
@@ -52,7 +52,7 @@ module GameManager
     attr_reader :game, :player_id
 
     def initialize(game_id, player_id)
-      super
+      super()
       @game = Game.find(game_id)
       @player_id = player_id
     end
@@ -84,7 +84,7 @@ module GameManager
     attr_reader :game, :player_id
 
     def initialize(game_id, player_id)
-      super
+      super()
       @game = Game.find(game_id)
       @player_id = player_id
     end
@@ -100,7 +100,7 @@ module GameManager
     attr_reader :game
 
     def initialize(game_id)
-      super
+      super()
       @game = Game.find(game_id)
     end
 

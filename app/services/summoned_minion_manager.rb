@@ -6,7 +6,7 @@ module SummonedMinionManager
     attr_reader :minion_record
 
     def initialize(minion_record)
-      super
+      super()
       @minion_record = minion_record
     end
 
@@ -20,7 +20,7 @@ module SummonedMinionManager
     attr_reader :minion_record
 
     def initialize(minion_record)
-      super
+      super()
       @minion_record = minion_record
     end
 
@@ -34,7 +34,7 @@ module SummonedMinionManager
     attr_reader :minion_record
 
     def initialize(minion_record)
-      super
+      super()
       @minion_record = minion_record
     end
 
@@ -48,7 +48,7 @@ module SummonedMinionManager
     attr_reader :minion_type
 
     def initialize(minion_type)
-      super
+      super()
       @minion_type = minion_type
     end
 
@@ -62,7 +62,7 @@ module SummonedMinionManager
     attr_reader :minion_id
 
     def initialize(minion_id)
-      super
+      super()
       @minion_id = minion_id
     end
 
@@ -77,7 +77,7 @@ module SummonedMinionManager
     attr_reader :target, :minion
 
     def initialize(minion, target)
-      super
+      super()
       @minion = minion
       @target = target
     end
@@ -94,7 +94,7 @@ module SummonedMinionManager
     attr_reader :minion, :target_field
 
     def initialize(minion, target_field)
-      super
+      super()
       @minion = minion
       @target_field = target_field
     end
@@ -112,7 +112,7 @@ module SummonedMinionManager
     attr_reader :position
 
     def initialize(position)
-      super
+      super()
       @position = position
     end
 
@@ -130,7 +130,7 @@ module SummonedMinionManager
     attr_reader :owner_id
 
     def initialize(owner_id)
-      super
+      super()
       @owner_id = owner_id
     end
 
