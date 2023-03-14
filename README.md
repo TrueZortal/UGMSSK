@@ -28,7 +28,7 @@ Web-Alpha 0.0.8
 - Cleared up service managers, added top level comments✅
 
 ## latest-commit
-- Working to restore tests to green :inprogress:
+- Restored tests
 
 ## Active to-do:
 - Implementing turbo_stream/websockets - websocket connection now gets initiated
@@ -37,7 +37,7 @@ Web-Alpha 0.0.8
 
 Queued bug fixes:
 - Reset board button doesn't appear after the game finishes via full play out (likely missing)
-- Reset board button should either not kick the players or not be available with players in the lobby
+- Reset board button should either not kick the players or niiiiiiiiiiiiiiiiiiiiiiiminuuiuuuu86766444ot be available with players in the lobby
 
 ## Doing => Changes planned for the next version
 ---

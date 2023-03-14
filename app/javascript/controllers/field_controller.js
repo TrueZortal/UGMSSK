@@ -6,15 +6,13 @@ export default class extends Controller {
   }
 
   onDragStart(event){
-    console.log("Field drag started")
-
     let occupant_id = event.target.getAttribute('data-occupant-id')
 
     let id = {
       field_id: event.target.getAttribute('data-field-id'),
       occupant_id: occupant_id
     }
-    console.log(id)
+
     event.dataTransfer.setData('text/plain', JSON.stringify(id))
     let minion = fetch('/summoned_minions/'+occupant_id+'/grab/')
     .then((response) => response.json())
@@ -72,7 +70,7 @@ export default class extends Controller {
     }
 
     let fromFieldData = JSON.parse(event.dataTransfer.getData('text/plain'))
-    console.log("Field on drop fired")
+
     if (fromFieldData['field_id'] === id) {
       // same field, no action
     } else {

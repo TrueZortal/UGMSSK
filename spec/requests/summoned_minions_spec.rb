@@ -95,7 +95,8 @@ RSpec.describe 'SummonedMinions', type: :request do
       subject do
         test_game.current_player_id = test_player.id
         test_game.save
-        TurnTracker.create(game_id: test_game.id, turn_number: test_game.current_turn, player_id: test_player.id)
+        TurnTracker.create!(game_id: test_game.id, turn_number: test_game.current_turn, player_id: test_player.id)
+        TurnTracker.create!(game_id: test_game.id, turn_number: test_game.current_turn + 1, player_id: test_player.id)
         FactoryBot.create(:BoardState, game_id: test_game.id)
         post("/summoned_minions/#{test_field.id}/update_drag/", params: test_params)
       end
@@ -103,8 +104,8 @@ RSpec.describe 'SummonedMinions', type: :request do
 
       it ',the minion moves to the new field' do
         expect { subject }.to change {
-                                [test_minion.reload.x_position, test_minion.reload.y_position]
-                              }.from([0, 0]).to([1, 1])
+          [test_minion.reload.x_position, test_minion.reload.y_position]
+        }.from([0, 0]).to([1, 1])
       end
 
       it ',both fields get updated to reflect the change in occupant' do

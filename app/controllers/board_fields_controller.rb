@@ -1,6 +1,5 @@
 class BoardFieldsController < ApplicationController
   def show
-    p params
     @field = BoardField.find(params['id'])
   end
 
