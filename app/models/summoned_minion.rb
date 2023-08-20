@@ -110,9 +110,6 @@ class SummonedMinion < ApplicationRecord
     owner = PvpPlayers.find(minion.owner_id)
     game_id = owner.game_id
 
-    p owner.uuid
-
-
     raise WrongPlayerError if minion.owner_id != Game.find(game_id).current_player_id
 
     from_field = BoardField.find_by(game_id: game_id, x_position: minion.x_position, y_position: minion.y_position)

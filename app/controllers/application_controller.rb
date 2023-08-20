@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   before_action :set_current_user
+  helper_method :current_user
 
   # rescue_from(Exception) do |e|
   #   EventLog.error(e)

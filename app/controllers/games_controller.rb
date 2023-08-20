@@ -3,7 +3,13 @@
 class GamesController < ApplicationController
   before_action :restrict_access, :set_game_instance
 
-  def show; end
+  def show
+    if request.headers["turbo-frame"]
+      render partial: 'user_frame', locals: { current_user: current_user }
+    else
+      render 'show'
+    end
+  end
 
   def start
     Game.start_game(game_id: game_params['id'].to_i)
@@ -16,6 +22,10 @@ class GamesController < ApplicationController
     GameManager::RestartGameWithAnExistingGameID.call(game_id)
 
     redirect_to root_url
+  end
+
+  def user
+    redirect_to game_path
   end
 
   private

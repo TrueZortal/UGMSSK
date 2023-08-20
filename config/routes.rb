@@ -23,5 +23,7 @@ Rails.application.routes.draw do
     get :leave, on: :member
   end
   resources :board_states
-  resources :games
+  resources :games do
+    post :user, on: :member
+  end
 end

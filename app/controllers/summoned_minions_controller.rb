@@ -51,6 +51,8 @@ class SummonedMinionsController < ApplicationController
     @from_field_id = minion_params['from_field_id'].to_i
     @to_field_id = minion_params['to_field_id'].to_i
     @from_field = BoardField.find(@from_field_id)
+    @occupant = SummonedMinion.find(@from_field.occupant_id)
+    @owner = PvpPlayers.find(@occupant.owner_id)
     @to_field = BoardField.find(@to_field_id)
     SummonedMinion.update_drag(@from_field, @to_field)
 
@@ -81,15 +83,21 @@ class SummonedMinionsController < ApplicationController
         }
       )
 
-      Turbo::StreamsChannel.broadcast_replace_later_to(
+      Turbo::StreamsChannel.broadcast_append_later_to(
         "game_field",
         target: "#{@game.id}_controlblock",
-        partial: "games/statusbox",
-        locals: {
-          current_player: @current_player,
-          game: @game
-        }
+        partial: "games/user_frame"
       )
+
+      # Turbo::StreamsChannel.broadcast_replace_later_to(
+      #   "game_field",
+      #   target: "#{@game.id}_controlblock",
+      #   partial: "games/statusbox",
+      #   locals: {
+      #     current_player: @current_player,
+      #     game: @game
+      #   }
+      # )
     }
     end
   end
