@@ -18,7 +18,7 @@ class SummonedMinionsController < ApplicationController
       format.turbo_stream {
       # render "games/update_summon"
       Turbo::StreamsChannel.broadcast_replace_to(
-        "board_fields",
+        "game_field",
         target: "#{@field.id}",
         partial: "games/field",
         locals: {
@@ -48,33 +48,46 @@ class SummonedMinionsController < ApplicationController
   end
 
   def update_drag
-    from_field_id = minion_params['from_field_id'].to_i
-    to_field_id = minion_params['to_field_id'].to_i
-    @from_field = BoardField.find(from_field_id)
-    @to_field = BoardField.find(to_field_id)
+    @from_field_id = minion_params['from_field_id'].to_i
+    @to_field_id = minion_params['to_field_id'].to_i
+    @from_field = BoardField.find(@from_field_id)
+    @to_field = BoardField.find(@to_field_id)
     SummonedMinion.update_drag(@from_field, @to_field)
+
+    @game_id = @from_field.game_id
+    @game = Game.find(@game_id)
+    @current_player = TurnTracker.create_turn_or_pull_current_player_if_turn_exists(game_id: @game_id)
 
     @from_field.reload
     @to_field.reload
 
     respond_to do |format|
       format.json {
-
-      Turbo::StreamsChannel.broadcast_replace_to(
-        "board_fields",
-        target: "#{from_field_id}",
+      Turbo::StreamsChannel.broadcast_replace_later_to(
+        "game_field",
+        target: "#{@from_field_id}",
         partial: "games/field",
         locals: {
           field: @from_field
         }
       )
 
-      Turbo::StreamsChannel.broadcast_replace_to(
-        "board_fields",
-        target: "#{to_field_id}",
+      Turbo::StreamsChannel.broadcast_replace_later_to(
+        "game_field",
+        target: "#{@to_field_id}",
         partial: "games/field",
         locals: {
           field: @to_field
+        }
+      )
+
+      Turbo::StreamsChannel.broadcast_replace_later_to(
+        "game_field",
+        target: "#{@game.id}_controlblock",
+        partial: "games/statusbox",
+        locals: {
+          current_player: @current_player,
+          game: @game
         }
       )
     }

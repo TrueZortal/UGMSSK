@@ -15,6 +15,20 @@ module SummonedMinionManager
     end
   end
 
+  # Find minions associated game_id
+  class FindMinionsGameID < ApplicationService
+    attr_reader :minion_id
+
+    def initialize(minion_id)
+      super()
+      @minion_id = minion_id
+    end
+
+    def call
+      SummonedMinion.find(@minion_id).game_id
+    end
+  end
+
   # Finds minion health
   class FindMinionHealthFromMinionRecord < ApplicationService
     attr_reader :minion_record

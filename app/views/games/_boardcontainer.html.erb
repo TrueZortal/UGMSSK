@@ -1,10 +1,8 @@
 <section class = "box_with_board_log_and_player">
-<%= turbo_frame_tag "board_container_turbo_frame" do %>
 <div class ="boardcontainer" data-controller="boardfield" >
     <%= render partial: "games/board"%>
     <section class = "innerpadding"></section>
     <%= render partial: "games/combatlog"%>
  </div>
     <%= render partial: "games/players_in_game"%>
-  <% end %>
 </section>

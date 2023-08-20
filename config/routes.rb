@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   post '/login', to: 'logins#create'
   post '/logout', to: 'sessions#destroy'
   resources :board_fields do
+  # TODO: This can likely be removed
     get :refresh_fields, on: :member
   end
   resources :summoned_minions do

@@ -1,37 +1,10 @@
-<section class ="statusbox">
-        <%if @current_player && @game.player_ids.size > 1%>
-          <div data-controller="menu">
-          <h1>Current player:</h1><p><%= @current_player.name%></p>
-         <%if @current_user.uuid == @current_player.uuid%>
-          <% @current_player['available_actions'].each do |option| %>
-            <button class = "floatybutton" data-action="click->menu#<%="#{option}" %>"><%="#{option}"%></button>
-          <% end %><%= button_to "pass", pass_pvp_player_path(@current_player), method: :get, class: "floatybutton"  %> <%= button_to "concede", concede_pvp_player_path(@current_player), method: :get, class: "floatybutton", style: "width: auto;"%>
-          <div data-controller="menu" id = "summon" class="summon">
-          <div class = "summon_wrapper">
-          <%= form_with model: SummonedMinion.new do |form| %>
-            <%= form.hidden_field :game_id, value: "#{@current_player.game_id}"%>
-            <%= form.hidden_field :owner_id, value: "#{@current_player.id}" %>
-            <%= form.hidden_field :owner, value: "#{@current_player.name}" %>
-            <p>Summon:</p>
-            <% MinionStat.all.each do |minion|%>
-              <%= form.radio_button :minion_type, "#{minion['minion_type']}" %>
-              <%= form.label :minion_type, "#{minion['minion_type']}" %>
-            <% end %>
-            <p>on field:</p>
-            <%SummoningZoneManager::TranslateZoneFromTextToArray.call(@current_player.summoning_zone).each do |coords| %>
-              <%= form.radio_button :position, "#{coords}" %>
-              <%= form.label :position, "#{coords}" %>
-            <% end %>
-            <%= form.submit "submit"%>
-          <% end %>
-        <% elsif PvpPlayers.exists?(uuid: @current_user.uuid) && @game.player_ids.include?(PvpPlayers.find_by(uuid: @current_user.uuid).id)%>
-          <p class="name_text"> Opponent moving, please wait for your turn </p>
-        <% else %>
-          <p class="name_text"> Match is underway, spectating </p>
-        <% end %>
-      <% elsif @game.current_turn > 0 %>
-        <p class="name_text"> Game has finished, please Reset Board to restart </p>
-      <% else %>
-        <p class="name_text"> waiting for players, please wait </p>
-      <% end %>
-    </section>
+<section class ="statusbox" >
+    <% puts "WITHIN STATUSBOX SECTION game: #{@game}, current_player: #{@current_player}"%>
+    <% puts "WITHIN STATUSBOX SECTION game: #{@game}, current_player: #{@current_player}"%>
+    <% puts "WITHIN STATUSBOX SECTION game: #{@game}, current_player: #{@current_player}"%>
+    <% puts "WITHIN STATUSBOX SECTION game: #{local_assigns}"%>
+    <% puts "WITHIN STATUSBOX SECTION game: #{@game}, current_player: #{@current_player}"%>
+    <% puts "WITHIN STATUSBOX SECTION game: #{@game}, current_player: #{@current_player}"%>
+    <% puts "WITHIN STATUSBOX SECTION game: #{@game}, current_player: #{@current_player}"%>
+  <%= render partial: "games/game_control_menu", locals: {game: @game, current_player: @current_player}%>
+</section>

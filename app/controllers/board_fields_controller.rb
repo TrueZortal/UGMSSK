@@ -1,9 +1,10 @@
 class BoardFieldsController < ApplicationController
   def show
+    # TODO: this can likely be removed
     @field = BoardField.find(params['id'])
   end
 
-  # TODO: data-turbo-stream="true" <= needs to be passed as param for this to work with a GET
+  # TODO: This can likely be removed
   def refresh_fields
     @field = BoardField.find(params['id'])
     @from_field = BoardField.find(params['from_field_id'])
@@ -13,11 +14,7 @@ class BoardFieldsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.turbo_stream #{ render "games/update", locals: { field: @field, game: @game, current_player: @current_player } }
-      # { broadcast_replace_to "fields",
-      #   partial: "games/update",
-      #   locals: { field: @field, game: @game, current_player: @current_player }
-      #  }
+      format.turbo_stream
     end
   end
 

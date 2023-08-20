@@ -1,15 +1,13 @@
-
-    <div>
-      <table  class = "board">
-          <% BoardState.arrayify_for_rendering(game_id: @game.id).each_with_index do |line, index|%>
-            <tr>
-              <% line.each do |field| %>
-              <td>
-                <%= render partial: "games/field", locals: {field: field} %>
-              </td>
-              <% end %>
-            </tr>
+<div>
+  <table  class = "board">
+      <% BoardState.arrayify_for_rendering(game_id: @game.id).each_with_index do |line, index|%>
+        <tr>
+          <% line.each do |field| %>
+          <td>
+            <%= render partial: "games/field", locals: {field: field} %>
+          </td>
           <% end %>
-      </table>
-    </div>
-
+        </tr>
+      <% end %>
+  </table>
+</div>

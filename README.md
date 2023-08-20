@@ -1,6 +1,5 @@
 # Ultimate Giga Master Super Summoner King
 
-https://zortalowa-gra.herokuapp.com/
 
 ## Basic rules ##
 Players: 2-4
@@ -19,7 +18,7 @@ Once loaded the game will refresh every 15 seconds to "synchronise" between all 
 Should a game be occupied by idle users /reset/*game-number* can be utilized to force reset (Game tiemout coming to the necromancer simulator near you soon(tm))
 
 ## Current Version
-Web-Alpha 0.0.8
+dev 0.0.9
 
 ## Ready features of next version:
 - Cleared up <games_controller.rb>, added before_action to set game instance✅
@@ -28,7 +27,7 @@ Web-Alpha 0.0.8
 - Cleared up service managers, added top level comments✅
 
 ## latest-commit
-- Restored tests
+- Added turbo streaming to summoning and moving minions
 
 ## Active to-do:
 - Implementing turbo_stream/websockets - websocket connection now gets initiated
@@ -37,7 +36,7 @@ Web-Alpha 0.0.8
 
 Queued bug fixes:
 - Reset board button doesn't appear after the game finishes via full play out (likely missing)
-- Reset board button should either not kick the players or niiiiiiiiiiiiiiiiiiiiiiiminuuiuuuu86766444ot be available with players in the lobby
+- Reset board button should either not kick the players or not be available with players in the lobby
 
 ## Doing => Changes planned for the next version
 ---

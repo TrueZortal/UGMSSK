@@ -1,9 +1,13 @@
 <body>
 <section class ="gameplayrow">
-    <%= turbo_stream_from 'board_fields'%>
-    <%= render partial: "games/statusbox"%>
+    <%= turbo_stream_from 'game_field'%>
+    <% puts "game: #{@game}, current_player: #{@current_player}"%>
+    <% puts "game: #{@game}, current_player: #{@current_player}"%>
+    <% puts "game: #{@game}, current_player: #{@current_player}"%>
+    <% puts "game: #{@game}, current_player: #{@current_player}"%>
+    <% puts "game: #{@game}, current_player: #{@current_player}"%>
+    <% puts "game: #{@game}, current_player: #{@current_player}"%>
+    <% puts "game: #{@game}, current_player: #{@current_player}"%>
+    <%= render partial: "games/statusbox", locals: {game: @game, current_player: @current_player}%>
     <%= render partial: "games/boardcontainer"%>
 </body>
-
-
-

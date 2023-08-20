@@ -33,15 +33,6 @@ class SummonedMinion < ApplicationRecord
       }
       move(parameters: pseudo_params)
     end
-
-    @field = to_field
-    @from_field = from_field
-    game_id = to_field.game_id
-    @game = Game.find(game_id)
-    @current_player = TurnTracker.create_turn_or_pull_current_player_if_turn_exists(game_id: game_id)
-
-    Turbo::StreamsChannel.broadcast_replace_to "board_fields", partial: "games/field", locals:{ field: @field, game: @game, current_player: @current_player }, target: @field.id
-    Turbo::StreamsChannel.broadcast_replace_to "board_fields", partial: "games/field", locals:{ field: @from_field, game: @game, current_player: @current_player }, target: @from_field.id
   end
 
   # TODO: Make checking the field occupancy the first check
