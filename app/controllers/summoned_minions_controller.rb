@@ -28,7 +28,15 @@ class SummonedMinionsController < ApplicationController
         }
       )
 
-
+      # Turbo::StreamsChannel.broadcast_replace_to(
+      #   "board_fields",
+      #   target: "combatlog",
+      #   partial: "games/combatlog",
+      #   locals: {
+      #     game: @game,
+      #     current_player: @current_player
+      #   }
+      # )
       }
       format.html { redirect_to "/games/#{minion_params['summoned_minion']['game_id']}" }
     end
@@ -39,26 +47,38 @@ class SummonedMinionsController < ApplicationController
     render json: minion
   end
 
-  #TODO: Verify between Action Cable and Websocket as ACTION CABLE broadcasts a working update but only to the/of the ORIGINATING FIELD
   def update_drag
     from_field_id = minion_params['from_field_id'].to_i
     to_field_id = minion_params['to_field_id'].to_i
-    from_field = BoardField.find(from_field_id)
-    to_field = BoardField.find(to_field_id)
-    SummonedMinion.update_drag(from_field, to_field)
+    @from_field = BoardField.find(from_field_id)
+    @to_field = BoardField.find(to_field_id)
+    SummonedMinion.update_drag(@from_field, @to_field)
 
-    redirect_to game_path(BoardField.find(from_field_id).game_id, format: :html)
-    # @field = to_field
-    # @from_field = from_field
-    # game_id = to_field.game_id
-    # @game = Game.find(game_id)
-    # @current_player = TurnTracker.create_turn_or_pull_current_player_if_turn_exists(game_id: game_id)
+    @from_field.reload
+    @to_field.reload
 
-    # respond_to do |format|
-    #   format.turbo_stream
-    #   format.json
-    # end
-    # redirect_to controller: :board_fields, action: :refresh_fields, format: :turbo_stream, params: minion_params
+    respond_to do |format|
+      format.json {
+
+      Turbo::StreamsChannel.broadcast_replace_to(
+        "board_fields",
+        target: "#{from_field_id}",
+        partial: "games/field",
+        locals: {
+          field: @from_field
+        }
+      )
+
+      Turbo::StreamsChannel.broadcast_replace_to(
+        "board_fields",
+        target: "#{to_field_id}",
+        partial: "games/field",
+        locals: {
+          field: @to_field
+        }
+      )
+    }
+    end
   end
 
   private
