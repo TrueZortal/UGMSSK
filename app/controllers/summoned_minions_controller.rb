@@ -11,8 +11,25 @@ class SummonedMinionsController < ApplicationController
     @current_player = TurnTracker.create_turn_or_pull_current_player_if_turn_exists(game_id: game_id)
 
     SummonedMinion.place(parameters: minion_params)
+
+    @field.reload
+
     respond_to do |format|
-      format.turbo_stream { render "games/update_summon" }
+      format.turbo_stream {
+      # render "games/update_summon"
+      Turbo::StreamsChannel.broadcast_replace_to(
+        "board_fields",
+        target: "#{@field.id}",
+        partial: "games/field",
+        locals: {
+          field: @field,
+          game: @game,
+          current_player: @current_player
+        }
+      )
+
+
+      }
       format.html { redirect_to "/games/#{minion_params['summoned_minion']['game_id']}" }
     end
   end

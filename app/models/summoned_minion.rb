@@ -44,6 +44,7 @@ class SummonedMinion < ApplicationRecord
     Turbo::StreamsChannel.broadcast_replace_to "board_fields", partial: "games/field", locals:{ field: @from_field, game: @game, current_player: @current_player }, target: @from_field.id
   end
 
+  # TODO: Make checking the field occupancy the first check
   def self.place(parameters: nil)
     minion_params = parameters['summoned_minion']
     minion_position = SummonedMinionManager::TransformPositionIntoXYHash.call(minion_params['position'])
@@ -79,7 +80,6 @@ class SummonedMinion < ApplicationRecord
       EventLog.error(e)
       SummonedMinion.find(minion_to_summon.id).destroy
     end
-
   end
 
   def self.get_abandoned(minion_id: nil)

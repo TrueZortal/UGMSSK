@@ -1,5 +1,7 @@
+<%= p @current_player%>
+<%= p @game%>
 <%if @current_player || @game.current_turn > 0%>
-      <div class = "combatlog">
+      <div class = "combatlog" id = "combatlog">
         <% EventLog.where(game_id: @game.id).order("created_at DESC").each do |line|%>
           <div data-controller= "combatlog" class = "message"><%=line['event']%></div>
         <% end %>

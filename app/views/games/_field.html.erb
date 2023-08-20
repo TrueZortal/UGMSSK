@@ -12,5 +12,5 @@
       <%= image_tag MinionStat.find_by(minion_type: field.occupant_type).icon, class: "minion_image",  data: { occupant_id: "#{field.occupant_id}", field_id: "#{field.id}" ,x_position: "#{field.x_position}", y_position: "#{field.y_position}"}%>
       </div>
     <% end %>
+    <%= p field.occupied %>
 </div>
-
