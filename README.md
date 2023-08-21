@@ -24,16 +24,19 @@ dev 0.0.9
 - Cleared up <games_controller.rb>, added before_action to set game instance✅
 - Fixed rendering querying database multiple times instead of using a results array to filter✅
 - View gets rendered twice after drag/drop with only themś visible - Bug fixed✅
-- Cleared up service managers, added top level comments✅
+- Drag and drop is now broadcast to all subscribers✅
+- Summoning is now broadcast to all subscribers✅
+- The menu is now reflective of the current gamestate✅
 
 ## latest-commit
-- Working on getting the status menu to cooperate
+- Drag and drop as well as summoning now correctly update for all connected to the broadcast.
 
 ## Active to-do:
-- Implementing turbo_stream/websockets - need to append turbo_frame_tag @current_user setter
+- Work on combatlog updating before moving to bugfixes
 
 Queued bug fixes:
 - Improper verification for minion movement, any player can move the minion as long as it's the owners turn
+- Passing & conceding not resulting in the correct refresh
 - Reset board button doesn't appear after the game finishes via full play out (likely missing)
 - Reset board button should either not kick the players or not be available with players in the lobby
 

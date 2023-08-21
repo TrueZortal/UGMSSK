@@ -4,13 +4,11 @@ class PvpPlayersController < ActionController::Base
   def pass
     game_id = GameManager::FindGameIdByPlayerId.call(player_params[:id].to_i)
     PvpPlayers.pass(player_id: player_params[:id].to_i)
-    redirect_to "/games/#{game_id}"
   end
 
   def concede
     game_id = GameManager::FindGameIdByPlayerId.call(player_params[:id].to_i)
     PvpPlayers.concede(player_id: player_params[:id].to_i)
-    redirect_to "/games/#{game_id}"
   end
 
   def leave

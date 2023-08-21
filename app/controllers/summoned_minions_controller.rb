@@ -16,7 +16,6 @@ class SummonedMinionsController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream {
-      # render "games/update_summon"
       Turbo::StreamsChannel.broadcast_replace_to(
         "game_field",
         target: "#{@field.id}",
@@ -28,15 +27,11 @@ class SummonedMinionsController < ApplicationController
         }
       )
 
-      # Turbo::StreamsChannel.broadcast_replace_to(
-      #   "board_fields",
-      #   target: "combatlog",
-      #   partial: "games/combatlog",
-      #   locals: {
-      #     game: @game,
-      #     current_player: @current_player
-      #   }
-      # )
+      Turbo::StreamsChannel.broadcast_replace_later_to(
+        "game_field",
+        target: "user-frame",
+        partial: "games/user_frame"
+      )
       }
       format.html { redirect_to "/games/#{minion_params['summoned_minion']['game_id']}" }
     end
@@ -88,17 +83,6 @@ class SummonedMinionsController < ApplicationController
         target: "user-frame",
         partial: "games/user_frame"
       )
-
-      # TODO: Maybe pass a flag/param here to only refresh once?
-      # Turbo::StreamsChannel.broadcast_replace_later_to(
-      #   "game_field",
-      #   target: "#{@game.id}_controlblock",
-      #   partial: "games/statusbox",
-      #   locals: {
-      #     current_player: @current_player,
-      #     game: @game
-      #   }
-      # )
     }
     end
   end
