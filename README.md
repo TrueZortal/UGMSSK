@@ -28,12 +28,13 @@ dev 0.0.9
 - Summoning is now broadcast to all subscribers✅
 - The menu is now reflective of the current gamestate✅
 - The combat log now updates reflecting the gamestate✅
+- status box now updates reflecting the gamestate✅
 
 ## latest-commit
-- Combat log now works with turbo :D
+- Status box now works with turbo
 
 ## Active to-do:
-- Make the current minion status update with turbo
+-
 
 ## Queued bug fixes:
 - Improper verification for minion movement, any player can move the minion as long as it's the owners turn

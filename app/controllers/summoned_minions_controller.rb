@@ -32,6 +32,16 @@ class SummonedMinionsController < ApplicationController
         target: "user-frame",
         partial: "games/user_frame"
       )
+
+      Turbo::StreamsChannel.broadcast_replace_later_to(
+        "game_field",
+        target: "player_status_below_board",
+        partial: "games/players_in_game",
+        locals: {
+          game: @game
+        }
+      )
+
       }
       format.html { redirect_to "/games/#{minion_params['summoned_minion']['game_id']}" }
     end
@@ -82,6 +92,15 @@ class SummonedMinionsController < ApplicationController
         "game_field",
         target: "user-frame",
         partial: "games/user_frame"
+      )
+
+      Turbo::StreamsChannel.broadcast_replace_later_to(
+        "game_field",
+        target: "player_status_below_board",
+        partial: "games/players_in_game",
+        locals: {
+          game: @game
+        }
       )
     }
     end
