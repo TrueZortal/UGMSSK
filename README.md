@@ -27,14 +27,13 @@ dev 0.0.9
 - Cleared up service managers, added top level comments✅
 
 ## latest-commit
-- Added turbo streaming to summoning and moving minions
+- Working on getting the status menu to cooperate
 
 ## Active to-do:
-- Implementing turbo_stream/websockets - websocket connection now gets initiated
-- Added redis to project for broadcasting
-- Implementing turbo_stream/websockets => in progress
+- Implementing turbo_stream/websockets - need to append turbo_frame_tag @current_user setter
 
 Queued bug fixes:
+- Improper verification for minion movement, any player can move the minion as long as it's the owners turn
 - Reset board button doesn't appear after the game finishes via full play out (likely missing)
 - Reset board button should either not kick the players or not be available with players in the lobby
 

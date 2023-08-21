@@ -83,12 +83,13 @@ class SummonedMinionsController < ApplicationController
         }
       )
 
-      Turbo::StreamsChannel.broadcast_append_later_to(
+      Turbo::StreamsChannel.broadcast_replace_later_to(
         "game_field",
-        target: "#{@game.id}_controlblock",
+        target: "user-frame",
         partial: "games/user_frame"
       )
 
+      # TODO: Maybe pass a flag/param here to only refresh once?
       # Turbo::StreamsChannel.broadcast_replace_later_to(
       #   "game_field",
       #   target: "#{@game.id}_controlblock",

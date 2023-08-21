@@ -1,0 +1,40 @@
+<% p "THE GAME CONTROL TURBO STREAM TEMPLATE IS CALLED" %>
+<% p "THE GAME CONTROL TURBO STREAM TEMPLATE IS CALLED" %>
+<% p "THE GAME CONTROL TURBO STREAM TEMPLATE IS CALLED" %>
+<% p "THE GAME CONTROL TURBO STREAM TEMPLATE IS CALLED" %>
+<% p "#{@game.id}_controlblock" %>
+<% p "#{@game.id}_controlblock" %>
+<turbo-stream action="replace" target=<%= "#{@game.id}_controlblock" %>>
+  <template>
+    <div class="gameplay_zone">
+      <% if @current_player && @game.player_ids.size > 1 %>
+        <div data-controller="menu">
+          <h1>Current player:</h1>
+          <p><%= @current_player.name %></p>
+          <% if @current_user.uuid == @current_player.uuid %>
+            <% @current_player['available_actions'].each do |option| %>
+              <button class="floatybutton" data-action="click->menu#<%= "#{option}" %>"><%= "#{option}" %></button>
+            <% end %>
+            <%= button_to "pass", pass_pvp_player_path(@current_player), method: :get, class: "floatybutton" %>
+            <%= button_to "concede", concede_pvp_player_path(@current_player), method: :get, class: "floatybutton", style: "width: auto;" %>
+            <div data-controller="menu" id="summon" class="summon">
+              <div class="summon_wrapper">
+                <%= form_with model: SummonedMinion.new do |form| %>
+                  <!-- Your form content goes here -->
+                <% end %>
+              </div>
+            </div>
+          <% elsif PvpPlayers.exists?(uuid: @current_user.uuid) && @game.player_ids.include?(PvpPlayers.find_by(uuid: @current_user.uuid).id) %>
+            <p class="name_text"> Opponent moving, please wait for your turn </p>
+          <% else %>
+            <p class="name_text"> Match is underway, spectating </p>
+          <% end %>
+        </div>
+      <% elsif @game.current_turn > 0 %>
+        <p class="name_text"> Game has finished, please Reset Board to restart </p>
+      <% else %>
+        <p class="name_text"> waiting for players, please wait </p>
+      <% end %>
+    </div>
+  </template>
+</turbo-stream>

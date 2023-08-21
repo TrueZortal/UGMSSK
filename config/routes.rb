@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get '/login', to: 'logins#login'
   post '/login', to: 'logins#create'
   post '/logout', to: 'sessions#destroy'
+  get 'user_data', to: 'user_data#index'
   resources :board_fields do
   # TODO: This can likely be removed
     get :refresh_fields, on: :member

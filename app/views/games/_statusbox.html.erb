@@ -1,10 +1,10 @@
 <section class ="statusbox" >
-    <% puts "WITHIN STATUSBOX SECTION game: #{@game}, current_player: #{@current_user}"%>
+  <% @current_player = current_player%>
+  <% @game = game%>
+    <% puts "WITHIN STATUSBOX SECTION game: #{@game}, current_user: #{@current_user}"%>
     <% puts "WITHIN STATUSBOX SECTION game: #{@game}, current_player: #{@current_player}"%>
-    <% puts "WITHIN STATUSBOX SECTION game: #{@game}, current_player: #{@current_player}"%>
-    <% puts "WITHIN STATUSBOX SECTION game: #{local_assigns}"%>
-    <% puts "WITHIN STATUSBOX SECTION game: #{@game}, current_player: #{@current_player}"%>
-    <% puts "WITHIN STATUSBOX SECTION game: #{@game}, current_player: #{@current_player}"%>
-    <% puts "WITHIN STATUSBOX SECTION game: #{@game}, current_player: #{@current_player}"%>
+    <% puts "WITHIN STATUSBOX SECTION local assigns: #{local_assigns}"%>
+    <% puts "THE CURRENT USER DETAILS ARE ID: #{@current_user}"%>
+  <%= render partial: "games/user_frame" %>
   <%= render partial: "games/game_control_menu", locals: {game: @game, current_player: @current_player}%>
 </section>

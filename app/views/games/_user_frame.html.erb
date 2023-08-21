@@ -1,2 +1,6 @@
-
-<h1><%= "current user is: #{@current_user}" %></h1>
+<% p "USER FRAME USER FRAME" %>
+<% p "USER FRAME USER FRAME" %>
+<%= turbo_frame_tag 'user-frame', src: user_data_path %>
+<% p local_assigns %>
+<% p "USER FRAME USER FRAME" %>
+<% p "USER FRAME USER FRAME" %>
