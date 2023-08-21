@@ -59,6 +59,15 @@ class EventLog < ApplicationRecord
     def save_event(event, game_id: nil)
       db_event = EventLog.new(game_id: game_id, event: event)
       db_event.save
+
+      Turbo::StreamsChannel.broadcast_prepend_later_to(
+        "game_field",
+        target: "combatlog",
+        partial: "games/combatlog_message",
+        locals: {
+          line: db_event
+        }
+      )
     end
   end
 end

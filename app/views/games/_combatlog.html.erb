@@ -1,7 +1,7 @@
 <%if @current_player || @game.current_turn > 0%>
-      <div class = "combatlog" id = "combatlog">
-        <% EventLog.where(game_id: @game.id).order("created_at DESC").each do |line|%>
-          <div data-controller= "combatlog" class = "message"><%=line['event']%></div>
-        <% end %>
-      </div>
-      <% end %>
+  <div class = "combatlog" id = "combatlog">
+    <% EventLog.where(game_id: @game.id).order("created_at DESC").each do |line|%>
+      <%= render partial: "games/combatlog_message", locals: {line: line}%>
+    <% end %>
+  </div>
+<% end %>

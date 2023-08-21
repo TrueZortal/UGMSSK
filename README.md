@@ -27,15 +27,17 @@ dev 0.0.9
 - Drag and drop is now broadcast to all subscribers✅
 - Summoning is now broadcast to all subscribers✅
 - The menu is now reflective of the current gamestate✅
+- The combat log now updates reflecting the gamestate✅
 
 ## latest-commit
-- Drag and drop as well as summoning now correctly update for all connected to the broadcast.
+- Combat log now works with turbo :D
 
 ## Active to-do:
-- Work on combatlog updating before moving to bugfixes
+- Make the current minion status update with turbo
 
-Queued bug fixes:
+## Queued bug fixes:
 - Improper verification for minion movement, any player can move the minion as long as it's the owners turn
+- Resetting the board removes the player and requires a new join(? bug or feature)
 - Passing & conceding not resulting in the correct refresh
 - Reset board button doesn't appear after the game finishes via full play out (likely missing)
 - Reset board button should either not kick the players or not be available with players in the lobby
@@ -43,7 +45,6 @@ Queued bug fixes:
 ## Doing => Changes planned for the next version
 ---
 - Write public interface tests for all models/requests
-- address full page refreshes, make sure only required elements are refreshed( websocket implementation )
 - initiate games with board existing not requiring a reset
 - Move ending turn to the event logging, revise turn tracking
 - Only calculate minion specific information on drag to optimize performance(Testing required)

@@ -14,6 +14,12 @@ class GamesController < ApplicationController
   def start
     Game.start_game(game_id: game_params['id'].to_i)
 
+
+    Turbo::StreamsChannel.broadcast_replace_later_to(
+      "game_field",
+      target: "user-frame",
+      partial: "games/user_frame"
+    )
     redirect_to "/games/#{game_params['id']}"
   end
 
