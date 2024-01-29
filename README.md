@@ -13,8 +13,6 @@ Once summoned the minions can be moved using drag and drop over the board, the s
 
 In order to finish the game one player has to remain at which point the option to reset, generate a new board and re-enable joining will be available.
 
-Once loaded the game will refresh every 15 seconds to "synchronise" between all users connected, it's not a bug, it's a feature (Websockets coming to the necromancer simulator near you soon(tm)), to avoid frustration I highly recommend summoning your minions quickly or right after the refresh.
-
 Should a game be occupied by idle users /reset/*game-number* can be utilized to force reset (Game tiemout coming to the necromancer simulator near you soon(tm))
 
 ## Current Version
@@ -38,6 +36,7 @@ dev 0.0.9
 
 ## Queued bug fixes:
 - Improper verification for minion movement, any player can move the minion as long as it's the owners turn
+- Turn selection logic requires validation(especially first turn resulting in double turns for first player)
 - Resetting the board removes the player and requires a new join(? bug or feature)
 - Passing & conceding not resulting in the correct refresh
 - Reset board button doesn't appear after the game finishes via full play out (likely missing)
